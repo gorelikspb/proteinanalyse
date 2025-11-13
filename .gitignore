@@ -21,3 +21,6 @@ env/
 # Screenshots - keep in repo but note they're not for website
 # screenshots/ directory is for project documentation only
 
+# Instructions - private files, should not be in public repo
+instructions/
+
