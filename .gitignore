@@ -24,3 +24,5 @@ env/
 # Instructions - private files, should not be in public repo
 instructions/
 
+# Note: public/ folder should be in repository for Cloudflare Pages deployment
+

@@ -51,7 +51,7 @@ A fully static, JavaScript-only web application providing useful DNA/Protein seq
 ## File Structure
 
 ```
-docs/
+public/
 ├── index.html                    # Main sequence analyzer
 ├── dna-gc-calculator.html        # GC content calculator
 ├── reverse-complement.html        # Reverse complement tool
@@ -62,44 +62,149 @@ docs/
 └── styles.css                    # Global styles
 ```
 
-## SEO Keywords
+## Deployment to Cloudflare Pages
 
-Each page is optimized for specific keywords:
+### Step 1: Push to GitHub
 
-- **index.html**: sequence analysis, multiple sequence analysis, genome analysis
-- **dna-gc-calculator.html**: GC content calculator, GC percentage, DNA GC calculator
-- **reverse-complement.html**: reverse complement, DNA reverse complement, complement sequence
-- **orf-finder.html**: ORF finder, open reading frame, ORF detection, gene finding
-- **protein-mw-calculator.html**: protein molecular weight, protein MW calculator, amino acid composition
-- **sequence-translation.html**: DNA translation, DNA to protein, genetic code, codon translation
+1. **Create a GitHub repository** (if not already created):
+   ```bash
+   gh repo create seq-tools --public
+   ```
 
-## Deployment
+2. **Add remote** (if not already added):
+   ```bash
+   git remote add origin https://github.com/gorelikspb/seq-tools.git
+   ```
 
-### GitHub Pages
+3. **Push the code**:
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git push -u origin master
+   ```
 
-1. Create a GitHub repository
-2. Push all files from the `docs/` folder to the repository
-3. Go to repository Settings > Pages
-4. Select source: "Deploy from a branch"
-5. Choose branch: `main` (or `master`)
-6. Select folder: `/docs`
-7. Save
+### Step 2: Connect to Cloudflare Pages
 
-Your site will be available at: `https://[username].github.io/[repository-name]/`
+1. **Go to Cloudflare Dashboard**:
+   - Navigate to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+   - Select your account
+   - Go to **Pages** in the sidebar
 
-### Alternative: Netlify / Vercel
+2. **Create a new project**:
+   - Click **"Create a project"**
+   - Click **"Connect to Git"**
+   - Authorize Cloudflare to access your GitHub account
+   - Select the repository: `gorelikspb/seq-tools` (or your repo name)
 
-Simply drag and drop the `docs/` folder to deploy instantly.
+3. **Configure build settings**:
+   - **Project name**: `seq-tools`
+   - **Framework preset**: Select **"None"** (or leave empty)
+   - **Build command**: Leave **empty** (no build step needed)
+   - **Build output directory**: `public`
+   - **Root directory**: Leave empty (or `/`)
+
+4. **Deploy**:
+   - Click **"Save and Deploy"**
+   - Wait for deployment to complete
+
+### Step 3: Access Your Site
+
+Your site will be available at:
+```
+https://seq-tools.pages.dev
+```
+
+You can also set up a custom domain later in the Cloudflare Pages settings.
+
+## Deployment Checklist
+
+After deployment, verify the following:
+
+### ✅ Basic Functionality
+- [ ] Main page (`/index.html`) loads correctly
+- [ ] All CSS styles are applied (check if page looks correct)
+- [ ] JavaScript is working (no console errors)
+- [ ] Navigation menu appears on all pages
+
+### ✅ All Tools Work
+- [ ] **Sequence Analyzer** (`/index.html`):
+  - [ ] DNA example loads and analyzes correctly
+  - [ ] Protein example loads and analyzes correctly
+  - [ ] Results display properly
+
+- [ ] **GC Calculator** (`/dna-gc-calculator.html`):
+  - [ ] Example loads correctly
+  - [ ] GC% calculation works
+  - [ ] Results display properly
+
+- [ ] **Reverse Complement** (`/reverse-complement.html`):
+  - [ ] Example loads correctly
+  - [ ] Reverse complement generation works
+  - [ ] Copy to clipboard works (if implemented)
+
+- [ ] **ORF Finder** (`/orf-finder.html`):
+  - [ ] Example loads correctly
+  - [ ] ORF detection works
+  - [ ] Results show start/stop positions
+
+- [ ] **Protein MW Calculator** (`/protein-mw-calculator.html`):
+  - [ ] Example loads correctly
+  - [ ] Molecular weight calculation works
+  - [ ] Amino acid composition displays
+
+- [ ] **DNA Translation** (`/sequence-translation.html`):
+  - [ ] Example loads correctly
+  - [ ] Translation works correctly
+  - [ ] Protein sequence displays
+
+### ✅ Navigation & Links
+- [ ] All internal links between pages work
+- [ ] Navigation menu links work on all pages
+- [ ] No broken links (404 errors)
+- [ ] All pages are accessible via direct URL
+
+### ✅ SEO & Performance
+- [ ] All pages have unique titles
+- [ ] Meta descriptions are present
+- [ ] Page loads quickly (<2 seconds)
+- [ ] No console errors
+- [ ] Mobile responsive design works
+
+### ✅ Assets Loading
+- [ ] CSS file (`styles.css`) loads correctly
+- [ ] JavaScript file (`common.js`) loads correctly
+- [ ] All images (if any) load correctly
+- [ ] No 404 errors for assets
 
 ## Local Development
 
-1. Open any HTML file in a web browser
-2. Or use a local server:
+1. **Open directly in browser**:
+   - Navigate to `public/index.html` and open in browser
+   - All relative paths should work
+
+2. **Or use a local server**:
    ```bash
-   cd docs
+   cd public
    python -m http.server 8000
    ```
-3. Navigate to `http://localhost:8000`
+   Then navigate to `http://localhost:8000`
+
+## Alternative Deployment Options
+
+### GitHub Pages
+
+1. Push files from `public/` folder to repository
+2. Go to repository Settings > Pages
+3. Select source: "Deploy from a branch"
+4. Choose branch: `master`
+5. Select folder: `/public`
+6. Save
+
+Your site will be available at: `https://[username].github.io/[repository-name]/`
+
+### Netlify / Vercel
+
+Simply drag and drop the `public/` folder to deploy instantly.
 
 ## Browser Support
 
