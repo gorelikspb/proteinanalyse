@@ -4,9 +4,9 @@ GitHub уже подключен к Cloudflare. Следующие шаги:
 
 ## Шаг 1: Создать проект
 
-1. Откройте: https://dash.cloudflare.com/pages
-2. Нажмите **"Create a project"**
-3. Выберите **"Import an existing Git repository"**
+1. В Cloudflare Dashboard нажмите **"+ Add"** → **"Pages"**
+2. Вы попадёте на страницу: `https://dash.cloudflare.com/.../workers-and-pages/create/pages`
+3. Выберите **"Import an existing Git repository"** → нажмите **"Get started"**
 4. Выберите репозиторий: **`gorelikspb/proteinanalyse`**
 
 ## Шаг 2: Настроить проект
