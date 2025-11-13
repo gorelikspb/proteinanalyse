@@ -295,6 +295,8 @@
 
 ## 📸 Скриншоты (места для добавления)
 
+> **Примечание**: Скриншоты хранятся в папке `screenshots/` в корне проекта и **не публикуются на сайте**. Это внутренняя документация проекта.
+
 ### Скриншот 1: Главная страница (index.html)
 **Что показать**: 
 - Интерфейс с textarea
@@ -302,6 +304,10 @@
 - Результаты: GC%, reverse complement, translation, ORF
 
 **Зачем**: Показать основной функционал и автоопределение типа последовательности
+
+**Файл**: `screenshots/01-main-page.png`
+
+![Main page with DNA analysis](screenshots/01-main-page.png)
 
 ---
 
@@ -312,6 +318,10 @@
 
 **Зачем**: Показать специализированный инструмент для расчета GC content
 
+**Файл**: `screenshots/02-gc-calculator.png`
+
+![GC Content Calculator](screenshots/02-gc-calculator.png)
+
 ---
 
 ### Скриншот 3: Reverse Complement (reverse-complement.html)
@@ -321,6 +331,10 @@
 - Опция "Preserve case"
 
 **Зачем**: Показать инструмент для работы с комплементарными последовательностями
+
+**Файл**: `screenshots/03-reverse-complement.png`
+
+![Reverse Complement Tool](screenshots/03-reverse-complement.png)
 
 ---
 
@@ -333,6 +347,10 @@
 
 **Зачем**: Показать обнаружение открытых рамок считывания
 
+**Файл**: `screenshots/04-orf-finder.png`
+
+![ORF Finder with detected open reading frame](screenshots/04-orf-finder.png)
+
 ---
 
 ### Скриншот 5: Protein MW Calculator (protein-mw-calculator.html)
@@ -344,6 +362,10 @@
 
 **Зачем**: Показать анализ белковых последовательностей
 
+**Файл**: `screenshots/05-protein-mw-calculator.png`
+
+![Protein Molecular Weight Calculator](screenshots/05-protein-mw-calculator.png)
+
 ---
 
 ### Скриншот 6: DNA Translation (sequence-translation.html)
@@ -354,6 +376,10 @@
 
 **Зачем**: Показать трансляцию ДНК в белок
 
+**Файл**: `screenshots/06-dna-translation.png`
+
+![DNA to Protein Translation](screenshots/06-dna-translation.png)
+
 ---
 
 ### Скриншот 7: Навигация между страницами
@@ -362,6 +388,10 @@
 - Переход между страницами
 
 **Зачем**: Показать внутреннюю структуру сайта и перелинковку
+
+**Файл**: `screenshots/07-navigation.png`
+
+![Navigation menu between pages](screenshots/07-navigation.png)
 
 ---
 
