@@ -24,5 +24,8 @@ env/
 # Instructions - private files, should not be in public repo
 instructions/
 
+# Cloudflare API credentials - stored in instructions/ folder (already ignored)
+# No need to add here, instructions/ folder is already in .gitignore
+
 # Note: public/ folder should be in repository for Cloudflare Pages deployment
 
