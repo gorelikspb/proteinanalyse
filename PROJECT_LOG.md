@@ -6,7 +6,7 @@
 
 **Технологии**: Pure HTML/CSS/JavaScript, без фреймворков и бэкенда.
 
-**Деплой**: GitHub Pages из папки `/docs`
+**Деплой**: Cloudflare Pages из папки `/public` (ранее GitHub Pages из `/docs`)
 
 ---
 
@@ -280,11 +280,14 @@
 ## 🔮 Будущие улучшения
 
 ### Потенциальные доработки:
-1. **Примеры последовательностей** - кнопка "Load Example" на каждой странице
+1. ✅ **Примеры последовательностей** - кнопка "Load Example" на каждой странице (выполнено)
 2. **Экспорт результатов** - сохранение в JSON/CSV
 3. **Копирование в буфер** - для быстрого копирования результатов
 4. **История запросов** - localStorage для последних анализов
 5. **Сравнение последовательностей** - для multiple sequence analysis
+6. ✅ **Автоматизация деплоя** - скрипты для настройки Cloudflare Pages (выполнено)
+7. **Мониторинг производительности** - интеграция с Cloudflare Analytics
+8. **A/B тестирование** - через Cloudflare Workers
 
 ### Подводные камни будущих изменений:
 - Добавление функций может увеличить размер `common.js`
@@ -308,6 +311,8 @@
 **Файл**: `screenshots/01-main-page.png`
 
 ![Main page with DNA analysis](screenshots/01-main-page.png)
+
+
 
 ---
 
@@ -333,6 +338,7 @@
 **Зачем**: Показать инструмент для работы с комплементарными последовательностями
 
 **Файл**: `screenshots/03-reverse-complement.png`
+
 
 ![Reverse Complement Tool](screenshots/03-reverse-complement.png)
 
@@ -404,10 +410,11 @@
 4. ✅ Клиентская обработка - быстро, приватно, бесплатно
 
 ### Что можно улучшить:
-1. ⚠️ Добавить примеры последовательностей для демонстрации
+1. ✅ Добавить примеры последовательностей для демонстрации (выполнено)
 2. ⚠️ Добавить экспорт результатов
 3. ⚠️ Улучшить мобильную версию (уже адаптивно, но можно лучше)
 4. ⚠️ Добавить больше валидации входных данных
+5. ✅ Настроить автоматический деплой на Cloudflare Pages (в процессе)
 
 ### Подводные камни, которые удалось избежать:
 1. ✅ Не переоптимизировали SEO (естественные тексты)
@@ -421,15 +428,24 @@
 
 ### Структура файлов:
 ```
-docs/
+public/                            # Файлы для деплоя (Cloudflare Pages)
 ├── index.html                    # Главная страница
-├── dna-gc-calculator.html       # GC калькулятор
-├── reverse-complement.html       # Reverse complement
-├── orf-finder.html              # ORF finder
-├── protein-mw-calculator.html   # Protein MW
-├── sequence-translation.html    # DNA translation
-├── common.js                    # Общие функции
-└── styles.css                   # Стили
+├── dna-gc-calculator.html        # GC калькулятор
+├── reverse-complement.html        # Reverse complement
+├── orf-finder.html               # ORF finder
+├── protein-mw-calculator.html    # Protein MW
+├── sequence-translation.html     # DNA translation
+├── common.js                     # Общие функции
+└── styles.css                    # Стили
+
+instructions/                     # Приватные инструкции и конфиги
+├── CLOUDFLARE_PAGES_SETUP.md    # Инструкция по настройке Cloudflare
+├── .cloudflare-config.local      # Конфигурация (токены, ID)
+└── ...                          # Другие инструкции
+
+setup-cloudflare-pages-auto.ps1  # Автоматическая настройка
+setup-cloudflare-pages.ps1       # Ручная настройка
+get-cloudflare-account-id.ps1    # Получение Account ID
 ```
 
 ### Зависимости:
