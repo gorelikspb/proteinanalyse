@@ -64,57 +64,81 @@ public/
 
 ## Deployment to Cloudflare Pages
 
+### Prerequisites
+
+- GitHub repository with code pushed
+- Cloudflare account (free tier works)
+
 ### Step 1: Push to GitHub
 
-1. **Create a GitHub repository** (if not already created):
-   ```bash
-   gh repo create seq-tools --public
-   ```
+Code is already pushed to: `https://github.com/gorelikspb/proteinanalyse`
 
-2. **Add remote** (if not already added):
-   ```bash
-   git remote add origin https://github.com/gorelikspb/seq-tools.git
-   ```
-
-3. **Push the code**:
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push -u origin master
-   ```
+If you need to push updates:
+```bash
+git add .
+git commit -m "Your commit message"
+git push
+```
 
 ### Step 2: Connect to Cloudflare Pages
+
+#### Option A: Automatic Setup (if you have Cloudflare API token)
+
+**What you need:**
+1. Cloudflare API Token with Pages permissions
+   - Get it here: https://dash.cloudflare.com/profile/api-tokens
+   - Permissions: `Account` → `Cloudflare Pages` → `Edit`
+
+**Tell AI assistant:**
+> "Настрой Cloudflare Pages с токеном: `ваш-токен`"
+
+The assistant will:
+- Check if `seq-tools` name is available
+- Create the project automatically
+- Configure deployment from `public/` folder
+- Get the site URL
+
+#### Option B: Manual Setup (recommended for first time)
 
 1. **Go to Cloudflare Dashboard**:
    - Navigate to [Cloudflare Dashboard](https://dash.cloudflare.com/)
    - Select your account
-   - Go to **Pages** in the sidebar
+   - Go to **Pages** in the sidebar (or visit: https://dash.cloudflare.com/pages)
 
 2. **Create a new project**:
    - Click **"Create a project"**
    - Click **"Connect to Git"**
-   - Authorize Cloudflare to access your GitHub account
-   - Select the repository: `gorelikspb/seq-tools` (or your repo name)
+   - Authorize Cloudflare to access your GitHub account (if not already connected)
+   - Select the repository: `gorelikspb/proteinanalyse`
 
 3. **Configure build settings**:
-   - **Project name**: `seq-tools`
+   - **Project name**: `seq-tools` ⚠️ (if name is taken, choose another)
+   - **Production branch**: `master`
    - **Framework preset**: Select **"None"** (or leave empty)
    - **Build command**: Leave **empty** (no build step needed)
-   - **Build output directory**: `public`
+   - **Build output directory**: `public` ⚠️ **IMPORTANT!**
    - **Root directory**: Leave empty (or `/`)
 
 4. **Deploy**:
    - Click **"Save and Deploy"**
-   - Wait for deployment to complete
+   - Wait for deployment to complete (usually 1-2 minutes)
 
 ### Step 3: Access Your Site
 
-Your site will be available at:
+After deployment, your site will be available at:
 ```
 https://seq-tools.pages.dev
 ```
 
-You can also set up a custom domain later in the Cloudflare Pages settings.
+**Note**: If `seq-tools` name is already taken, Cloudflare will suggest an alternative name (e.g., `seq-tools-xyz123`).
+
+### Step 4: Verify Deployment
+
+See "Deployment Checklist" section below to verify everything works.
+
+---
+
+**For detailed instructions, see:** `instructions/CLOUDFLARE_PAGES_SETUP.md`
 
 ## Deployment Checklist
 
