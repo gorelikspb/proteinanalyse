@@ -27,6 +27,7 @@
                 ></textarea>
                 <div class="button-group">
                     <button id="convert-btn" class="btn-primary">Generate Reverse Complement</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
                     <button id="clear-btn" class="btn-secondary">Clear</button>
                 </div>
                 <div style="margin-top: 10px;">
@@ -74,6 +75,9 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('convert-btn').addEventListener('click', handleConvert);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'ATGACCGTAAGCTTGGATCCGATTAAGC';
+            });
             document.getElementById('clear-btn').addEventListener('click', handleClear);
         });
 

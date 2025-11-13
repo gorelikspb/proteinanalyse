@@ -27,6 +27,8 @@
                 ></textarea>
                 <div class="button-group">
                     <button id="analyze-btn" class="btn-primary">Analyze Sequence</button>
+                    <button id="example-dna-btn" class="btn-secondary">Load DNA Example</button>
+                    <button id="example-protein-btn" class="btn-secondary">Load Protein Example</button>
                     <button id="clear-btn" class="btn-secondary">Clear</button>
                 </div>
                 <div id="sequence-type" class="sequence-type-indicator"></div>
@@ -75,8 +77,19 @@
             const clearBtn = document.getElementById('clear-btn');
             const input = document.getElementById('sequence-input');
             
+            const exampleDnaBtn = document.getElementById('example-dna-btn');
+            const exampleProteinBtn = document.getElementById('example-protein-btn');
+            
             analyzeBtn.addEventListener('click', handleAnalyze);
             clearBtn.addEventListener('click', handleClear);
+            exampleDnaBtn.addEventListener('click', () => {
+                input.value = 'ATGCGTACCTGACTGGAAGGCTTACGATGCTTGAAGACCTGA';
+                detectSequenceType();
+            });
+            exampleProteinBtn.addEventListener('click', () => {
+                input.value = 'MKTFFVAGLVLAGALAAPALA';
+                detectSequenceType();
+            });
             input.addEventListener('input', detectSequenceType);
             input.addEventListener('paste', () => setTimeout(detectSequenceType, 10));
         });

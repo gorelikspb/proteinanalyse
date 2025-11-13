@@ -71,6 +71,9 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('calculate-btn').addEventListener('click', handleCalculate);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'GCGGATCCGTCGATGCGGCCGTTAGCGCGATCATGGCCGCA';
+            });
             document.getElementById('clear-btn').addEventListener('click', handleClear);
         });
 
