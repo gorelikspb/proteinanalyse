@@ -70,12 +70,16 @@
                 working on <strong>genome analysis</strong> projects, providing accurate identification of potential 
                 protein-coding regions in DNA sequences.
             </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
         </footer>
     </div>
 
     <script src="common.js"></script>
     <script>
         document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
         
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('find-btn').addEventListener('click', handleFind);

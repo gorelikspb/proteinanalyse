@@ -192,3 +192,21 @@ function formatSequence(seq, lineLength = 60) {
     return lines.join('<br>');
 }
 
+// Display last update time
+function updateLastUpdateTime() {
+    const now = new Date();
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        timeZoneName: 'short'
+    };
+    const formattedDate = now.toLocaleString('en-US', options);
+    const updateElement = document.getElementById('last-update');
+    if (updateElement) {
+        updateElement.textContent = formattedDate;
+    }
+}
+

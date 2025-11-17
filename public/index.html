@@ -72,13 +72,37 @@
                 ensuring complete privacy and security for your sequences. Explore our specialized tools for <strong>sequence analysis</strong>, 
                 <strong>genome analysis</strong>, and <strong>protein analysis</strong> to enhance your bioinformatics workflow.
             </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
         </footer>
     </div>
 
     <script src="common.js"></script>
     <script>
+        // Display last update time
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            const formattedDate = now.toLocaleString('en-US', options);
+            const updateElement = document.getElementById('last-update');
+            if (updateElement) {
+                updateElement.textContent = formattedDate;
+            }
+        }
+        
         // Initialize navigation
         document.getElementById('navigation').innerHTML = getNavigation();
+        
+        // Set update time on page load
+        updateLastUpdateTime();
         
         // Main analyzer logic
         document.addEventListener('DOMContentLoaded', () => {
