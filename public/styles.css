@@ -74,23 +74,21 @@ h1 {
 }
 
 .dropdown-btn {
-    background-color: #ecf0f1;
-    color: #2c3e50;
     padding: 8px 16px;
+    text-decoration: none;
+    color: #3498db;
     border: 1px solid #3498db;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
-    font-weight: 500;
     transition: all 0.3s;
     white-space: nowrap;
+    background: transparent;
 }
 
 .dropdown-btn:hover {
     background-color: #3498db;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
 }
 
 .dropdown-content {
