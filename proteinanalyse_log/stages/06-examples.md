@@ -29,10 +29,32 @@
 - Важно было выбрать репрезентативные примеры
 - Примеры должны демонстрировать ключевой функционал каждой страницы
 
-**Скриншоты**:
-- ru/01-main-page.png / en/01-main-page.png - Главная страница с примером анализа ДНК
-- ru/02-gc-calculator.png / en/02-gc-calculator.png - GC калькулятор с примером последовательности
-- ru/03-reverse-complement.png / en/03-reverse-complement.png - Reverse complement с примером
-- ru/04-orf-finder.png / en/04-orf-finder.png - ORF finder с найденным ORF
-- ru/05-protein-mw-calculator.png / en/05-protein-mw-calculator.png - Protein MW калькулятор с примером
-- ru/06-dna-translation.png / en/06-dna-translation.png - DNA translation с примером трансляции
+**Что сделано**:
+- ✅ Добавлена кнопка "Load Example" на каждой странице
+- ✅ Подобраны репрезентативные примеры для каждого инструмента
+
+Примеры позволяют пользователям сразу увидеть, как работает каждый инструмент:
+
+**Главная страница (Sequence Analyzer)**:
+![Главная страница с примером анализа ДНК (RU)](screenshots/ru/01-main-page.png)
+![Main page with DNA analysis example (EN)](screenshots/en/01-main-page.png)
+
+**GC Calculator**:
+![GC калькулятор с примером последовательности (RU)](screenshots/ru/02-gc-calculator.png)
+![GC calculator with sequence example (EN)](screenshots/en/02-gc-calculator.png)
+
+**Reverse Complement**:
+![Reverse complement с примером (RU)](screenshots/ru/03-reverse-complement.png)
+![Reverse complement with example (EN)](screenshots/en/03-reverse-complement.png)
+
+**ORF Finder**:
+![ORF finder с найденным ORF (RU)](screenshots/ru/04-orf-finder.png)
+![ORF finder with detected ORF (EN)](screenshots/en/04-orf-finder.png)
+
+**Protein MW Calculator**:
+![Protein MW калькулятор с примером (RU)](screenshots/ru/05-protein-mw-calculator.png)
+![Protein MW calculator with example (EN)](screenshots/en/05-protein-mw-calculator.png)
+
+**DNA Translation**:
+![DNA translation с примером трансляции (RU)](screenshots/ru/06-dna-translation.png)
+![DNA translation with translation example (EN)](screenshots/en/06-dna-translation.png)
