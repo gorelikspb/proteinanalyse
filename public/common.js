@@ -42,6 +42,11 @@ function getNavigation() {
             <a href="orf-finder.html">ORF Finder</a>
             <a href="protein-mw-calculator.html">Protein MW</a>
             <a href="sequence-translation.html">DNA Translation</a>
+            <a href="codon-usage-calculator.html">Codon Usage</a>
+            <a href="fasta-validator.html">FASTA Validator</a>
+            <a href="rna-to-protein.html">RNA Translator</a>
+            <a href="peptide-length-calculator.html">Peptide Length</a>
+            <a href="amino-acid-composition.html">AA Composition</a>
         </nav>
     `;
 }
