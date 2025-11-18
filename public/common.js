@@ -42,8 +42,8 @@ function getNavigation() {
             <a href="orf-finder.html">ORF Finder</a>
             <a href="protein-mw-calculator.html">Protein MW</a>
             <a href="sequence-translation.html">DNA Translation</a>
-            <div class="dropdown">
-                <button class="dropdown-btn">More Tools ▼</button>
+            <div class="dropdown" onmouseenter="this.classList.add('active')" onmouseleave="this.classList.remove('active')">
+                <a href="#" class="dropdown-btn" onclick="event.preventDefault(); return false;">More Tools ▼</a>
                 <div class="dropdown-content">
                     <a href="codon-usage-calculator.html">Codon Usage</a>
                     <a href="fasta-validator.html">FASTA Validator</a>
