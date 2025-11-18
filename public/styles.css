@@ -339,6 +339,11 @@ button {
     .main-nav a {
         text-align: center;
     }
+    
+    .dropdown-content {
+        right: auto;
+        left: 0;
+    }
 }
 
 .update-info {
