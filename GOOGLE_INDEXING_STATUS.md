@@ -9,13 +9,13 @@
 - **Дата настройки**: 2024-12-19 (Stage 08)
 
 ### Домен
-- **URL сайта**: `https://seq-tools.pages.dev`
+- **URL сайта**: `https://proteinanalysis.pages.dev`
 - **Платформа**: Cloudflare Pages
 - **Тип сайта**: Статический (HTML/CSS/JS)
 
 ### Sitemap
 - **Файл**: `sitemap.xml`
-- **URL**: `https://seq-tools.pages.dev/sitemap.xml`
+- **URL**: `https://proteinanalysis.pages.dev/sitemap.xml`
 - **Количество страниц**: 12 страниц
 - **Статус отправки**: ⚠️ Требует проверки в Search Console
 
@@ -26,7 +26,7 @@
   ```
   User-agent: *
   Allow: /
-  Sitemap: https://seq-tools.pages.dev/sitemap.xml
+  Sitemap: https://proteinanalysis.pages.dev/sitemap.xml
   ```
 
 ---
@@ -70,7 +70,7 @@
 ### 2. Проверка отправки Sitemap
 **Как проверить:**
 - В Search Console → **Sitemaps**
-- Добавь sitemap: `https://seq-tools.pages.dev/sitemap.xml`
+- Добавь sitemap: `https://proteinanalysis.pages.dev/sitemap.xml`
 - Проверь статус обработки
 
 **Статус**: ⚠️ Требует проверки/отправки
@@ -87,7 +87,7 @@
 
 ### 4. Проверка в Google Search
 **Как проверить:**
-- Поиск: `site:seq-tools.pages.dev`
+- Поиск: `site:proteinanalysis.pages.dev`
 - Должны отображаться все проиндексированные страницы
 
 ---
@@ -116,7 +116,7 @@
 
 1. **Отправить Sitemap в Search Console**
    - Зайди в Search Console → Sitemaps
-   - Добавь: `https://seq-tools.pages.dev/sitemap.xml`
+   - Добавь: `https://proteinanalysis.pages.dev/sitemap.xml`
    - Дождись обработки (обычно несколько часов)
 
 2. **Проверить индексацию**
@@ -132,9 +132,9 @@
 ## 🔗 Полезные ссылки
 
 - **Google Search Console**: https://search.google.com/search-console
-- **Проверка индексации**: `site:seq-tools.pages.dev`
-- **Sitemap**: https://seq-tools.pages.dev/sitemap.xml
-- **Robots.txt**: https://seq-tools.pages.dev/robots.txt
+- **Проверка индексации**: `site:proteinanalysis.pages.dev`
+- **Sitemap**: https://proteinanalysis.pages.dev/sitemap.xml
+- **Robots.txt**: https://proteinanalysis.pages.dev/robots.txt
 
 ---
 

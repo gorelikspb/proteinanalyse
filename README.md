@@ -127,7 +127,7 @@ The assistant will:
 
 After deployment, your site will be available at:
 ```
-https://seq-tools.pages.dev
+https://proteinanalysis.pages.dev
 ```
 
 **Note**: If `seq-tools` name is already taken, Cloudflare will suggest an alternative name (e.g., `seq-tools-xyz123`).
