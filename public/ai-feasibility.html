@@ -48,7 +48,7 @@
                 <div id="results-content"></div>
             </div>
 
-            <div class="advanced-analysis-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 10px; border: 2px solid #e9ecef;">
+            <div id="advanced-analysis-section" class="advanced-analysis-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 10px; border: 2px solid #e9ecef;">
                 <h2>Need More Accurate Analysis?</h2>
                 <p>
                     This tool uses simplified algorithms for quick analysis. For more accurate predictions, we can perform 
@@ -437,6 +437,7 @@
             }
             if (parseFloat(scores.expressibilityScore) >= 50) {
                 recommendations.push('Recommended expression system: E.coli or cell-free');
+                recommendations.push('💼 Need professional protein expression service? <a href="#advanced-analysis-section" onclick="scrollToAdvancedAnalysis(event)" style="color: #007bff; text-decoration: underline; cursor: pointer;">Contact us for custom expression optimization and production</a>.');
             }
             if (analysis.isDNA && analysis.rareCodonFraction > 0.2) {
                 recommendations.push('Avoid rare codons for E. coli expression');
@@ -606,6 +607,14 @@
             document.getElementById('results-container').style.display = 'block';
             document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             
+            // Add click handlers for recommendation links
+            setTimeout(() => {
+                const links = document.querySelectorAll('#results-content a[href="#advanced-analysis-section"]');
+                links.forEach(link => {
+                    link.addEventListener('click', scrollToAdvancedAnalysis);
+                });
+            }, 100);
+            
             // Update request sequence field
             updateRequestSequence();
         }
@@ -614,6 +623,18 @@
             document.getElementById('sequence-input').value = '';
             document.getElementById('results-container').style.display = 'none';
             document.getElementById('request-sequence').value = '';
+        }
+
+        function scrollToAdvancedAnalysis(event) {
+            event.preventDefault();
+            const section = document.getElementById('advanced-analysis-section');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Focus on email input after scroll
+                setTimeout(() => {
+                    document.getElementById('request-email').focus();
+                }, 500);
+            }
         }
 
         function updateRequestSequence() {
