@@ -40,7 +40,7 @@ export default {
         
         // Advanced Analysis Request (Protein Sequence Analysis)
         if (data.type === 'advanced_analysis') {
-          await fetch('https://api.resend.com/emails', {
+          const emailResponse = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${env.RESEND_API_KEY}`,
@@ -63,6 +63,22 @@ export default {
               `
             })
           });
+          
+          const emailResult = await emailResponse.json();
+          
+          if (!emailResponse.ok) {
+            console.error('Resend API error:', emailResult);
+            return new Response(JSON.stringify({ 
+              success: false, 
+              error: emailResult.message || 'Failed to send email' 
+            }), {
+              status: 500,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              }
+            });
+          }
           
           return new Response(JSON.stringify({ success: true }), {
             headers: {

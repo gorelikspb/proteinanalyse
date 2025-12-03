@@ -655,7 +655,21 @@
                     timestamp: new Date().toLocaleString()
                 })
             })
-            .then(response => response.json())
+            .then(async response => {
+                const text = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`Invalid JSON response: ${text}`);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(result.error || `HTTP ${response.status}: ${text}`);
+                }
+                
+                return result;
+            })
             .then(result => {
                 if (result.success) {
                     messageDiv.textContent = 'Request sent successfully! We will contact you soon.';
@@ -664,17 +678,19 @@
                     form.reset();
                     document.getElementById('request-sequence').value = '';
                 } else {
-                    messageDiv.textContent = 'Error sending request. Please try again later.';
+                    const errorMsg = result.error || 'Unknown error';
+                    messageDiv.textContent = `Error: ${errorMsg}`;
                     messageDiv.style.display = 'block';
                     messageDiv.style.color = '#dc3545';
                     console.error('Worker error:', result);
                 }
             })
             .catch(error => {
-                messageDiv.textContent = 'Error sending request. Please try again later.';
+                messageDiv.textContent = `Error: ${error.message || 'Network error. Please check console for details.'}`;
                 messageDiv.style.display = 'block';
                 messageDiv.style.color = '#dc3545';
                 console.error('Fetch error:', error);
+                console.error('Worker URL:', WORKER_URL);
             });
         }
     </script>
