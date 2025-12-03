@@ -54,6 +54,22 @@
     "title": "Добавление новых инструментов и улучшение навигации",
     "published": false,
     "screenshots": {}
+  },
+  {
+    "id": "08",
+    "file": "08-google-search-console-verification.md",
+    "date": "2025-01-27",
+    "title": "Google Search Console Verification",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "09",
+    "file": "09-ai-feasibility-check.md",
+    "date": "2024-12-19",
+    "title": "AI Feasibility Check - Инструмент предсказания экспрессируемости белков",
+    "published": false,
+    "screenshots": {}
   }
 ]
 

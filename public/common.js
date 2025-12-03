@@ -37,6 +37,7 @@ function getNavigation() {
     return `
         <nav class="main-nav">
             <a href="index.html">Sequence Analyzer</a>
+            <a href="ai-feasibility.html">AI Feasibility</a>
             <a href="dna-gc-calculator.html">GC Calculator</a>
             <a href="reverse-complement.html">Reverse Complement</a>
             <a href="orf-finder.html">ORF Finder</a>
