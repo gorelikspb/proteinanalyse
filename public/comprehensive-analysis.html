@@ -95,27 +95,16 @@
         let currentAnalysisResults = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Set up event listeners
             document.getElementById('analyze-btn').addEventListener('click', handleComprehensiveAnalysis);
-            
-            // Example 1: Complex protein (signal peptide, glycosylation, disulfide bonds)
-            // Based on PGLYRP3 (Q96LB9) with slight modifications
             document.getElementById('example-btn').addEventListener('click', () => {
                 document.getElementById('sequence-input').value = 'MGTLPWLLAFFILGLQAWDTPTIVSRKEWGARPLACRALLTLPVAYIITDQLPGMQCQQQSVCSQMLRGLQSHSVYTIGWCDVAYNFLVGDDGRVYEGVGWNIQGLHTQGYNNISLGIAFFGNKIGSSPSPAALSAAEGLISYAIQKGHLSPRYIQPLLLKEETCLDPQHPVMPRKVCPNIIKRSAWEARETHCPKMNLPAKYVIIIHTAGTSCTVSTDCQTVVRNIQSFHMDTRNFCDIGYHFLVGQDGGVYEGVGWHIQGSHTYGFNDIALGIAFIGYFVEKPPNAAALEAAQDLIQCAVVEGYLTPNYLLMGHSDVVNILSPGQALYNIISTWPHFKH';
             });
-            
-            // Example 2: Transmembrane protein
-            // Based on EGFR (P00533) transmembrane region with surrounding sequences
             document.getElementById('example2-btn').addEventListener('click', () => {
                 document.getElementById('sequence-input').value = 'MRPSGTAGAALLALLAALCPASRALEEKKVCQGTSNKLTQLGTFEDHFLSLQRMFNNCEVVLGNLEITYVQRNYDLSFLKTIQEVAGYVLIALNTVERIPLENLQIIRGNMYYENSYALAVLSNYDANKTGLKELPMRNLQEILHGAVRFSNNPALCNVESIQWRDIVSSDFLSNMSMDFQNHLGSCQKCDPSCPNGSCWGAGEENCQKLTKIICAQQCSGRCRGKSPSDCCHNQCAAGCTGPRESDCLVCRKFRDEATCKDTCPPLMLYNPTTYQMDVNPE';
             });
-            
-            // Example 3: Simple soluble protein
-            // Based on Lysozyme C (P61626) with slight modifications
             document.getElementById('example3-btn').addEventListener('click', () => {
                 document.getElementById('sequence-input').value = 'MKALIVLGLVLLSVTVQGKVFERCELARTLKRLGMDGYRGISLANWMCLAKWESGYNTRATNYNAGDRSTDYGIFQINSRYWCNDGKTPGAVNACHLSCSALLQDNIADAVACAKRVVRDPQGIRAWVAWRNRCQNRDVRQYVQGCGV';
             });
-            
             document.getElementById('clear-btn').addEventListener('click', handleClear);
             document.getElementById('generate-pdf-btn').addEventListener('click', handleGeneratePDF);
         });
