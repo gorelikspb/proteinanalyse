@@ -20,14 +20,19 @@ project-root/
 ## Что проверить в Cloudflare Dashboard
 
 ### 1. Проверь настройки проекта
-- Cloudflare Dashboard → Pages → `proteinanalysis` → **Settings**
+- Cloudflare Dashboard → Pages → `proteinanalysis` → **Settings** → **Builds & deployments**
 - Проверь:
   - **Production branch**: `master` (или `main`)
   - **Build command**: должен быть **пустым** (или не указан)
-  - **Build output directory**: `public`
-  - **Root directory**: должен быть **пустым** или `/` (корень репозитория)
+  - **Build output directory**: `public` ← Это правильно!
+  - **Root directory**: должен быть **ПУСТЫМ** или `/` ← ВАЖНО!
 
-**ВАЖНО:** Если указан Root directory (например, `public/`), то Cloudflare будет искать `functions/` относительно этого root, а не корня репозитория!
+**КРИТИЧНО:** 
+- **Root directory** и **Build output directory** - это РАЗНЫЕ вещи!
+- **Root directory** = корень репозитория (откуда Cloudflare ищет `functions/`)
+- **Build output directory** = папка со статическими файлами (`public`)
+- Если Root directory = `public`, то Cloudflare будет искать `functions/` в `public/functions/`, а не в корне репозитория!
+- **Решение:** Root directory должен быть ПУСТЫМ, Build output directory = `public`
 
 ### 2. Проверь последний деплой
 - Cloudflare Dashboard → Pages → `proteinanalysis` → **Deployments**
@@ -49,13 +54,19 @@ project-root/
 
 ## Возможные проблемы и решения
 
-### Проблема 1: Root directory указан неправильно
-**Симптом:** Build проходит, но функции не видны.
+### Проблема 1: Root directory указан неправильно (САМАЯ ЧАСТАЯ ПРОБЛЕМА!)
+**Симптом:** Build проходит, но функции не видны. API возвращает HTML вместо JSON.
 
 **Решение:**
 - Settings → Builds & deployments → **Root directory**
-- Должно быть **пусто** или `/`
-- Если указано `public/`, удали это значение
+- Должно быть **ПУСТО** (не заполнено) или `/`
+- Если указано `public/` или любое другое значение - **УДАЛИ ЕГО** (оставь пустым)
+- **Build output directory** должен остаться `public` (это правильно!)
+
+**Почему это важно:**
+- Root directory = откуда Cloudflare ищет `functions/` (должен быть корень репозитория)
+- Build output directory = откуда брать статические файлы (`public`)
+- Это РАЗНЫЕ настройки!
 
 ### Проблема 2: Build command выполняет что-то лишнее
 **Симптом:** Build падает с ошибкой.
