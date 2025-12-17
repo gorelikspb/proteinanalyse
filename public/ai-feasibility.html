@@ -131,6 +131,9 @@
 
     <script src="common.js"></script>
     <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
         // Kyte-Doolittle hydrophobicity scale
         const KD_HYDROPHOBICITY = {
             'A': 1.8, 'C': 2.5, 'D': -3.5, 'E': -3.5,

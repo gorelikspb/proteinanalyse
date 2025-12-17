@@ -89,13 +89,12 @@
     <script src="common.js"></script>
     <script src="ml-integration.js"></script>
     <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
         let currentAnalysisResults = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize navigation
-            document.getElementById('navigation').innerHTML = getNavigation();
-            updateLastUpdateTime();
-
             // Set up event listeners
             document.getElementById('analyze-btn').addEventListener('click', handleComprehensiveAnalysis);
             
