@@ -102,6 +102,17 @@ function generatePOIReport(analysisResults, options = {}) {
     return doc;
 }
 
+// Export function immediately after definition to ensure it's available
+// even if there are errors in helper functions below
+if (typeof window !== 'undefined') {
+    try {
+        window.generatePOIReport = generatePOIReport;
+        console.log('report-generator.js: generatePOIReport function exported to window');
+    } catch (e) {
+        console.error('report-generator.js: Error exporting function:', e);
+    }
+}
+
 /**
  * Add cover page
  */
@@ -647,12 +658,4 @@ function getRiskColorPDF(risk) {
         case 'low': return [40, 167, 69]; // green
         default: return [108, 117, 125]; // gray
     }
-}
-
-// Export for use in other scripts
-if (typeof window !== 'undefined') {
-    window.generatePOIReport = generatePOIReport;
-    console.log('report-generator.js: generatePOIReport function exported to window');
-} else {
-    console.error('report-generator.js: window object not available');
 }

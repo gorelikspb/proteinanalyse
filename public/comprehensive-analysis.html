@@ -92,7 +92,21 @@
     <script src="common.js"></script>
     <script src="ml-integration.js"></script>
     <!-- Load report-generator.js synchronously after other scripts -->
-    <script src="report-generator.js"></script>
+    <script src="report-generator.js" onerror="console.error('Failed to load report-generator.js');"></script>
+    <script>
+        // Verify script loaded correctly
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                if (typeof generatePOIReport === 'undefined') {
+                    console.error('generatePOIReport function not available after script load');
+                    console.log('window.jspdf available:', typeof window.jspdf !== 'undefined');
+                    console.log('report-generator.js script tag:', document.querySelector('script[src="report-generator.js"]'));
+                } else {
+                    console.log('✓ generatePOIReport function is available');
+                }
+            }, 100);
+        });
+    </script>
     <script>
         document.getElementById('navigation').innerHTML = getNavigation();
         updateLastUpdateTime();
