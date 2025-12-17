@@ -15,6 +15,24 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
+    if (request.method === 'GET') {
+      // Health check endpoint
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: 'Database Lookup API is running',
+          endpoints: {
+            uniprot: 'POST /api/database-lookup with { sequence, database: "uniprot", action: "id|blast|search" }',
+            pdb: 'POST /api/database-lookup with { sequence, database: "pdb", action: "..." }',
+            ncbi: 'POST /api/database-lookup with { sequence, database: "ncbi", action: "..." }',
+          },
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     if (request.method === 'POST') {
       try {
         const data = await request.json();
