@@ -37,8 +37,14 @@
                 ></textarea>
                 <div class="button-group">
                     <button id="analyze-btn" class="btn-primary">Run Comprehensive Analysis</button>
-                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="example-btn" class="btn-secondary">Load Example 1</button>
+                    <button id="example2-btn" class="btn-secondary">Load Example 2</button>
+                    <button id="example3-btn" class="btn-secondary">Load Example 3</button>
                     <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    <strong>Examples:</strong> Example 1 - Complex protein (signal peptide, glycosylation, disulfide bonds) | 
+                    Example 2 - Transmembrane protein | Example 3 - Simple soluble protein
                 </div>
                 <div style="margin-top: 10px;">
                     <label>
@@ -107,8 +113,20 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('analyze-btn').addEventListener('click', handleComprehensiveAnalysis);
+            // Example 1: Complex protein (signal peptide, glycosylation, disulfide bonds)
+            // Based on PGLYRP3 (Q96LB9) with slight modifications
             document.getElementById('example-btn').addEventListener('click', () => {
-                document.getElementById('sequence-input').value = 'MQDRVKRPMNAFIVWSRDQRRKMALENPRMTVAGAAAKYQHLASLGSAAPLSVDLEPLTILNRVSALPGD';
+                document.getElementById('sequence-input').value = 'MGTLPWLLAFFILGLQAWDTPTIVSRKEWGARPLACRALLTLPVAYIITDQLPGMQCQQQSVCSQMLRGLQSHSVYTIGWCDVAYNFLVGDDGRVYEGVGWNIQGLHTQGYNNISLGIAFFGNKIGSSPSPAALSAAEGLISYAIQKGHLSPRYIQPLLLKEETCLDPQHPVMPRKVCPNIIKRSAWEARETHCPKMNLPAKYVIIIHTAGTSCTVSTDCQTVVRNIQSFHMDTRNFCDIGYHFLVGQDGGVYEGVGWHIQGSHTYGFNDIALGIAFIGYFVEKPPNAAALEAAQDLIQCAVVEGYLTPNYLLMGHSDVVNILSPGQALYNIISTWPHFKH';
+            });
+            // Example 2: Transmembrane protein
+            // Based on EGFR (P00533) transmembrane region with surrounding sequences
+            document.getElementById('example2-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MRPSGTAGAALLALLAALCPASRALEEKKVCQGTSNKLTQLGTFEDHFLSLQRMFNNCEVVLGNLEITYVQRNYDLSFLKTIQEVAGYVLIALNTVERIPLENLQIIRGNMYYENSYALAVLSNYDANKTGLKELPMRNLQEILHGAVRFSNNPALCNVESIQWRDIVSSDFLSNMSMDFQNHLGSCQKCDPSCPNGSCWGAGEENCQKLTKIICAQQCSGRCRGKSPSDCCHNQCAAGCTGPRESDCLVCRKFRDEATCKDTCPPLMLYNPTTYQMDVNPE';
+            });
+            // Example 3: Simple soluble protein
+            // Based on Lysozyme C (P61626) with slight modifications
+            document.getElementById('example3-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MKALIVLGLVLLSVTVQGKVFERCELARTLKRLGMDGYRGISLANWMCLAKWESGYNTRATNYNAGDRSTDYGIFQINSRYWCNDGKTPGAVNACHLSCSALLQDNIADAVACAKRVVRDPQGIRAWVAWRNRCQNRDVRQYVQGCGV';
             });
             document.getElementById('clear-btn').addEventListener('click', handleClear);
             document.getElementById('generate-pdf-btn').addEventListener('click', handleGeneratePDF);
