@@ -86,13 +86,8 @@
         </footer>
     </div>
 
-    <!-- jsPDF library for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
     <script src="common.js"></script>
     <script src="ml-integration.js"></script>
-    <!-- Load report-generator.js -->
-    <script src="report-generator.js"></script>
     <script>
         document.getElementById('navigation').innerHTML = getNavigation();
         updateLastUpdateTime();
@@ -505,40 +500,185 @@
                 return;
             }
             
-            // Check if jsPDF is loaded
-            if (typeof window.jspdf === 'undefined') {
-                alert('PDF library (jsPDF) not loaded. Please refresh the page and try again.');
-                return;
-            }
+            // Use browser Print to PDF - simple and always works
+            const printWindow = window.open('', '_blank');
+            const results = currentAnalysisResults;
             
-            // Check if report-generator.js is loaded
-            if (typeof generatePOIReport === 'undefined') {
-                alert('PDF generator not loaded. Please refresh the page.');
-                console.error('generatePOIReport not found. Check browser console for script errors.');
-                return;
-            }
+            printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Protein Analysis Report - ${results.proteinName || 'Sequence'}</title>
+    <style>
+        @media print {
+            @page { margin: 1cm; }
+            body { margin: 0; }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        h3 { color: #7f8c8d; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        td { padding: 8px; border-bottom: 1px solid #ecf0f1; }
+        .section { margin: 25px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .date { color: #7f8c8d; font-size: 0.9em; }
+        ul { margin: 10px 0; padding-left: 20px; }
+        li { margin: 5px 0; }
+        .risk-high { color: #e74c3c; font-weight: bold; }
+        .risk-medium { color: #f39c12; font-weight: bold; }
+        .risk-low { color: #27ae60; font-weight: bold; }
+        .recommended { color: #27ae60; }
+        .not-recommended { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Protein Analysis Report</h1>
+        <p><strong>${results.proteinName || 'Unknown Protein'}</strong></p>
+        <p class="date">Analysis Date: ${results.analysisDate}</p>
+        ${results.uniprotId ? `<p class="date">UniProt ID: ${results.uniprotId}</p>` : ''}
+    </div>
+
+    <div class="section">
+        <h2>Basic Information</h2>
+        <table>
+            <tr><td><strong>Sequence Length:</strong></td><td>${results.sequenceLength} amino acids</td></tr>
+            <tr><td><strong>Molecular Weight:</strong></td><td>${results.molecularWeightKDa} kDa</td></tr>
+            <tr><td><strong>Isoelectric Point (pI):</strong></td><td>${results.isoelectricPoint}</td></tr>
+            <tr><td><strong>Hydrophobic Percentage:</strong></td><td>${results.hydrophobicPercent}%</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Structural Analysis</h2>
+        <h3>Signal Peptide</h3>
+        <p>Detected: <strong>${results.signalPeptide.hasSignalPeptide ? 'Yes' : 'No'}</strong></p>
+        ${results.signalPeptide.hasSignalPeptide ? `
+            <p>Cleavage Site: Position ${results.signalPeptide.cleavageSite || 'unknown'}</p>
+            <p>Probability: ${(results.signalPeptide.probability * 100).toFixed(1)}%</p>
+        ` : ''}
+        
+        <h3>Transmembrane Domains</h3>
+        <p>Number of domains: <strong>${results.transmembraneDomains.length}</strong></p>
+        ${results.transmembraneDomains.length > 0 ? `
+            <ul>
+                ${results.transmembraneDomains.map(tm => `
+                    <li>Position ${tm.start}-${tm.end} (hydrophobicity: ${tm.hydrophobicity.toFixed(2)})</li>
+                `).join('')}
+            </ul>
+        ` : '<p>No transmembrane domains detected</p>'}
+        
+        <h3>Disulfide Bonds</h3>
+        <p>Cysteine count: <strong>${results.disulfideBonds.cysCount}</strong></p>
+        <p>Possible disulfide bonds: <strong>${results.disulfideBonds.pairs}</strong> pairs</p>
+        ${results.disulfideBonds.unpaired > 0 ? `<p>Unpaired cysteines: ${results.disulfideBonds.unpaired}</p>` : ''}
+        
+        <h3>N-Glycosylation Sites</h3>
+        <p>Number of sites: <strong>${results.nGlycosylationSites.length}</strong></p>
+        ${results.nGlycosylationSites.length > 0 ? `
+            <ul>
+                ${results.nGlycosylationSites.map(site => `
+                    <li>Position ${site.position}: ${site.sequence} (${site.accessible ? 'accessible' : 'may be buried'})</li>
+                `).join('')}
+            </ul>
+        ` : '<p>No N-glycosylation sites detected</p>'}
+        
+        <h3>Protease Cleavage Sites</h3>
+        <p>TEV sites: <strong>${results.proteaseSites.tev.length}</strong></p>
+        <p>Trypsin sites: <strong>${results.proteaseSites.trypsin.length}</strong></p>
+        <p>Chymotrypsin sites: <strong>${results.proteaseSites.chymotrypsin.length}</strong></p>
+    </div>
+
+    <div class="section">
+        <h2>Expression System Recommendations</h2>
+        <table>
+            <tr>
+                <td><strong>Bacterial (E.coli):</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.bacterial.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.bacterial.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.bacterial.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Yeast:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.yeast.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.yeast.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.yeast.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Insect Cells:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.insect.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.insect.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.insect.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Mammalian Cells:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.mammalian.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.mammalian.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.mammalian.reason}</small>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Risk Assessment</h2>
+        <p>Aggregation Risk: <span class="risk-${results.riskAssessment.aggregationRisk}">${results.riskAssessment.aggregationRisk.toUpperCase()}</span></p>
+        <p>Solubility Risk: <span class="risk-${results.riskAssessment.solubilityRisk}">${results.riskAssessment.solubilityRisk.toUpperCase()}</span></p>
+        <p>Expression Difficulty: <span class="risk-${results.riskAssessment.expressionDifficulty}">${results.riskAssessment.expressionDifficulty.toUpperCase()}</span></p>
+        ${results.riskAssessment.issues.length > 0 ? `
+            <h3>Potential Issues:</h3>
+            <ul>
+                ${results.riskAssessment.issues.map(issue => `<li>${issue}</li>`).join('')}
+            </ul>
+        ` : ''}
+    </div>
+
+    ${results.databaseComparison && results.databaseComparison.results ? `
+    <div class="section">
+        <h2>Database Comparison</h2>
+        <p>Found ${results.databaseComparison.totalResults || 0} similar proteins in UniProt</p>
+        ${results.databaseComparison.results.length > 0 ? `
+            <ul>
+                ${results.databaseComparison.results.slice(0, 5).map(result => `
+                    <li>${result.uniprotId || 'Unknown'}: ${result.proteinName || 'Unknown'} (${result.organism || 'Unknown'})</li>
+                `).join('')}
+            </ul>
+        ` : ''}
+    </div>
+    ` : ''}
+
+    <div class="section">
+        <h2>Sequence</h2>
+        <pre style="font-size: 0.85em; word-wrap: break-word; white-space: pre-wrap;">${results.sequence}</pre>
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+</html>
+            `);
             
-            try {
-                // Show loading message
-                const btn = document.getElementById('generate-pdf-btn');
-                const originalText = btn.textContent;
-                btn.textContent = 'Generating PDF...';
-                btn.disabled = true;
-                
-                // Generate PDF
-                const doc = generatePOIReport(currentAnalysisResults);
-                const fileName = `protein_analysis_${currentAnalysisResults.uniprotId || 'sequence'}_${currentAnalysisResults.analysisDate}.pdf`;
-                doc.save(fileName);
-                
-                // Reset button
-                btn.textContent = originalText;
-                btn.disabled = false;
-            } catch (error) {
-                alert('PDF generation failed: ' + error.message);
-                console.error('PDF generation error:', error);
-                const btn = document.getElementById('generate-pdf-btn');
-                btn.disabled = false;
-            }
+            printWindow.document.close();
         }
     </script>
 </body>
