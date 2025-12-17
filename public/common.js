@@ -33,26 +33,34 @@ const GENETIC_CODE = {
 const HYDROPHOBIC_AAS = new Set(['A', 'V', 'I', 'L', 'M', 'F', 'W', 'P']);
 
 // Navigation menu HTML
+// Automatically adjusts paths based on current directory
 function getNavigation() {
+    // Determine if we're in articles/ subdirectory
+    const path = window.location.pathname;
+    const isInArticles = path.includes('/articles/');
+    const prefix = isInArticles ? '../' : '';
+    const articlesPath = isInArticles ? 'index.html' : 'articles/index.html';
+    
     return `
         <nav class="main-nav">
-            <a href="index.html">Sequence Analyzer</a>
-            <a href="ai-feasibility.html">AI Feasibility</a>
-            <a href="dna-gc-calculator.html">GC Calculator</a>
-            <a href="reverse-complement.html">Reverse Complement</a>
-            <a href="orf-finder.html">ORF Finder</a>
-            <a href="protein-mw-calculator.html">Protein MW</a>
-            <a href="sequence-translation.html">DNA Translation</a>
+            <a href="${prefix}index.html">Sequence Analyzer</a>
+            <a href="${prefix}ai-feasibility.html">AI Feasibility</a>
+            <a href="${prefix}dna-gc-calculator.html">GC Calculator</a>
+            <a href="${prefix}reverse-complement.html">Reverse Complement</a>
+            <a href="${prefix}orf-finder.html">ORF Finder</a>
+            <a href="${prefix}protein-mw-calculator.html">Protein MW</a>
+            <a href="${prefix}sequence-translation.html">DNA Translation</a>
             <div class="dropdown" onmouseenter="this.classList.add('active')" onmouseleave="this.classList.remove('active')">
                 <a href="#" class="dropdown-btn" onclick="event.preventDefault(); return false;">More Tools ▼</a>
                 <div class="dropdown-content">
-                    <a href="codon-usage-calculator.html">Codon Usage</a>
-                    <a href="fasta-validator.html">FASTA Validator</a>
-                    <a href="rna-to-protein.html">RNA Translator</a>
-                    <a href="peptide-length-calculator.html">Peptide Length</a>
-                    <a href="amino-acid-composition.html">AA Composition</a>
+                    <a href="${prefix}codon-usage-calculator.html">Codon Usage</a>
+                    <a href="${prefix}fasta-validator.html">FASTA Validator</a>
+                    <a href="${prefix}rna-to-protein.html">RNA Translator</a>
+                    <a href="${prefix}peptide-length-calculator.html">Peptide Length</a>
+                    <a href="${prefix}amino-acid-composition.html">AA Composition</a>
                 </div>
             </div>
+            <a href="${articlesPath}">Guides</a>
         </nav>
     `;
 }

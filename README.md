@@ -58,8 +58,16 @@ public/
 ├── orf-finder.html               # ORF detection
 ├── protein-mw-calculator.html    # Protein molecular weight
 ├── sequence-translation.html     # DNA translation
+├── amino-acid-composition.html   # Amino acid composition analyzer
+├── codon-usage-calculator.html   # Codon usage calculator
+├── fasta-validator.html          # FASTA format validator
+├── peptide-length-calculator.html # Peptide length calculator
+├── rna-to-protein.html           # RNA to protein translator
+├── ai-feasibility.html           # AI feasibility checker
 ├── common.js                     # Shared functions
-└── styles.css                    # Global styles
+├── styles.css                    # Global styles
+├── robots.txt                    # SEO robots file
+└── sitemap.xml                   # SEO sitemap
 ```
 
 ## Deployment to Cloudflare Pages

@@ -23,6 +23,10 @@ env/
 
 # Instructions - private files, should not be in public repo
 instructions/
+instructions.zip
+
+# Documentation - project documentation (not for website)
+docs/
 
 # Cloudflare API credentials - stored in instructions/ folder (already ignored)
 # No need to add here, instructions/ folder is already in .gitignore
