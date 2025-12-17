@@ -91,22 +91,8 @@
     
     <script src="common.js"></script>
     <script src="ml-integration.js"></script>
-    <!-- Load report-generator.js synchronously after other scripts -->
-    <script src="report-generator.js" onerror="console.error('Failed to load report-generator.js');"></script>
-    <script>
-        // Verify script loaded correctly
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                if (typeof generatePOIReport === 'undefined') {
-                    console.error('generatePOIReport function not available after script load');
-                    console.log('window.jspdf available:', typeof window.jspdf !== 'undefined');
-                    console.log('report-generator.js script tag:', document.querySelector('script[src="report-generator.js"]'));
-                } else {
-                    console.log('✓ generatePOIReport function is available');
-                }
-            }, 100);
-        });
-    </script>
+    <!-- Load report-generator.js -->
+    <script src="report-generator.js"></script>
     <script>
         document.getElementById('navigation').innerHTML = getNavigation();
         updateLastUpdateTime();
@@ -527,16 +513,8 @@
             
             // Check if report-generator.js is loaded
             if (typeof generatePOIReport === 'undefined') {
-                console.error('generatePOIReport function not found. Checking script loading...');
-                // Try to reload the script
-                const existingScript = document.querySelector('script[src="report-generator.js"]');
-                if (!existingScript) {
-                    console.error('report-generator.js script tag not found in DOM');
-                    alert('PDF generator script not found. Please check that report-generator.js exists and refresh the page.');
-                } else {
-                    console.error('report-generator.js script tag exists but function is not available');
-                    alert('PDF generator script loaded but function not available. Please refresh the page or check the browser console for errors.');
-                }
+                alert('PDF generator not loaded. Please refresh the page.');
+                console.error('generatePOIReport not found. Check browser console for script errors.');
                 return;
             }
             
