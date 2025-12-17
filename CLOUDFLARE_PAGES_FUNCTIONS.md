@@ -2,14 +2,20 @@
 
 ## Структура
 
-Функции находятся в папке `functions/` в корне проекта:
+**ВАЖНО:** Если build output directory = `public`, то функции должны быть в `public/functions/`:
+
 ```
-functions/
-├── api/
-│   ├── database-lookup.js  → /api/database-lookup
-│   ├── analyze.js          → /api/analyze
-│   └── benchmark.js        → /api/benchmark
+public/
+├── functions/
+│   └── api/
+│       ├── database-lookup.js  → /api/database-lookup
+│       ├── analyze.js          → /api/analyze
+│       └── benchmark.js        → /api/benchmark
+├── _routes.json
+└── index.html
 ```
+
+**Причина:** Cloudflare Pages ищет `functions/` относительно build output directory, а не корня репозитория.
 
 ## Автоматический деплой
 
