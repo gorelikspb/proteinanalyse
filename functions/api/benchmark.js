@@ -3,74 +3,73 @@
  * Provides access to benchmark proteins with experimental data
  */
 
-export default {
-  async fetch(request, env) {
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
+export async function onRequest(context) {
+  const { request, env } = context;
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
-    }
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
 
-    if (request.method === 'GET') {
-      try {
-        const url = new URL(request.url);
-        const action = url.searchParams.get('action') || 'list';
+  if (request.method === 'GET') {
+    try {
+      const url = new URL(request.url);
+      const action = url.searchParams.get('action') || 'list';
 
-        switch (action) {
-          case 'list':
-            return handleListBenchmarks(env, corsHeaders);
-          case 'get':
-            const id = url.searchParams.get('id');
-            return handleGetBenchmark(id, env, corsHeaders);
-          case 'compare':
-            const sequence = url.searchParams.get('sequence');
-            return handleCompare(sequence, env, corsHeaders);
-          default:
-            return new Response(
-              JSON.stringify({ error: 'Unknown action' }),
-              {
-                status: 400,
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-              }
-            );
+      switch (action) {
+        case 'list':
+          return handleListBenchmarks(env, corsHeaders);
+        case 'get':
+          const id = url.searchParams.get('id');
+          return handleGetBenchmark(id, env, corsHeaders);
+        case 'compare':
+          const sequence = url.searchParams.get('sequence');
+          return handleCompare(sequence, env, corsHeaders);
+        default:
+          return new Response(
+            JSON.stringify({ error: 'Unknown action' }),
+            {
+              status: 400,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            }
+          );
+      }
+    } catch (error) {
+      return new Response(
+        JSON.stringify({ error: error.message }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
-      } catch (error) {
-        return new Response(
-          JSON.stringify({ error: error.message }),
-          {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
-      }
+      );
     }
+  }
 
-    if (request.method === 'POST') {
-      try {
-        const data = await request.json();
-        const { sequence, properties } = data;
-        return handleAddBenchmark(sequence, properties, env, corsHeaders);
-      } catch (error) {
-        return new Response(
-          JSON.stringify({ error: error.message }),
-          {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
-      }
+  if (request.method === 'POST') {
+    try {
+      const data = await request.json();
+      const { sequence, properties } = data;
+      return handleAddBenchmark(sequence, properties, env, corsHeaders);
+    } catch (error) {
+      return new Response(
+        JSON.stringify({ error: error.message }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
     }
+  }
 
-    return new Response('Method not allowed', {
-      status: 405,
-      headers: corsHeaders,
-    });
-  },
-};
+  return new Response('Method not allowed', {
+    status: 405,
+    headers: corsHeaders,
+  });
+}
 
 /**
  * List all benchmark proteins

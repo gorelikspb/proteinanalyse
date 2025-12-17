@@ -3,84 +3,83 @@
  * Provides integration with protein databases
  */
 
-export default {
-  async fetch(request, env) {
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
+export async function onRequest(context) {
+  const { request, env } = context;
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
-    }
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
 
-    if (request.method === 'GET') {
-      // Health check endpoint
-      return new Response(
-        JSON.stringify({
-          success: true,
-          message: 'Database Lookup API is running',
-          endpoints: {
-            uniprot: 'POST /api/database-lookup with { sequence, database: "uniprot", action: "id|blast|search" }',
-            pdb: 'POST /api/database-lookup with { sequence, database: "pdb", action: "..." }',
-            ncbi: 'POST /api/database-lookup with { sequence, database: "ncbi", action: "..." }',
-          },
-        }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
+  if (request.method === 'GET') {
+    // Health check endpoint
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: 'Database Lookup API is running',
+        endpoints: {
+          uniprot: 'POST /api/database-lookup with { sequence, database: "uniprot", action: "id|blast|search" }',
+          pdb: 'POST /api/database-lookup with { sequence, database: "pdb", action: "..." }',
+          ncbi: 'POST /api/database-lookup with { sequence, database: "ncbi", action: "..." }',
+        },
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
-    if (request.method === 'POST') {
-      try {
-        const data = await request.json();
-        const { sequence, database, action } = data;
+  if (request.method === 'POST') {
+    try {
+      const data = await request.json();
+      const { sequence, database, action } = data;
 
-        if (!sequence) {
+      if (!sequence) {
+        return new Response(
+          JSON.stringify({ error: 'Sequence is required' }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
+
+      switch (database) {
+        case 'uniprot':
+          return handleUniProtLookup(sequence, action, env, corsHeaders);
+        case 'pdb':
+          return handlePDBLookup(sequence, action, env, corsHeaders);
+        case 'ncbi':
+          return handleNCBILookup(sequence, action, env, corsHeaders);
+        default:
           return new Response(
-            JSON.stringify({ error: 'Sequence is required' }),
+            JSON.stringify({ error: 'Unknown database. Use: uniprot, pdb, or ncbi' }),
             {
               status: 400,
               headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             }
           );
-        }
-
-        switch (database) {
-          case 'uniprot':
-            return handleUniProtLookup(sequence, action, env, corsHeaders);
-          case 'pdb':
-            return handlePDBLookup(sequence, action, env, corsHeaders);
-          case 'ncbi':
-            return handleNCBILookup(sequence, action, env, corsHeaders);
-          default:
-            return new Response(
-              JSON.stringify({ error: 'Unknown database. Use: uniprot, pdb, or ncbi' }),
-              {
-                status: 400,
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-              }
-            );
-        }
-      } catch (error) {
-        return new Response(
-          JSON.stringify({ error: error.message }),
-          {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
-        );
       }
+    } catch (error) {
+      return new Response(
+        JSON.stringify({ error: error.message }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
     }
+  }
 
-    return new Response('Method not allowed', {
-      status: 405,
-      headers: corsHeaders,
-    });
-  },
-};
+  return new Response('Method not allowed', {
+    status: 405,
+    headers: corsHeaders,
+  });
+}
 
 /**
  * Handle UniProt database lookups
