@@ -2,20 +2,22 @@
 
 ## Структура
 
-**ВАЖНО:** Если build output directory = `public`, то функции должны быть в `public/functions/`:
+**ВАЖНО:** `functions/` должна быть в **корне репозитория**, а НЕ в build output directory:
 
 ```
-public/
-├── functions/
+project-root/
+├── functions/              ← В корне репозитория!
 │   └── api/
 │       ├── database-lookup.js  → /api/database-lookup
 │       ├── analyze.js          → /api/analyze
 │       └── benchmark.js        → /api/benchmark
-├── _routes.json
-└── index.html
+├── public/                 ← Build output directory
+│   ├── _routes.json
+│   └── index.html
+└── README.md
 ```
 
-**Причина:** Cloudflare Pages ищет `functions/` относительно build output directory, а не корня репозитория.
+**Причина:** Согласно документации Cloudflare Pages, `functions/` должна быть в корне проекта, а не в build output directory. Cloudflare автоматически находит `functions/` в корне репозитория независимо от настройки build output directory.
 
 ## Автоматический деплой
 
