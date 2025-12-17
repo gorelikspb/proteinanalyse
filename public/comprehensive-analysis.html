@@ -91,20 +91,8 @@
     
     <script src="common.js"></script>
     <script src="ml-integration.js"></script>
-    <!-- Load report-generator after jsPDF is ready -->
-    <script>
-        // Wait for jsPDF to load
-        function loadReportGenerator() {
-            if (typeof window.jspdf !== 'undefined') {
-                const script = document.createElement('script');
-                script.src = 'report-generator.js';
-                document.head.appendChild(script);
-            } else {
-                setTimeout(loadReportGenerator, 100);
-            }
-        }
-        loadReportGenerator();
-    </script>
+    <!-- Load report-generator.js synchronously after other scripts -->
+    <script src="report-generator.js"></script>
     <script>
         document.getElementById('navigation').innerHTML = getNavigation();
         updateLastUpdateTime();
@@ -519,13 +507,22 @@
             
             // Check if jsPDF is loaded
             if (typeof window.jspdf === 'undefined') {
-                alert('PDF library not loaded. Please wait a moment and try again.');
+                alert('PDF library (jsPDF) not loaded. Please refresh the page and try again.');
                 return;
             }
             
             // Check if report-generator.js is loaded
             if (typeof generatePOIReport === 'undefined') {
-                alert('PDF generator not loaded. Please ensure report-generator.js is available.');
+                console.error('generatePOIReport function not found. Checking script loading...');
+                // Try to reload the script
+                const existingScript = document.querySelector('script[src="report-generator.js"]');
+                if (!existingScript) {
+                    console.error('report-generator.js script tag not found in DOM');
+                    alert('PDF generator script not found. Please check that report-generator.js exists and refresh the page.');
+                } else {
+                    console.error('report-generator.js script tag exists but function is not available');
+                    alert('PDF generator script loaded but function not available. Please refresh the page or check the browser console for errors.');
+                }
                 return;
             }
             

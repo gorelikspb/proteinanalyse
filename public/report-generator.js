@@ -13,15 +13,14 @@ const KD_HYDROPHOBICITY = {
     'T': -0.7, 'V': 4.2, 'W': -0.9, 'Y': -1.3
 };
 
-// Check if jsPDF is loaded
+// Debug: Log script loading
+if (typeof window !== 'undefined') {
+    console.log('report-generator.js: Script loaded');
+}
+
+// Check if jsPDF is loaded (should be loaded before this script)
 if (typeof window !== 'undefined' && typeof window.jspdf === 'undefined') {
-    console.warn('jsPDF library not loaded. Loading from CDN...');
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    script.onload = () => {
-        console.log('jsPDF loaded successfully');
-    };
-    document.head.appendChild(script);
+    console.warn('report-generator.js: jsPDF library not found. It should be loaded before this script.');
 }
 
 /**
@@ -653,4 +652,7 @@ function getRiskColorPDF(risk) {
 // Export for use in other scripts
 if (typeof window !== 'undefined') {
     window.generatePOIReport = generatePOIReport;
+    console.log('report-generator.js: generatePOIReport function exported to window');
+} else {
+    console.error('report-generator.js: window object not available');
 }
