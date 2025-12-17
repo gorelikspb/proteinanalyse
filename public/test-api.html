@@ -187,10 +187,12 @@
                 diagnostics.tests.push({
                     name: 'API endpoint check',
                     status: apiResponse.status,
+                    statusText: apiResponse.statusText,
                     contentType: contentType,
                     isHTML: text.trim().startsWith('<!'),
                     isJSON: contentType && contentType.includes('application/json'),
-                    responsePreview: text.substring(0, 100)
+                    responsePreview: text.substring(0, 200),
+                    headers: Object.fromEntries(apiResponse.headers.entries())
                 });
             } catch (e) {
                 diagnostics.tests.push({
@@ -199,6 +201,14 @@
                     error: e.message
                 });
             }
+            
+            // Test 3: Check if functions directory exists (via GitHub API or direct check)
+            diagnostics.tests.push({
+                name: 'Functions directory check',
+                note: 'functions/ should be in repository root (not in public/)',
+                expectedLocation: 'repository root',
+                actualLocation: 'Check GitHub repository structure'
+            });
             
             resultEl.textContent = JSON.stringify(diagnostics, null, 2);
         }
