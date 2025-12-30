@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Database Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Test - Database Lookup</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: GET Request (Health Check)</h2>
+        <button onclick="testGet()">Test GET /api/database-lookup</button>
+        <pre id="get-result">Click button to test...</pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: POST Request (UniProt ID Lookup)</h2>
+        <button onclick="testPost()">Test POST /api/database-lookup</button>
+        <pre id="post-result">Click button to test...</pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Diagnostics</h2>
+        <button onclick="runDiagnostics()">Run Diagnostics</button>
+        <pre id="diagnostics-result">Click button to run...</pre>
+    </div>
+
+    <script>
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testGet',message:'GET test started',data:{url:'/api/database-lookup'},timestamp:Date.now(),sessionId:'debug-session',runId:'test1',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
+        
+        async function testGet() {
+            const resultEl = document.getElementById('get-result');
+            resultEl.textContent = 'Testing...';
+            
+            try {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testGet',message:'Before fetch',data:{method:'GET',url:'/api/database-lookup'},timestamp:Date.now(),sessionId:'debug-session',runId:'test1',hypothesisId:'A'})}).catch(()=>{});
+                // #endregion
+                
+                const response = await fetch('/api/database-lookup');
+                
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testGet',message:'After fetch',data:{status:response.status,statusText:response.statusText,headers:Object.fromEntries(response.headers.entries()),contentType:response.headers.get('content-type')},timestamp:Date.now(),sessionId:'debug-session',runId:'test1',hypothesisId:'A'})}).catch(()=>{});
+                // #endregion
+                
+                const contentType = response.headers.get('content-type');
+                const text = await response.text();
+                
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testGet',message:'Response received',data:{status:response.status,contentType:contentType,textLength:text.length,textPreview:text.substring(0,200),isHTML:text.trim().startsWith('<!'),isJSON:contentType&&contentType.includes('application/json')},timestamp:Date.now(),sessionId:'debug-session',runId:'test1',hypothesisId:'A'})}).catch(()=>{});
+                // #endregion
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = JSON.parse(text);
+                    resultEl.innerHTML = `<span class="success">✓ Success!</span>\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultEl.innerHTML = `<span class="error">✗ Error: Expected JSON, got ${contentType || 'unknown'}</span>\n\nResponse preview:\n${text.substring(0, 500)}`;
+                }
+            } catch (error) {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testGet',message:'Error caught',data:{error:error.message,stack:error.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'test1',hypothesisId:'A'})}).catch(()=>{});
+                // #endregion
+                
+                resultEl.innerHTML = `<span class="error">✗ Error: ${error.message}</span>`;
+            }
+        }
+        
+        async function testPost() {
+            const resultEl = document.getElementById('post-result');
+            resultEl.textContent = 'Testing...';
+            
+            try {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testPost',message:'POST test started',data:{url:'/api/database-lookup',body:{sequence:'P12345',database:'uniprot',action:'id'}},timestamp:Date.now(),sessionId:'debug-session',runId:'test2',hypothesisId:'B'})}).catch(()=>{});
+                // #endregion
+                
+                const response = await fetch('/api/database-lookup', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        sequence: 'P12345',
+                        database: 'uniprot',
+                        action: 'id'
+                    })
+                });
+                
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testPost',message:'After fetch',data:{status:response.status,statusText:response.statusText,contentType:response.headers.get('content-type')},timestamp:Date.now(),sessionId:'debug-session',runId:'test2',hypothesisId:'B'})}).catch(()=>{});
+                // #endregion
+                
+                const contentType = response.headers.get('content-type');
+                const text = await response.text();
+                
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testPost',message:'Response received',data:{status:response.status,contentType:contentType,textLength:text.length,textPreview:text.substring(0,200),isHTML:text.trim().startsWith('<!'),isJSON:contentType&&contentType.includes('application/json')},timestamp:Date.now(),sessionId:'debug-session',runId:'test2',hypothesisId:'B'})}).catch(()=>{});
+                // #endregion
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = JSON.parse(text);
+                    resultEl.innerHTML = `<span class="success">✓ Success!</span>\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultEl.innerHTML = `<span class="error">✗ Error: Expected JSON, got ${contentType || 'unknown'}</span>\n\nResponse preview:\n${text.substring(0, 500)}`;
+                }
+            } catch (error) {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/c6d527c7-e064-49cc-b66c-fb57ff1def55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'test-api.html:testPost',message:'Error caught',data:{error:error.message,stack:error.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'test2',hypothesisId:'B'})}).catch(()=>{});
+                // #endregion
+                
+                resultEl.innerHTML = `<span class="error">✗ Error: ${error.message}</span>`;
+            }
+        }
+        
+        async function runDiagnostics() {
+            const resultEl = document.getElementById('diagnostics-result');
+            resultEl.textContent = 'Running diagnostics...';
+            
+            const diagnostics = {
+                url: window.location.href,
+                origin: window.location.origin,
+                pathname: window.location.pathname,
+                timestamp: new Date().toISOString(),
+                tests: []
+            };
+            
+            // Test 1: Check if _routes.json exists
+            try {
+                const routesResponse = await fetch('/_routes.json');
+                diagnostics.tests.push({
+                    name: '_routes.json check',
+                    status: routesResponse.ok ? 'found' : 'not found',
+                    statusCode: routesResponse.status
+                });
+            } catch (e) {
+                diagnostics.tests.push({
+                    name: '_routes.json check',
+                    status: 'error',
+                    error: e.message
+                });
+            }
+            
+            // Test 2: Check API endpoint
+            try {
+                const apiResponse = await fetch('/api/database-lookup');
+                const contentType = apiResponse.headers.get('content-type');
+                const text = await apiResponse.text();
+                diagnostics.tests.push({
+                    name: 'API endpoint check',
+                    status: apiResponse.status,
+                    statusText: apiResponse.statusText,
+                    contentType: contentType,
+                    isHTML: text.trim().startsWith('<!'),
+                    isJSON: contentType && contentType.includes('application/json'),
+                    responsePreview: text.substring(0, 200),
+                    headers: Object.fromEntries(apiResponse.headers.entries())
+                });
+            } catch (e) {
+                diagnostics.tests.push({
+                    name: 'API endpoint check',
+                    status: 'error',
+                    error: e.message
+                });
+            }
+            
+            // Test 3: Check if functions directory exists (via GitHub API or direct check)
+            diagnostics.tests.push({
+                name: 'Functions directory check',
+                note: 'functions/ should be in repository root (not in public/)',
+                expectedLocation: 'repository root',
+                actualLocation: 'Check GitHub repository structure'
+            });
+            
+            resultEl.textContent = JSON.stringify(diagnostics, null, 2);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free peptide length calculator. Calculate peptide length, molecular weight, and amino acid count for protein sequences instantly.">
+    <meta name="keywords" content="peptide length calculator, peptide length, peptide size, amino acid count, protein length calculator">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>Peptide Length Calculator - Free Peptide Size Calculator Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Peptide Length Calculator</h1>
+            <p class="subtitle">Calculate peptide length, size, and molecular weight</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter peptide or protein sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your peptide/protein sequence (amino acids)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="calculate-btn" class="btn-primary">Calculate Length</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Peptide Length Analysis</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <h2>Peptide Length Calculator for Protein Sequences</h2>
+            <p>
+                Our free <strong>peptide length calculator</strong> calculates <strong>peptide length</strong>, <strong>amino acid count</strong>, 
+                and <strong>molecular weight</strong> for protein and peptide sequences. The <strong>peptide length calculator</strong> provides 
+                essential information for peptide synthesis, protein characterization, and biochemical analysis. Understanding <strong>peptide size</strong> 
+                is crucial for experimental design, purification strategies, and predicting peptide properties.
+            </p>
+            <p>
+                The tool calculates the total number of <strong>amino acids</strong> in your sequence, providing <strong>peptide length</strong> 
+                in amino acid residues. It also computes <strong>molecular weight</strong> and provides classification (short peptide, 
+                polypeptide, or protein) based on length. This <strong>peptide size calculator</strong> is essential for researchers 
+                working with synthetic peptides, protein fragments, and recombinant proteins. Use our 
+                <a href="index.html">main sequence analyzer</a> for comprehensive analysis, <a href="protein-mw-calculator.html">protein molecular weight calculator</a> 
+                for detailed MW analysis, or our <a href="amino-acid-composition.html">amino acid composition tool</a> for composition analysis.
+            </p>
+            <p>
+                All <strong>peptide length calculations</strong> are performed instantly in your browser with complete privacy. The 
+                <strong>peptide length calculator</strong> supports sequences of any length, from short peptides (2-50 amino acids) 
+                to large proteins (hundreds or thousands of amino acids), making it a versatile tool for biochemists, peptide chemists, 
+                and protein researchers.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('calculate-btn').addEventListener('click', handleCalculate);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MQDRVKRPMNAFIVWSRDQRRKMALENPRKQ';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function classifyPeptide(length) {
+            if (length < 2) return 'Invalid';
+            if (length <= 10) return 'Oligopeptide (2-10 aa)';
+            if (length <= 50) return 'Polypeptide (11-50 aa)';
+            if (length <= 100) return 'Small Protein (51-100 aa)';
+            if (length <= 500) return 'Medium Protein (101-500 aa)';
+            return 'Large Protein (>500 aa)';
+        }
+
+        function handleCalculate() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a peptide or protein sequence');
+                return;
+            }
+            
+            if (!isProtein(seq)) {
+                alert('Please enter a valid protein sequence (amino acids only)');
+                return;
+            }
+            
+            const length = seq.length;
+            const mw = computeMW(seq);
+            const classification = classifyPeptide(length);
+            
+            const results = `
+                <div class="result-card">
+                    <h3>Peptide Length Statistics</h3>
+                    <div class="result-item">
+                        <span class="label">Length:</span>
+                        <span class="value">${length} amino acids</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Classification:</span>
+                        <span class="value">${classification}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Molecular Weight:</span>
+                        <span class="value">${mw} Da (${(parseFloat(mw) / 1000).toFixed(2)} kDa)</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free codon usage calculator. Analyze codon frequency, codon bias, and optimal codons in DNA sequences instantly.">
+    <meta name="keywords" content="codon usage calculator, codon frequency, codon bias, optimal codons, DNA codon analysis, genetic code">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>Codon Usage Calculator - Free Codon Frequency Analysis Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Codon Usage Calculator</h1>
+            <p class="subtitle">Analyze codon frequency and usage bias in DNA sequences</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter DNA sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your DNA sequence (ACGT)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="calculate-btn" class="btn-primary">Calculate Codon Usage</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Codon Usage Analysis</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <div style="margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Learn More</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="articles/codon-optimization-guide.html" style="color: #667eea; text-decoration: none;">→ Codon Usage Optimization for E.coli Expression</a></li>
+                </ul>
+            </div>
+            <h2>Codon Usage Calculator for DNA Sequences</h2>
+            <p>
+                Our free <strong>codon usage calculator</strong> analyzes <strong>codon frequency</strong> and <strong>codon bias</strong> 
+                in DNA sequences, providing essential insights for <strong>genetic engineering</strong> and <strong>protein expression</strong> 
+                optimization. The <strong>codon usage calculator</strong> identifies which codons are most frequently used in your sequence, 
+                helping researchers understand <strong>codon optimization</strong> patterns and improve recombinant protein production.
+            </p>
+            <p>
+                The tool calculates <strong>codon frequency</strong> for all 64 possible codons, showing how often each <strong>codon</strong> 
+                appears relative to synonymous codons encoding the same amino acid. This <strong>codon bias analysis</strong> is crucial 
+                for designing synthetic genes, optimizing <strong>protein expression</strong> in different organisms, and understanding 
+                evolutionary patterns. Use our <a href="index.html">main sequence analyzer</a> for comprehensive analysis, 
+                <a href="sequence-translation.html">DNA translation tool</a> to convert codons to amino acids, or our 
+                <a href="orf-finder.html">ORF finder</a> to identify coding regions before codon analysis.
+            </p>
+            <p>
+                All <strong>codon usage calculations</strong> are performed instantly in your browser with complete privacy. The 
+                <strong>codon usage calculator</strong> is essential for molecular biologists, genetic engineers, and bioinformatics 
+                researchers working on <strong>protein expression</strong>, <strong>synthetic biology</strong>, and <strong>genetic code</strong> 
+                optimization projects.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('calculate-btn').addEventListener('click', handleCalculate);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'ATGGCTTCTGACCTGAAGGACATCGTGAACTGGATGCGTACCTGACTGGA';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function calculateCodonUsage(seq) {
+            const codons = {};
+            const totalCodons = Math.floor(seq.length / 3);
+            
+            for (let i = 0; i < seq.length - 2; i += 3) {
+                const codon = seq.substr(i, 3).toUpperCase();
+                if (codon.length === 3 && /^[ACGT]+$/.test(codon)) {
+                    codons[codon] = (codons[codon] || 0) + 1;
+                }
+            }
+            
+            // Group by amino acid
+            const aaGroups = {};
+            Object.keys(codons).forEach(codon => {
+                const aa = GENETIC_CODE[codon] || '?';
+                if (!aaGroups[aa]) aaGroups[aa] = {};
+                aaGroups[aa][codon] = codons[codon];
+            });
+            
+            return { codons, aaGroups, totalCodons };
+        }
+
+        function handleCalculate() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a DNA sequence');
+                return;
+            }
+            
+            if (!isDNA(seq)) {
+                alert('Please enter a valid DNA sequence (ACGT only)');
+                return;
+            }
+            
+            if (seq.length < 3) {
+                alert('Sequence must be at least 3 nucleotides long');
+                return;
+            }
+            
+            const usage = calculateCodonUsage(seq);
+            
+            let results = `
+                <div class="result-card">
+                    <h3>Summary</h3>
+                    <div class="result-item">
+                        <span class="label">Total Codons:</span>
+                        <span class="value">${usage.totalCodons}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Unique Codons:</span>
+                        <span class="value">${Object.keys(usage.codons).length}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Show codon usage by amino acid
+            Object.keys(usage.aaGroups).sort().forEach(aa => {
+                const codons = usage.aaGroups[aa];
+                const total = Object.values(codons).reduce((a, b) => a + b, 0);
+                const codonList = Object.entries(codons)
+                    .map(([codon, count]) => `${codon}: ${count} (${((count/total)*100).toFixed(1)}%)`)
+                    .join(', ');
+                
+                results += `
+                    <div class="result-card">
+                        <h3>${aa === '*' ? 'Stop Codon' : `Amino Acid: ${aa}`}</h3>
+                        <div class="result-item">
+                            <span class="label">Total:</span>
+                            <span class="value">${total}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Codon Usage:</span>
+                            <span class="value">${codonList}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

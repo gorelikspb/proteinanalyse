@@ -1,0 +1,19 @@
+name = "proteinanalyse-api"
+main = "functions/api/analyze.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database configuration (to be created)
+# [[d1_databases]]
+# binding = "BENCHMARKS"
+# database_name = "protein-benchmarks"
+# database_id = "your-database-id-here"
+
+# Environment variables
+[vars]
+API_VERSION = "1.0.0"
+
+# Secrets (set via wrangler secret put or Cloudflare Dashboard)
+# RESEND_API_KEY - for email functionality
+# ADMIN_EMAIL - admin email address
+# UNIPROT_API_KEY - optional, for UniProt API
+# ESM_API_KEY - optional, for ESM API

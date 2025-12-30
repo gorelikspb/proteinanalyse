@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free protein molecular weight calculator. Calculate protein MW, amino acid composition, and hydrophobic percentage instantly.">
+    <meta name="keywords" content="protein molecular weight, protein MW calculator, amino acid composition, protein analysis, molecular weight">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>Protein Molecular Weight Calculator - Free MW Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Protein Molecular Weight Calculator</h1>
+            <p class="subtitle">Calculate molecular weight, composition, and properties</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter protein sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your protein sequence (amino acids)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="calculate-btn" class="btn-primary">Calculate Molecular Weight</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Molecular Weight Analysis</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <h2>Protein Molecular Weight Calculator</h2>
+            <p>
+                Our free <strong>protein molecular weight calculator</strong> computes the exact molecular weight of 
+                protein sequences using monoisotopic masses of amino acids. The <strong>protein MW calculator</strong> 
+                is an essential tool for biochemists, protein researchers, and bioinformatics professionals working 
+                with protein sequences. Understanding <strong>protein molecular weight</strong> is crucial for gel 
+                electrophoresis, mass spectrometry, and protein characterization.
+            </p>
+            <p>
+                The <strong>molecular weight calculator</strong> provides comprehensive analysis including 
+                <strong>amino acid composition</strong>, individual amino acid counts and percentages, and 
+                <strong>hydrophobic percentage</strong> calculation. These parameters are fundamental in 
+                <strong>protein analysis</strong> and help researchers understand protein structure, function, 
+                and properties. Use our <a href="index.html">main sequence analyzer</a> for additional protein 
+                analysis features, or explore our <a href="sequence-translation.html">DNA translation tool</a> 
+                to convert DNA sequences to proteins before calculating molecular weight.
+            </p>
+            <p>
+                All calculations are performed instantly in your browser using precise monoisotopic masses - no data 
+                is sent to any server, ensuring complete privacy. The <strong>protein molecular weight calculator</strong> 
+                supports sequences of any length and provides accurate results for research, educational, and 
+                professional applications in biochemistry, proteomics, and <strong>protein analysis</strong>.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('calculate-btn').addEventListener('click', handleCalculate);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MQDRVKRPMNAFIVWSRDQRRKMALEN';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function handleCalculate() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a protein sequence');
+                return;
+            }
+            
+            if (!isProtein(seq)) {
+                alert('Please enter a valid protein sequence (amino acids only)');
+                return;
+            }
+            
+            const length = seq.length;
+            const mw = computeMW(seq);
+            const composition = computeAAComposition(seq);
+            const hydrophobicPercent = computeHydrophobicPercent(seq);
+            const cysteineCount = (seq.match(/C/gi) || []).length;
+            
+            const results = `
+                <div class="result-card">
+                    <h3>Basic Statistics</h3>
+                    <div class="result-item">
+                        <span class="label">Sequence Length:</span>
+                        <span class="value">${length} amino acids</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Molecular Weight:</span>
+                        <span class="value">${mw} Da</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Molecular Weight (kDa):</span>
+                        <span class="value">${(parseFloat(mw) / 1000).toFixed(2)} kDa</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Hydrophobic Amino Acids:</span>
+                        <span class="value">${hydrophobicPercent}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Cysteine Count:</span>
+                        <span class="value">${cysteineCount}</span>
+                    </div>
+                </div>
+                <div class="result-card">
+                    <h3>Amino Acid Composition</h3>
+                    <div class="aa-composition">
+                        ${Object.entries(composition.counts)
+                            .filter(([aa, count]) => count > 0)
+                            .map(([aa, count]) => `
+                                <div class="aa-item">
+                                    <span class="aa-letter">${aa}</span>
+                                    <span class="aa-count">${count}</span>
+                                    <span class="aa-percent">(${composition.percentages[aa]}%)</span>
+                                </div>
+                            `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive protein sequence analysis with automated report generation. Analyze sequences, predict properties, and generate detailed PDF reports.">
+    <meta name="keywords" content="protein analysis, comprehensive analysis, protein report, sequence analysis, protein expression analysis">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>Comprehensive Protein Analysis - Automated Report Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Comprehensive Protein Analysis</h1>
+            <p class="subtitle">Automated sequence analysis and PDF report generation</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter protein sequence or UniProt ID:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Enter protein sequence (amino acids) or UniProt ID (e.g., P04637)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="analyze-btn" class="btn-primary">Run Comprehensive Analysis</button>
+                    <button id="example-btn" class="btn-secondary">Load Example 1</button>
+                    <button id="example2-btn" class="btn-secondary">Load Example 2</button>
+                    <button id="example3-btn" class="btn-secondary">Load Example 3</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    <strong>Examples:</strong> Example 1 - Complex protein (signal peptide, glycosylation, disulfide bonds) | 
+                    Example 2 - Transmembrane protein | Example 3 - Simple soluble protein
+                </div>
+                <div style="margin-top: 10px;">
+                    <label>
+                        <input type="checkbox" id="include-database-lookup" checked>
+                        Include database lookup (UniProt, PDB)
+                    </label>
+                </div>
+            </div>
+
+            <div id="loading-container" style="display: none; text-align: center; padding: 20px;">
+                <div style="font-size: 1.2em; margin-bottom: 10px;">Analyzing sequence...</div>
+                <div id="loading-progress" style="color: #667eea;"></div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <h2>Analysis Results</h2>
+                    <button id="generate-pdf-btn" class="btn-primary" style="display: none; margin-top: 5px; margin-left: 20px;">Generate PDF Report</button>
+                </div>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <h2>Comprehensive Protein Analysis</h2>
+            <p>
+                Our <strong>comprehensive protein analysis</strong> tool performs automated analysis of protein sequences 
+                including structural predictions, functional annotations, and expression system recommendations. 
+                Generate detailed PDF reports similar to professional protein analysis services.
+            </p>
+            <p>
+                The analysis includes: molecular weight calculation, amino acid composition, signal peptide prediction, 
+                transmembrane domain detection, disulfide bond prediction, N-glycosylation site identification, 
+                protease cleavage site detection, and expression system recommendations.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="ml-integration.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        let currentAnalysisResults = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('analyze-btn').addEventListener('click', handleComprehensiveAnalysis);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MGTLPWLLAFFILGLQAWDTPTIVSRKEWGARPLACRALLTLPVAYIITDQLPGMQCQQQSVCSQMLRGLQSHSVYTIGWCDVAYNFLVGDDGRVYEGVGWNIQGLHTQGYNNISLGIAFFGNKIGSSPSPAALSAAEGLISYAIQKGHLSPRYIQPLLLKEETCLDPQHPVMPRKVCPNIIKRSAWEARETHCPKMNLPAKYVIIIHTAGTSCTVSTDCQTVVRNIQSFHMDTRNFCDIGYHFLVGQDGGVYEGVGWHIQGSHTYGFNDIALGIAFIGYFVEKPPNAAALEAAQDLIQCAVVEGYLTPNYLLMGHSDVVNILSPGQALYNIISTWPHFKH';
+            });
+            document.getElementById('example2-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MRPSGTAGAALLALLAALCPASRALEEKKVCQGTSNKLTQLGTFEDHFLSLQRMFNNCEVVLGNLEITYVQRNYDLSFLKTIQEVAGYVLIALNTVERIPLENLQIIRGNMYYENSYALAVLSNYDANKTGLKELPMRNLQEILHGAVRFSNNPALCNVESIQWRDIVSSDFLSNMSMDFQNHLGSCQKCDPSCPNGSCWGAGEENCQKLTKIICAQQCSGRCRGKSPSDCCHNQCAAGCTGPRESDCLVCRKFRDEATCKDTCPPLMLYNPTTYQMDVNPE';
+            });
+            document.getElementById('example3-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MKALIVLGLVLLSVTVQGKVFERCELARTLKRLGMDGYRGISLANWMCLAKWESGYNTRATNYNAGDRSTDYGIFQINSRYWCNDGKTPGAVNACHLSCSALLQDNIADAVACAKRVVRDPQGIRAWVAWRNRCQNRDVRQYVQGCGV';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+            document.getElementById('generate-pdf-btn').addEventListener('click', handleGeneratePDF);
+        });
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('loading-container').style.display = 'none';
+            currentAnalysisResults = null;
+        }
+
+        async function handleComprehensiveAnalysis() {
+            const input = document.getElementById('sequence-input').value.trim();
+            if (!input) {
+                alert('Please enter a protein sequence or UniProt ID');
+                return;
+            }
+
+            const includeDatabase = document.getElementById('include-database-lookup').checked;
+            
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('loading-container').style.display = 'block';
+            document.getElementById('loading-progress').textContent = 'Initializing analysis...';
+
+            try {
+                let sequence = input;
+                let uniprotId = null;
+                let uniprotData = null;
+
+                // Check if input is UniProt ID
+                if (/^[A-Z0-9_-]+$/i.test(input) && input.length < 20 && !isProtein(input)) {
+                    uniprotId = input.toUpperCase();
+                    document.getElementById('loading-progress').textContent = `Looking up UniProt ID: ${uniprotId}...`;
+                    
+                    try {
+                        const response = await fetch('/api/database-lookup', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                sequence: uniprotId,
+                                database: 'uniprot',
+                                action: 'id'
+                            })
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.success && data.results && data.results.length > 0) {
+                                uniprotData = data.results[0];
+                                sequence = uniprotData.sequence || sequence;
+                                document.getElementById('loading-progress').textContent = `Found UniProt entry: ${uniprotData.name || uniprotId}`;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('UniProt lookup failed:', e);
+                    }
+                } else {
+                    sequence = cleanSequence(input);
+                    if (!isProtein(sequence)) {
+                        throw new Error('Invalid protein sequence. Please enter amino acid sequence or UniProt ID.');
+                    }
+                }
+
+                // Run comprehensive analysis
+                document.getElementById('loading-progress').textContent = 'Analyzing sequence properties...';
+                const results = await runComprehensiveAnalysis(sequence, uniprotId, uniprotData, includeDatabase);
+                
+                currentAnalysisResults = results;
+                displayResults(results);
+                
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.getElementById('generate-pdf-btn').style.display = 'inline-block';
+                
+            } catch (error) {
+                document.getElementById('loading-container').style.display = 'none';
+                alert('Analysis failed: ' + error.message);
+                console.error('Analysis error:', error);
+            }
+        }
+
+        async function runComprehensiveAnalysis(sequence, uniprotId, uniprotData, includeDatabase) {
+            const cleaned = cleanSequence(sequence);
+            const results = {
+                // Basic Info
+                proteinName: uniprotData?.proteinName || 'Unknown Protein',
+                uniprotId: uniprotId || null,
+                sequence: cleaned,
+                sequenceLength: cleaned.length,
+                analysisDate: new Date().toISOString().split('T')[0],
+                analysisVersion: '1.0',
+                
+                // Basic Analysis
+                molecularWeight: parseFloat(computeMW(cleaned)),
+                molecularWeightKDa: (parseFloat(computeMW(cleaned)) / 1000).toFixed(2),
+                isoelectricPoint: calculateIsoelectricPoint(cleaned),
+                aminoAcidComposition: computeAAComposition(cleaned),
+                hydrophobicPercent: parseFloat(computeHydrophobicPercent(cleaned)),
+                
+                // Structural Analysis
+                signalPeptide: predictSignalPeptide(cleaned),
+                transmembraneDomains: predictTransmembraneDomains(cleaned),
+                disulfideBonds: predictDisulfideBonds(cleaned),
+                nGlycosylationSites: findNGlycosylationSites(cleaned),
+                proteaseSites: findProteaseSites(cleaned),
+                
+                // Database Data
+                uniprotData: uniprotData || null,
+                databaseComparison: null
+            };
+
+            // Database lookup if requested
+            if (includeDatabase && cleaned.length > 20) {
+                try {
+                    document.getElementById('loading-progress').textContent = 'Searching databases...';
+                    const dbResponse = await fetch('/api/database-lookup', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            sequence: cleaned,
+                            database: 'uniprot',
+                            action: 'search'
+                        })
+                    });
+                    
+                    if (dbResponse.ok) {
+                        const dbData = await dbResponse.json();
+                        results.databaseComparison = dbData;
+                    }
+                } catch (e) {
+                    console.warn('Database lookup failed:', e);
+                }
+            }
+
+            // Expression recommendations
+            results.expressionRecommendations = generateExpressionRecommendations(results);
+            
+            // Risk assessment
+            results.riskAssessment = generateRiskAssessment(results);
+
+            return results;
+        }
+
+        function generateExpressionRecommendations(results) {
+            const recommendations = {
+                bacterial: { recommended: false, reason: '' },
+                yeast: { recommended: false, reason: '' },
+                insect: { recommended: false, reason: '' },
+                mammalian: { recommended: false, reason: '' }
+            };
+
+            const hasGlycosylation = results.nGlycosylationSites.length > 0;
+            const hasTM = results.transmembraneDomains.length > 0;
+            const hasDisulfide = results.disulfideBonds.cysCount > 0;
+            const highHydrophobic = results.hydrophobicPercent > 50;
+
+            // Bacterial (E.coli)
+            if (!hasGlycosylation && !hasTM && results.hydrophobicPercent < 60) {
+                recommendations.bacterial.recommended = true;
+                recommendations.bacterial.reason = 'No glycosylation required, no transmembrane domains, suitable hydrophobicity';
+            } else {
+                recommendations.bacterial.recommended = false;
+                if (hasGlycosylation) recommendations.bacterial.reason = 'Requires glycosylation';
+                else if (hasTM) recommendations.bacterial.reason = 'Contains transmembrane domains';
+                else recommendations.bacterial.reason = 'High hydrophobicity may cause solubility issues';
+            }
+
+            // Yeast
+            if (hasGlycosylation && !hasTM) {
+                recommendations.yeast.recommended = true;
+                recommendations.yeast.reason = 'Requires glycosylation, suitable for yeast expression';
+            } else {
+                recommendations.yeast.recommended = false;
+                recommendations.yeast.reason = hasTM ? 'Transmembrane domains problematic' : 'Glycosylation not required';
+            }
+
+            // Insect cells
+            if (hasGlycosylation && hasDisulfide) {
+                recommendations.insect.recommended = true;
+                recommendations.insect.reason = 'Requires glycosylation and disulfide bonds, suitable for insect cells';
+            } else {
+                recommendations.insect.recommended = false;
+                recommendations.insect.reason = 'Better alternatives available';
+            }
+
+            // Mammalian cells
+            if (hasGlycosylation || hasDisulfide || hasTM) {
+                recommendations.mammalian.recommended = true;
+                recommendations.mammalian.reason = 'Complex protein requiring native folding environment';
+            } else {
+                recommendations.mammalian.recommended = false;
+                recommendations.mammalian.reason = 'Simpler expression systems sufficient';
+            }
+
+            return recommendations;
+        }
+
+        function generateRiskAssessment(results) {
+            const risks = {
+                aggregationRisk: 'low',
+                solubilityRisk: 'low',
+                expressionDifficulty: 'medium',
+                issues: []
+            };
+
+            // Aggregation risk
+            if (results.hydrophobicPercent > 60) {
+                risks.aggregationRisk = 'high';
+                risks.issues.push('High hydrophobicity may cause aggregation');
+            } else if (results.hydrophobicPercent > 45) {
+                risks.aggregationRisk = 'medium';
+            }
+
+            // Solubility risk
+            if (results.hydrophobicPercent > 55 || results.transmembraneDomains.length > 0) {
+                risks.solubilityRisk = 'high';
+                risks.issues.push('Potential solubility issues');
+            } else if (results.hydrophobicPercent > 40) {
+                risks.solubilityRisk = 'medium';
+            }
+
+            // Expression difficulty
+            let difficultyScore = 0;
+            if (results.transmembraneDomains.length > 0) difficultyScore += 2;
+            if (results.hydrophobicPercent > 50) difficultyScore += 1;
+            if (results.disulfideBonds.cysCount > 4) difficultyScore += 1;
+            if (results.nGlycosylationSites.length > 5) difficultyScore += 1;
+
+            if (difficultyScore >= 3) {
+                risks.expressionDifficulty = 'high';
+                risks.issues.push('Complex protein structure may complicate expression');
+            } else if (difficultyScore >= 2) {
+                risks.expressionDifficulty = 'medium';
+            } else {
+                risks.expressionDifficulty = 'low';
+            }
+
+            return risks;
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('results-content');
+            let html = '';
+
+            // Basic Information
+            html += `<div class="result-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>Basic Information</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="padding: 8px; font-weight: bold;">Protein Name:</td><td style="padding: 8px;">${results.proteinName}</td></tr>
+                    ${results.uniprotId ? `<tr><td style="padding: 8px; font-weight: bold;">UniProt ID:</td><td style="padding: 8px;">${results.uniprotId}</td></tr>` : ''}
+                    <tr><td style="padding: 8px; font-weight: bold;">Sequence Length:</td><td style="padding: 8px;">${results.sequenceLength} amino acids</td></tr>
+                    <tr><td style="padding: 8px; font-weight: bold;">Molecular Weight:</td><td style="padding: 8px;">${results.molecularWeightKDa} kDa</td></tr>
+                    <tr><td style="padding: 8px; font-weight: bold;">Isoelectric Point (pI):</td><td style="padding: 8px;">${results.isoelectricPoint}</td></tr>
+                    <tr><td style="padding: 8px; font-weight: bold;">Hydrophobic Percentage:</td><td style="padding: 8px;">${results.hydrophobicPercent}%</td></tr>
+                </table>
+            </div>`;
+
+            // Structural Analysis
+            html += `<div class="result-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>Structural Analysis</h3>
+                
+                <h4>Signal Peptide</h4>
+                <p>Detected: <strong>${results.signalPeptide.hasSignalPeptide ? 'Yes' : 'No'}</strong></p>
+                ${results.signalPeptide.hasSignalPeptide ? `
+                    <p>Cleavage Site: Position ${results.signalPeptide.cleavageSite || 'unknown'}</p>
+                    <p>Probability: ${(results.signalPeptide.probability * 100).toFixed(1)}%</p>
+                ` : ''}
+                
+                <h4>Transmembrane Domains</h4>
+                <p>Number of domains: <strong>${results.transmembraneDomains.length}</strong></p>
+                ${results.transmembraneDomains.length > 0 ? `
+                    <ul>
+                        ${results.transmembraneDomains.map(tm => `
+                            <li>Position ${tm.start}-${tm.end} (hydrophobicity: ${tm.hydrophobicity})</li>
+                        `).join('')}
+                    </ul>
+                ` : '<p>No transmembrane domains detected</p>'}
+                
+                <h4>Disulfide Bonds</h4>
+                <p>Cysteine count: <strong>${results.disulfideBonds.cysCount}</strong></p>
+                <p>Possible disulfide bonds: <strong>${results.disulfideBonds.pairs}</strong> pairs</p>
+                ${results.disulfideBonds.unpaired > 0 ? `<p>Unpaired cysteines: ${results.disulfideBonds.unpaired}</p>` : ''}
+                
+                <h4>N-Glycosylation Sites</h4>
+                <p>Number of sites: <strong>${results.nGlycosylationSites.length}</strong></p>
+                ${results.nGlycosylationSites.length > 0 ? `
+                    <ul>
+                        ${results.nGlycosylationSites.map(site => `
+                            <li>Position ${site.position}: ${site.sequence} (${site.accessible ? 'accessible' : 'may be buried'})</li>
+                        `).join('')}
+                    </ul>
+                ` : '<p>No N-glycosylation sites detected</p>'}
+                
+                <h4>Protease Cleavage Sites</h4>
+                <p>TEV sites: <strong>${results.proteaseSites.tev.length}</strong></p>
+                <p>Trypsin sites: <strong>${results.proteaseSites.trypsin.length}</strong></p>
+                <p>Chymotrypsin sites: <strong>${results.proteaseSites.chymotrypsin.length}</strong></p>
+            </div>`;
+
+            // Expression Recommendations
+            html += `<div class="result-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>Expression System Recommendations</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 8px; font-weight: bold;">Bacterial (E.coli):</td>
+                        <td style="padding: 8px;">
+                            <strong style="color: ${results.expressionRecommendations.bacterial.recommended ? 'green' : 'red'}">
+                                ${results.expressionRecommendations.bacterial.recommended ? 'Recommended' : 'Not Recommended'}
+                            </strong>
+                            <br><small>${results.expressionRecommendations.bacterial.reason}</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; font-weight: bold;">Yeast:</td>
+                        <td style="padding: 8px;">
+                            <strong style="color: ${results.expressionRecommendations.yeast.recommended ? 'green' : 'red'}">
+                                ${results.expressionRecommendations.yeast.recommended ? 'Recommended' : 'Not Recommended'}
+                            </strong>
+                            <br><small>${results.expressionRecommendations.yeast.reason}</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; font-weight: bold;">Insect Cells:</td>
+                        <td style="padding: 8px;">
+                            <strong style="color: ${results.expressionRecommendations.insect.recommended ? 'green' : 'red'}">
+                                ${results.expressionRecommendations.insect.recommended ? 'Recommended' : 'Not Recommended'}
+                            </strong>
+                            <br><small>${results.expressionRecommendations.insect.reason}</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; font-weight: bold;">Mammalian Cells:</td>
+                        <td style="padding: 8px;">
+                            <strong style="color: ${results.expressionRecommendations.mammalian.recommended ? 'green' : 'red'}">
+                                ${results.expressionRecommendations.mammalian.recommended ? 'Recommended' : 'Not Recommended'}
+                            </strong>
+                            <br><small>${results.expressionRecommendations.mammalian.reason}</small>
+                        </td>
+                    </tr>
+                </table>
+            </div>`;
+
+            // Risk Assessment
+            html += `<div class="result-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>Risk Assessment</h3>
+                <p>Aggregation Risk: <strong style="color: ${getRiskColor(results.riskAssessment.aggregationRisk)}">${results.riskAssessment.aggregationRisk.toUpperCase()}</strong></p>
+                <p>Solubility Risk: <strong style="color: ${getRiskColor(results.riskAssessment.solubilityRisk)}">${results.riskAssessment.solubilityRisk.toUpperCase()}</strong></p>
+                <p>Expression Difficulty: <strong style="color: ${getRiskColor(results.riskAssessment.expressionDifficulty)}">${results.riskAssessment.expressionDifficulty.toUpperCase()}</strong></p>
+                ${results.riskAssessment.issues.length > 0 ? `
+                    <h4>Potential Issues:</h4>
+                    <ul>
+                        ${results.riskAssessment.issues.map(issue => `<li>${issue}</li>`).join('')}
+                    </ul>
+                ` : ''}
+            </div>`;
+
+            // Database Comparison
+            if (results.databaseComparison && results.databaseComparison.results) {
+                html += `<div class="result-section" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <h3>Database Comparison</h3>
+                    <p>Found ${results.databaseComparison.totalResults || 0} similar proteins in UniProt</p>
+                    ${results.databaseComparison.results.length > 0 ? `
+                        <ul>
+                            ${results.databaseComparison.results.slice(0, 5).map(result => `
+                                <li>${result.uniprotId || 'Unknown'}: ${result.proteinName || 'Unknown'} (${result.organism || 'Unknown'})</li>
+                            `).join('')}
+                        </ul>
+                    ` : ''}
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function getRiskColor(risk) {
+            switch(risk.toLowerCase()) {
+                case 'high': return '#dc3545';
+                case 'medium': return '#ffc107';
+                case 'low': return '#28a745';
+                default: return '#6c757d';
+            }
+        }
+
+        function handleGeneratePDF() {
+            if (!currentAnalysisResults) {
+                alert('Please run analysis first');
+                return;
+            }
+            
+            // Use browser Print to PDF - simple and always works
+            const printWindow = window.open('', '_blank');
+            const results = currentAnalysisResults;
+            
+            printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Protein Analysis Report - ${results.proteinName || 'Sequence'}</title>
+    <style>
+        @media print {
+            @page { margin: 1cm; }
+            body { margin: 0; }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        h3 { color: #7f8c8d; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        td { padding: 8px; border-bottom: 1px solid #ecf0f1; }
+        .section { margin: 25px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .date { color: #7f8c8d; font-size: 0.9em; }
+        ul { margin: 10px 0; padding-left: 20px; }
+        li { margin: 5px 0; }
+        .risk-high { color: #e74c3c; font-weight: bold; }
+        .risk-medium { color: #f39c12; font-weight: bold; }
+        .risk-low { color: #27ae60; font-weight: bold; }
+        .recommended { color: #27ae60; }
+        .not-recommended { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Protein Analysis Report</h1>
+        <p><strong>${results.proteinName || 'Unknown Protein'}</strong></p>
+        <p class="date">Analysis Date: ${results.analysisDate}</p>
+        ${results.uniprotId ? `<p class="date">UniProt ID: ${results.uniprotId}</p>` : ''}
+    </div>
+
+    <div class="section">
+        <h2>Basic Information</h2>
+        <table>
+            <tr><td><strong>Sequence Length:</strong></td><td>${results.sequenceLength} amino acids</td></tr>
+            <tr><td><strong>Molecular Weight:</strong></td><td>${results.molecularWeightKDa} kDa</td></tr>
+            <tr><td><strong>Isoelectric Point (pI):</strong></td><td>${results.isoelectricPoint}</td></tr>
+            <tr><td><strong>Hydrophobic Percentage:</strong></td><td>${results.hydrophobicPercent}%</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Structural Analysis</h2>
+        <h3>Signal Peptide</h3>
+        <p>Detected: <strong>${results.signalPeptide.hasSignalPeptide ? 'Yes' : 'No'}</strong></p>
+        ${results.signalPeptide.hasSignalPeptide ? `
+            <p>Cleavage Site: Position ${results.signalPeptide.cleavageSite || 'unknown'}</p>
+            <p>Probability: ${(results.signalPeptide.probability * 100).toFixed(1)}%</p>
+        ` : ''}
+        
+        <h3>Transmembrane Domains</h3>
+        <p>Number of domains: <strong>${results.transmembraneDomains.length}</strong></p>
+        ${results.transmembraneDomains.length > 0 ? `
+            <ul>
+                ${results.transmembraneDomains.map(tm => `
+                    <li>Position ${tm.start}-${tm.end} (hydrophobicity: ${tm.hydrophobicity.toFixed(2)})</li>
+                `).join('')}
+            </ul>
+        ` : '<p>No transmembrane domains detected</p>'}
+        
+        <h3>Disulfide Bonds</h3>
+        <p>Cysteine count: <strong>${results.disulfideBonds.cysCount}</strong></p>
+        <p>Possible disulfide bonds: <strong>${results.disulfideBonds.pairs}</strong> pairs</p>
+        ${results.disulfideBonds.unpaired > 0 ? `<p>Unpaired cysteines: ${results.disulfideBonds.unpaired}</p>` : ''}
+        
+        <h3>N-Glycosylation Sites</h3>
+        <p>Number of sites: <strong>${results.nGlycosylationSites.length}</strong></p>
+        ${results.nGlycosylationSites.length > 0 ? `
+            <ul>
+                ${results.nGlycosylationSites.map(site => `
+                    <li>Position ${site.position}: ${site.sequence} (${site.accessible ? 'accessible' : 'may be buried'})</li>
+                `).join('')}
+            </ul>
+        ` : '<p>No N-glycosylation sites detected</p>'}
+        
+        <h3>Protease Cleavage Sites</h3>
+        <p>TEV sites: <strong>${results.proteaseSites.tev.length}</strong></p>
+        <p>Trypsin sites: <strong>${results.proteaseSites.trypsin.length}</strong></p>
+        <p>Chymotrypsin sites: <strong>${results.proteaseSites.chymotrypsin.length}</strong></p>
+    </div>
+
+    <div class="section">
+        <h2>Expression System Recommendations</h2>
+        <table>
+            <tr>
+                <td><strong>Bacterial (E.coli):</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.bacterial.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.bacterial.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.bacterial.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Yeast:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.yeast.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.yeast.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.yeast.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Insect Cells:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.insect.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.insect.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.insect.reason}</small>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Mammalian Cells:</strong></td>
+                <td>
+                    <span class="${results.expressionRecommendations.mammalian.recommended ? 'recommended' : 'not-recommended'}">
+                        ${results.expressionRecommendations.mammalian.recommended ? '✓ Recommended' : '✗ Not Recommended'}
+                    </span>
+                    <br><small>${results.expressionRecommendations.mammalian.reason}</small>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Risk Assessment</h2>
+        <p>Aggregation Risk: <span class="risk-${results.riskAssessment.aggregationRisk}">${results.riskAssessment.aggregationRisk.toUpperCase()}</span></p>
+        <p>Solubility Risk: <span class="risk-${results.riskAssessment.solubilityRisk}">${results.riskAssessment.solubilityRisk.toUpperCase()}</span></p>
+        <p>Expression Difficulty: <span class="risk-${results.riskAssessment.expressionDifficulty}">${results.riskAssessment.expressionDifficulty.toUpperCase()}</span></p>
+        ${results.riskAssessment.issues.length > 0 ? `
+            <h3>Potential Issues:</h3>
+            <ul>
+                ${results.riskAssessment.issues.map(issue => `<li>${issue}</li>`).join('')}
+            </ul>
+        ` : ''}
+    </div>
+
+    ${results.databaseComparison && results.databaseComparison.results ? `
+    <div class="section">
+        <h2>Database Comparison</h2>
+        <p>Found ${results.databaseComparison.totalResults || 0} similar proteins in UniProt</p>
+        ${results.databaseComparison.results.length > 0 ? `
+            <ul>
+                ${results.databaseComparison.results.slice(0, 5).map(result => `
+                    <li>${result.uniprotId || 'Unknown'}: ${result.proteinName || 'Unknown'} (${result.organism || 'Unknown'})</li>
+                `).join('')}
+            </ul>
+        ` : ''}
+    </div>
+    ` : ''}
+
+    <div class="section">
+        <h2>Sequence</h2>
+        <pre style="font-size: 0.85em; word-wrap: break-word; white-space: pre-wrap;">${results.sequence}</pre>
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    <\/script>
+</body>
+</html>
+            `);
+            
+            printWindow.document.close();
+        }
+    </script>
+</body>
+</html>

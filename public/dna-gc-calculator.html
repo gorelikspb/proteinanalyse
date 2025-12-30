@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free DNA GC content calculator. Calculate GC percentage, AT content, and sequence length for DNA sequences instantly.">
+    <meta name="keywords" content="GC content calculator, DNA GC calculator, GC percentage, AT content, DNA analysis, sequence analysis">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>DNA GC Content Calculator - Free GC% Calculator Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DNA GC Content Calculator</h1>
+            <p class="subtitle">Calculate GC percentage, AT content, and sequence statistics</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter DNA sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your DNA sequence (ACGT)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="calculate-btn" class="btn-primary">Calculate GC Content</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>GC Content Analysis</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <div style="margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Learn More</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="articles/what-is-gc-content.html" style="color: #667eea; text-decoration: none;">→ What is GC Content and Why Does It Matter?</a></li>
+                    <li style="margin: 8px 0;"><a href="articles/gc-content-guide.html" style="color: #667eea; text-decoration: none;">→ How to Use GC Content Calculator for Primer Optimization</a></li>
+                </ul>
+            </div>
+            <h2>GC Content Calculator for DNA Sequences</h2>
+            <p>
+                Our free <strong>GC content calculator</strong> provides instant analysis of DNA sequences, calculating 
+                <strong>GC percentage</strong> and <strong>AT content</strong> with precision. The <strong>GC content calculator</strong> 
+                is an essential tool for molecular biologists, geneticists, and bioinformatics researchers working with DNA sequences. 
+                Understanding <strong>GC content</strong> is crucial for various applications including PCR primer design, 
+                genome analysis, and sequence characterization.
+            </p>
+            <p>
+                The <strong>DNA GC calculator</strong> automatically computes the percentage of guanine (G) and cytosine (C) 
+                nucleotides in your sequence, as well as the complementary <strong>AT content</strong> (adenine and thymine). 
+                These values are fundamental parameters in <strong>sequence analysis</strong> and <strong>genome analysis</strong>, 
+                helping researchers understand sequence composition, stability, and evolutionary relationships. Use our 
+                <a href="index.html">main sequence analyzer</a> for comprehensive analysis, or explore our 
+                <a href="reverse-complement.html">reverse complement tool</a> and <a href="orf-finder.html">ORF finder</a> 
+                for additional DNA analysis capabilities.
+            </p>
+            <p>
+                All calculations are performed instantly in your browser - no data is sent to any server, ensuring complete 
+                privacy for your sequences. The <strong>GC content calculator</strong> supports sequences of any length 
+                and provides accurate results for research, educational, and professional applications in bioinformatics 
+                and molecular biology.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('calculate-btn').addEventListener('click', handleCalculate);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'GCGGATCCGTCGATGCGGCCGTTAGCGCGATCATGGCCGCA';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function handleCalculate() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a DNA sequence');
+                return;
+            }
+            
+            if (!isDNA(seq)) {
+                alert('Please enter a valid DNA sequence (ACGT only)');
+                return;
+            }
+            
+            const length = seq.length;
+            const gcContent = computeGC(seq);
+            const atContent = computeAT(seq);
+            const gcCount = (seq.match(/[GC]/gi) || []).length;
+            const atCount = (seq.match(/[AT]/gi) || []).length;
+            
+            const results = `
+                <div class="result-card">
+                    <h3>Sequence Statistics</h3>
+                    <div class="result-item">
+                        <span class="label">Sequence Length:</span>
+                        <span class="value">${length} bp</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">GC Content:</span>
+                        <span class="value">${gcContent}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">GC Count:</span>
+                        <span class="value">${gcCount} nucleotides</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">AT Content:</span>
+                        <span class="value">${atContent}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">AT Count:</span>
+                        <span class="value">${atCount} nucleotides</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

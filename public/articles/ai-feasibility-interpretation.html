@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to interpret AI Feasibility Check results: expressibility scores, solubility predictions, and risk factors. Improve your protein sequences.">
+    <meta name="keywords" content="protein expressibility, AI feasibility check, protein solubility prediction, expressibility score, protein expression analysis">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>How to Interpret AI Feasibility Check Results - Protein Expression Guide</title>
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>How to Interpret AI Feasibility Check Results</h1>
+            <p class="subtitle">Understanding expressibility scores and protein expression predictions</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <article class="article-content">
+                <p class="article-intro">
+                    The AI Feasibility Check tool analyzes protein sequences to predict expressibility, solubility, and potential expression risks. 
+                    This guide will help you understand the results and use them to improve your protein expression experiments.
+                </p>
+
+                <h2>Understanding the Expressibility Score</h2>
+                <p>
+                    The Expressibility Score (0-100) is a composite metric that combines multiple factors:
+                </p>
+                <ul>
+                    <li><strong>Solubility Score:</strong> Based on hydrophobicity, charge, and aggregation potential</li>
+                    <li><strong>Complexity Score:</strong> Low-complexity regions can cause expression issues</li>
+                    <li><strong>Codon Score:</strong> For DNA sequences, rare codons affect expression</li>
+                    <li><strong>Transmembrane Penalty:</strong> TM domains reduce expressibility</li>
+                </ul>
+
+                <h3>Score Categories</h3>
+                <ul>
+                    <li><strong>Good (70-100):</strong> High likelihood of successful expression</li>
+                    <li><strong>Moderate (40-69):</strong> Expression possible but may require optimization</li>
+                    <li><strong>Poor (&lt;40):</strong> Expression likely to be difficult, significant optimization needed</li>
+                </ul>
+
+                <h2>Key Parameters Explained</h2>
+
+                <h3>1. Mean Hydrophobicity</h3>
+                <p>
+                    Calculated using the Kyte-Doolittle scale. Values:
+                </p>
+                <ul>
+                    <li><strong>Negative values:</strong> Hydrophilic (good for solubility)</li>
+                    <li><strong>Positive values:</strong> Hydrophobic (may cause aggregation)</li>
+                    <li><strong>Optimal range:</strong> -0.5 to 0.5</li>
+                </ul>
+                <p>
+                    <strong>High hydrophobicity (&gt;1.0):</strong> Protein may form inclusion bodies, reduce solubility.
+                </p>
+
+                <h3>2. Charge per Residue</h3>
+                <p>
+                    Net charge divided by sequence length. Affects:
+                </p>
+                <ul>
+                    <li>Protein solubility</li>
+                    <li>Isoelectric point (pI)</li>
+                    <li>Electrostatic interactions</li>
+                </ul>
+                <p>
+                    <strong>Optimal range:</strong> -0.1 to +0.1 charge per residue for most expression systems.
+                </p>
+
+                <h3>3. Disorder Proxy</h3>
+                <p>
+                    Fraction of disorder-promoting amino acids (P, E, D, K, Q, S). High disorder:
+                </p>
+                <ul>
+                    <li>May indicate flexible regions</li>
+                    <li>Can affect protein stability</li>
+                    <li>May require fusion tags for expression</li>
+                </ul>
+
+                <h3>4. Low-Complexity Regions</h3>
+                <p>
+                    Regions with repetitive sequences. Problems:
+                </p>
+                <ul>
+                    <li>Can cause expression difficulties</li>
+                    <li>May form aggregates</li>
+                    <li>Can interfere with protein folding</li>
+                </ul>
+                <p>
+                    <strong>Warning:</strong> If detected, consider removing or modifying these regions.
+                </p>
+
+                <h3>5. Transmembrane Segments</h3>
+                <p>
+                    Hydrophobic regions that span membranes. Issues:
+                </p>
+                <ul>
+                    <li>Difficult to express in soluble form</li>
+                    <li>Require special expression systems</li>
+                    <li>May need membrane mimetics</li>
+                </ul>
+                <p>
+                    <strong>Solution:</strong> Express only extracellular or intracellular domains separately.
+                </p>
+
+                <h3>6. Aggregation Clusters</h3>
+                <p>
+                    Regions with ≥5 consecutive hydrophobic residues (I, L, V, F, W, Y). These:
+                </p>
+                <ul>
+                    <li>Promote protein aggregation</li>
+                    <li>Reduce solubility</li>
+                    <li>Can cause inclusion body formation</li>
+                </ul>
+
+                <h3>7. Signal Peptide</h3>
+                <p>
+                    N-terminal sequence for protein secretion. If detected:
+                </p>
+                <ul>
+                    <li>May need to be removed for intracellular expression</li>
+                    <li>Can affect expression levels</li>
+                    <li>Important for secreted proteins</li>
+                </ul>
+
+                <h3>8. Rare Codon Fraction (for DNA sequences)</h3>
+                <p>
+                    Fraction of rare codons in E.coli. High rare codon usage:
+                </p>
+                <ul>
+                    <li>Reduces expression efficiency</li>
+                    <li>Can cause translation stalling</li>
+                    <li>May lead to truncated proteins</li>
+                </ul>
+                <p>
+                    <strong>Solution:</strong> Use codon optimization tools to replace rare codons.
+                </p>
+
+                <h2>Interpreting Warnings</h2>
+                <p>
+                    The tool provides warnings for potential issues:
+                </p>
+                <ul>
+                    <li><strong>High hydrophobicity:</strong> Consider adding solubility tags or using refolding protocols</li>
+                    <li><strong>Aggregation clusters:</strong> May need to mutate hydrophobic residues</li>
+                    <li><strong>Transmembrane domains:</strong> Consider expressing domains separately</li>
+                    <li><strong>Low-complexity regions:</strong> May need to modify or remove</li>
+                    <li><strong>Rare codons:</strong> Optimize codon usage for expression host</li>
+                </ul>
+
+                <h2>Recommendations for Improvement</h2>
+
+                <h3>For Low Expressibility Scores (&lt;50)</h3>
+                <ol>
+                    <li><strong>Add solubility tags:</strong> GST, MBP, or SUMO tags can improve solubility</li>
+                    <li><strong>Optimize codon usage:</strong> Replace rare codons with preferred ones</li>
+                    <li><strong>Reduce hydrophobicity:</strong> Mutate key hydrophobic residues</li>
+                    <li><strong>Remove problematic regions:</strong> Delete low-complexity or aggregation-prone regions</li>
+                    <li><strong>Use fusion partners:</strong> Express as fusion protein initially</li>
+                </ol>
+
+                <h3>For Moderate Scores (50-70)</h3>
+                <ol>
+                    <li><strong>Optimize expression conditions:</strong> Temperature, IPTG concentration, time</li>
+                    <li><strong>Try different expression hosts:</strong> E.coli, yeast, insect cells</li>
+                    <li><strong>Use chaperones:</strong> Co-express folding helpers</li>
+                    <li><strong>Consider refolding:</strong> Express as inclusion bodies and refold</li>
+                </ol>
+
+                <h2>Practical Example</h2>
+                <div class="example-box">
+                    <strong>Example Analysis Results:</strong><br><br>
+                    <strong>Expressibility Score:</strong> 65 (Moderate)<br>
+                    <strong>Mean Hydrophobicity:</strong> 0.8 (slightly high)<br>
+                    <strong>Charge per Residue:</strong> -0.05 (good)<br>
+                    <strong>Disorder Proxy:</strong> 0.25 (moderate)<br>
+                    <strong>Low-Complexity Regions:</strong> None detected<br>
+                    <strong>Transmembrane Segments:</strong> None detected<br>
+                    <strong>Aggregation Clusters:</strong> 1 detected (positions 45-50)<br>
+                    <strong>Rare Codon Fraction:</strong> 0.15 (moderate)<br><br>
+                    <strong>Warnings:</strong><br>
+                    - Slightly high hydrophobicity may reduce solubility<br>
+                    - Aggregation cluster detected at positions 45-50<br><br>
+                    <strong>Recommendations:</strong><br>
+                    - Consider adding solubility tag (GST or MBP)<br>
+                    - Mutate hydrophobic residues in aggregation cluster<br>
+                    - Optimize rare codons for better expression<br>
+                    - Try lower expression temperature (18-25°C)
+                </div>
+
+                <h2>Best Practices</h2>
+                <ul>
+                    <li><strong>Always check multiple parameters:</strong> Don't rely on score alone</li>
+                    <li><strong>Address warnings:</strong> Each warning indicates a potential issue</li>
+                    <li><strong>Compare variants:</strong> Test multiple sequence variants</li>
+                    <li><strong>Validate experimentally:</strong> Predictions are guides, not guarantees</li>
+                    <li><strong>Consider expression system:</strong> Different hosts have different requirements</li>
+                </ul>
+
+                <h2>Related Tools</h2>
+                <p>Use these tools together for comprehensive analysis:</p>
+                <ul>
+                    <li><a href="../ai-feasibility.html">AI Feasibility Check</a> - Predict expressibility</li>
+                    <li><a href="../protein-mw-calculator.html">Protein MW Calculator</a> - Calculate molecular weight</li>
+                    <li><a href="../codon-usage-calculator.html">Codon Usage Calculator</a> - Analyze codon usage</li>
+                    <li><a href="../amino-acid-composition.html">Amino Acid Composition</a> - Detailed composition analysis</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>
+                    Understanding AI Feasibility Check results helps you optimize protein expression experiments. By interpreting 
+                    the expressibility score, individual parameters, and warnings, you can make informed decisions about sequence 
+                    modifications and expression strategies. Use our <a href="../ai-feasibility.html">free AI Feasibility Check tool</a> 
+                    to analyze your sequences and improve expression success rates.
+                </p>
+            </article>
+        </main>
+
+        <footer class="seo-content">
+            <p><a href="index.html">← Back to Articles</a> | <a href="../index.html">Back to Tools</a></p>
+        </footer>
+    </div>
+
+    <script src="../common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+    </script>
+    
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .article-intro {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .article-content h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+        }
+        .article-content h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        .article-content ul, .article-content ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        .article-content li {
+            margin: 8px 0;
+        }
+        .example-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+            font-family: monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        .article-content a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How to Interpret AI Feasibility Check Results",
+        "description": "Learn how to interpret AI Feasibility Check results: expressibility scores, solubility predictions, and risk factors.",
+        "author": {
+            "@type": "Organization",
+            "name": "Sequence Analyzer"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Sequence Analyzer"
+        },
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-01-01"
+    }
+    </script>
+</body>
+</html>

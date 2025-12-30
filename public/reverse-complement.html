@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free DNA reverse complement tool. Generate reverse complement sequences with case preservation and sequence cleaning.">
+    <meta name="keywords" content="reverse complement, DNA reverse complement, complement sequence, sequence cleaning, DNA analysis">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>DNA Reverse Complement Tool - Free Sequence Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DNA Reverse Complement Tool</h1>
+            <p class="subtitle">Generate reverse complement sequences with case preservation</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter DNA sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your DNA sequence (ACGT)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="convert-btn" class="btn-primary">Generate Reverse Complement</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+                <div style="margin-top: 10px;">
+                    <label style="display: inline-flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="preserve-case" checked>
+                        Preserve case
+                    </label>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Reverse Complement Result</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <h2>Reverse Complement DNA Sequence Tool</h2>
+            <p>
+                Our free <strong>reverse complement</strong> tool generates the complementary DNA sequence in reverse orientation, 
+                an essential operation in molecular biology and bioinformatics. The <strong>DNA reverse complement</strong> is 
+                crucial for primer design, sequence alignment, and understanding DNA structure. This tool performs 
+                <strong>sequence cleaning</strong> automatically, removing whitespace and formatting your input for analysis.
+            </p>
+            <p>
+                The <strong>reverse complement</strong> operation reverses the sequence and replaces each nucleotide with its 
+                complement: A↔T and G↔C. Our tool supports <strong>case preservation</strong>, allowing you to maintain the 
+                original case of your sequence if needed. This feature is particularly useful when working with sequences that 
+                have specific case conventions for different regions or features. Use our <a href="index.html">main sequence analyzer</a> 
+                for comprehensive analysis, or explore our <a href="dna-gc-calculator.html">GC content calculator</a> and 
+                <a href="sequence-translation.html">DNA translation tool</a> for additional sequence analysis capabilities.
+            </p>
+            <p>
+                All processing is performed instantly in your browser with complete privacy - no data leaves your computer. 
+                The <strong>reverse complement tool</strong> is perfect for researchers, students, and professionals working 
+                with DNA sequences in <strong>sequence analysis</strong>, <strong>genome analysis</strong>, and molecular 
+                biology applications.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('convert-btn').addEventListener('click', handleConvert);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'ATGACCGTAAGCTTGGATCCGATTAAGC';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function handleConvert() {
+            const input = document.getElementById('sequence-input');
+            const preserveCase = document.getElementById('preserve-case').checked;
+            const seq = input.value;
+            
+            if (!seq.trim()) {
+                alert('Please enter a DNA sequence');
+                return;
+            }
+            
+            const cleaned = preserveCase ? cleanSequencePreserveCase(seq) : cleanSequence(seq);
+            const revComp = reverseComplement(cleaned, preserveCase);
+            
+            const results = `
+                <div class="result-card">
+                    <h3>Original Sequence</h3>
+                    <div class="sequence-output">${formatSequence(cleaned, 60)}</div>
+                </div>
+                <div class="result-card">
+                    <h3>Reverse Complement</h3>
+                    <div class="sequence-output">${formatSequence(revComp, 60)}</div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn-secondary" onclick="copyToClipboard('${revComp.replace(/'/g, "\\'")}')">Copy to Clipboard</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

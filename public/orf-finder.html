@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free ORF finder tool. Detect open reading frames in DNA sequences. Find longest ORF with start and stop positions.">
+    <meta name="keywords" content="ORF finder, open reading frame, ORF detection, DNA ORF, gene finding, sequence analysis">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>ORF Finder - Open Reading Frame Detection Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ORF Finder</h1>
+            <p class="subtitle">Detect open reading frames in DNA sequences</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter DNA sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your DNA sequence (ACGT)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="find-btn" class="btn-primary">Find ORFs</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>ORF Detection Results</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <div style="margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Learn More</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="articles/orf-analysis-workflow.html" style="color: #667eea; text-decoration: none;">→ Step-by-Step Guide to ORF Analysis in Unknown Sequences</a></li>
+                </ul>
+            </div>
+            <h2>Open Reading Frame Finder for DNA Sequences</h2>
+            <p>
+                Our free <strong>ORF finder</strong> tool detects <strong>open reading frames</strong> in DNA sequences, 
+                identifying potential protein-coding regions. <strong>ORF detection</strong> is a fundamental step in 
+                <strong>gene finding</strong> and <strong>genome analysis</strong>, helping researchers identify coding 
+                sequences within genomic data. The tool searches for start codons (ATG) and stop codons (TAA, TAG, TGA) 
+                across all three reading frames to locate the longest <strong>open reading frame</strong>.
+            </p>
+            <p>
+                The <strong>ORF finder</strong> analyzes your DNA sequence in all three reading frames, identifying the 
+                longest <strong>open reading frame</strong> with precise start and stop positions. This information is 
+                crucial for <strong>sequence analysis</strong>, <strong>genome assembly</strong>, and understanding 
+                gene structure. Use our <a href="index.html">main sequence analyzer</a> for comprehensive analysis, 
+                <a href="sequence-translation.html">DNA translation tool</a> to convert ORFs to protein sequences, 
+                or our <a href="dna-gc-calculator.html">GC content calculator</a> for sequence composition analysis.
+            </p>
+            <p>
+                All <strong>ORF detection</strong> is performed instantly in your browser with complete privacy. The 
+                <strong>ORF finder</strong> is essential for bioinformatics researchers, molecular biologists, and students 
+                working on <strong>genome analysis</strong> projects, providing accurate identification of potential 
+                protein-coding regions in DNA sequences.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('find-btn').addEventListener('click', handleFind);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'ATGAAACGTTTGACCTGAAGGTTCTACTGGAATAG';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function handleFind() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a DNA sequence');
+                return;
+            }
+            
+            if (!isDNA(seq)) {
+                alert('Please enter a valid DNA sequence (ACGT only)');
+                return;
+            }
+            
+            const orf = findORF(seq);
+            
+            let results;
+            if (orf) {
+                results = `
+                    <div class="result-card">
+                        <h3>Longest Open Reading Frame</h3>
+                        <div class="result-item">
+                            <span class="label">Start Position:</span>
+                            <span class="value">${orf.start + 1} (1-based)</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Stop Position:</span>
+                            <span class="value">${orf.end} (1-based)</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Length:</span>
+                            <span class="value">${orf.length} bp</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Reading Frame:</span>
+                            <span class="value">Frame ${orf.frame}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Amino Acid Length:</span>
+                            <span class="value">${Math.floor(orf.length / 3)} amino acids</span>
+                        </div>
+                    </div>
+                    <div class="result-card">
+                        <h3>ORF DNA Sequence</h3>
+                        <div class="sequence-output">${formatSequence(orf.sequence, 60)}</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Translated Protein Sequence</h3>
+                        <div class="sequence-output">${formatSequence(translateDNA(orf.sequence), 60)}</div>
+                    </div>
+                `;
+            } else {
+                results = `
+                    <div class="result-card">
+                        <h3>ORF Detection Result</h3>
+                        <p>No significant open reading frame found in the sequence.</p>
+                        <p style="margin-top: 10px; color: #666;">
+                            An ORF requires both a start codon (ATG) and a stop codon (TAA, TAG, or TGA) 
+                            in the same reading frame.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

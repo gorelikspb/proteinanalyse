@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free amino acid composition analyzer. Calculate amino acid frequency, percentages, and composition for protein sequences instantly.">
+    <meta name="keywords" content="amino acid composition, amino acid frequency, protein composition, amino acid analysis, composition calculator">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>Amino Acid Composition Tool - Free Composition Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Amino Acid Composition Tool</h1>
+            <p class="subtitle">Analyze amino acid frequency and composition percentages</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter protein sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="Paste your protein sequence (amino acids)..."
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="analyze-btn" class="btn-primary">Analyze Composition</button>
+                    <button id="example-btn" class="btn-secondary">Load Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Composition Analysis</h2>
+                <div id="results-content"></div>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <h2>Amino Acid Composition Analyzer for Protein Sequences</h2>
+            <p>
+                Our free <strong>amino acid composition tool</strong> calculates <strong>amino acid frequency</strong> and 
+                <strong>composition percentages</strong> for protein sequences, providing detailed analysis of which amino 
+                acids are present and in what proportions. The <strong>amino acid composition analyzer</strong> is essential 
+                for understanding protein properties, predicting structure, and comparing sequences. <strong>Amino acid analysis</strong> 
+                helps researchers identify characteristic patterns, unusual compositions, and potential functional domains.
+            </p>
+            <p>
+                The tool calculates the count and percentage of each of the 20 standard <strong>amino acids</strong> in your 
+                sequence, showing <strong>amino acid frequency</strong> distribution. This <strong>composition analysis</strong> 
+                is valuable for protein characterization, identifying enrichment of specific amino acids (like hydrophobic 
+                residues in membrane proteins), and understanding sequence bias. Use our <a href="index.html">main sequence analyzer</a> 
+                for comprehensive analysis, <a href="protein-mw-calculator.html">protein molecular weight calculator</a> for MW 
+                calculations, or our <a href="peptide-length-calculator.html">peptide length calculator</a> for size analysis.
+            </p>
+            <p>
+                All <strong>amino acid composition calculations</strong> are performed instantly in your browser with complete 
+                privacy. The <strong>amino acid composition tool</strong> is essential for biochemists, protein researchers, 
+                and bioinformatics scientists working on <strong>protein analysis</strong>, <strong>proteomics</strong>, and 
+                understanding protein structure-function relationships.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('analyze-btn').addEventListener('click', handleAnalyze);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MQDRVKRPMNAFIVWSRDQRRKMALENPRKQ';
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function handleAnalyze() {
+            const input = document.getElementById('sequence-input');
+            const seq = cleanSequence(input.value);
+            
+            if (!seq) {
+                alert('Please enter a protein sequence');
+                return;
+            }
+            
+            if (!isProtein(seq)) {
+                alert('Please enter a valid protein sequence (amino acids only)');
+                return;
+            }
+            
+            const composition = computeAAComposition(seq);
+            const length = seq.length;
+            
+            const results = `
+                <div class="result-card">
+                    <h3>Summary</h3>
+                    <div class="result-item">
+                        <span class="label">Sequence Length:</span>
+                        <span class="value">${length} amino acids</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Unique Amino Acids:</span>
+                        <span class="value">${Object.keys(composition.counts).filter(aa => composition.counts[aa] > 0).length}</span>
+                    </div>
+                </div>
+                <div class="result-card">
+                    <h3>Amino Acid Composition</h3>
+                    <div class="aa-composition">
+                        ${Object.entries(composition.counts)
+                            .sort(([aa1], [aa2]) => aa1.localeCompare(aa2))
+                            .map(([aa, count]) => `
+                                <div class="aa-item">
+                                    <span class="aa-letter">${aa}</span>
+                                    <span class="aa-count">${count}</span>
+                                    <span class="aa-percent">(${composition.percentages[aa]}%)</span>
+                                </div>
+                            `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

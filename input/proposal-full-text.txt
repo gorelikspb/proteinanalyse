@@ -1,0 +1,228 @@
+﻿Title:
+Improvement of Protein Expression Efficiency 
+Using Machine Learning
+Partners: Tre
+nzyme GmbH, 
+S
+temick
+ GmbH
+Last Update: 15. 9. 2024
+Background
+Protein expression 
+at Trenzyme harnesses a variety of expression systems in 
+mammalian
+, insect, yeast, and bacterial
+ cell cultures
+.
+The typical process starts with a given amino acid sequence. This sequence is analyzed by experienced scientists 
+at Trenzyme 
+for important features like 
+for example 
+the presence of signaling peptides
+, transmembrane domains, or protease cleavage sites using bioinformatics tools. The results of this analysis feeds into the choice of the expression system and the design of the expression construct. T
+arget protein
+s
+ that 
+might be
+difficult
+be 
+expressed
+ can be identified and
+the expression system optimized
+leveraging the
+ deep understanding of key features of 
+the
+ biological system
+s
+ and creative approach to maximize yield and activity. 
+In addition, 
+TrenzymeÆs
+ high-throughput protein expression optimization 
+method
+can be applied for an efficient combinatorial testing
+ of different expression strains/cell lines and culture conditions such as growth media and additives, temperatures, induction conditions, extraction methods and other parameters
+.
+Identifying the optimal expression conditions for s
+uccessful expression 
+of active protein 
+in sufficient quantity
+is challenging to predict and d
+epends on
+ a large variety of factors including
+ characteristics of the protein sequence, of the expression system and of the expression construct. 
+Trenzyme and 
+Stemick
+ believe that a systematic analysis of available protein expression data
+ in combination with expert knowledge using modern machine learning tools provides a promising opportunity to support and streamline 
+TrenzymeÆs
+ workflow and ultimately achieve higher success rates for target protein expression. 
+Figure 
+1
+. Schema of 
+Trenzyme's
+ Web Configurator
+Objectives
+Protein sequence analysis
+ (locally and ov
+er the internet
+)
+ creating
+ semi-automated report
+s supporting the scientist;
+Data collection
+ of expression systems, target protein and ôsuccessö
+ (activity and yield)
+, preparation for analysis
+;
+Training of a machine learning algorithm to identify success factors and to support optimization of expression systems for future protein expression tasks (data analysis and prediction). 
+Marketing tool (accessible online) that can attract new potential costumers
+Tasks
+Protein sequence analysis
+Process map for 
+project-specific 
+sequence analysis 
+and information collection 
+at Trenzyme that covers the variety of target proteins
+Data collection at Trenzyme and in the public domain (see attached table template), includes data dictionary and coding, categorizing and classification of data (sorting and grouping), estimation of data availability and effort
+Building
+ of 
+an 
+inhouse 
+protein expression 
+database
+ including sequence and meta data, 
+and
+ sett up of
+ analysis tools: collection of 
+expression information (meta data) and 
+sequence data, 
+data 
+formatting, software installation, back-up solution
+Data collection
+Data collection at Trenzyme and in the public domain (
+Table 1
+), includes 
+the extraction and creation of a 
+data dictionary, categoriz
+ation,
+ and classification of data (sorting and grouping), estimation of data availability and effort
+Preparation of analysis data sets: data management and programming, estimating the size of the available data set
+s
+Definition of analysis goals based on the available data
+Definition of data items (data dictionary) that are to be collected in the future
+Machine learning
+Setup of machine learning environment
+tailored for the available data and analysis goals.
+Training and evaluation of classifier/regressor
+ (primary analysis)
+Implementation for inhouse use and/or as service for clients
+Table 1. 
+Items that 
+are (
+will be
+)
+ collected for each expression construct
+Item
+Description
+Valuetype
+Examples
+UniprotNo
+Target Name
+Size [
+kDa
+]
+numeric
+Sequence
+ (?)
+hydrophobic
+regions
+ (ja/nein)
+yes
+/
+no
++- 
+HisTag
+domain
+of
+multimer
+Truncation
+"
+mature
+"
+Propeptide 
+removed
+?
+DiS
+bond
+req
+N-
+Glyc
+-Sites
+"
+class
+"
+"
+receptor-interaction
+"
+Promoter
+Signal Peptide
++/- Protease Site
++/- TEV 
+site
+Chaperone
+ / 
+bdg
+ Partner
+Vector (?!)
+Vektor Size
+Cell Line (?)
+TFX 
+efficiency
+Viability
+ (3d 
+expr
+)
+Viab
+ (5d 
+expr
+)
+pH @ 
+harvest
+Est 
+Expr
+yield
+Soluble 
+target
+"ER  Stress"
+"Golgi Stress"
+Protease 
+Cleavage
+" (Yes / 
+No
+ / %)
+"TEV 
+cleavage
+" (Yes / 
+No
+ / %)
+POC yield (mg/ml 
+sn
+) 
+rel. 
+Yield
+ctrls
+ ??
+Material
+Overview of competitor (KEMP): 
+"C:\Users\stefa\Documents\Business\stemick\Projects\Trenzyme-Collaboration\KempProteins_Capability_Presentation_24JUL2024.pdf"
+Potential resources or partner: 
+MPI in G÷ttingen:á
+https://www.mpinat.mpg.de/soeding
+Potential resources or partner:
+https://toolkit.tuebingen.mpg.de/tools/quick2d
+EXCEL file with plasmid information 
+Armins Email, 21.8.2024, 
+Anhang
+: 
+Plasmid_f_Stefan
+"C:\Users\stefa\Documents\Business\stemick\Projects\Trenzyme-Collaboration\Plasmide_f_Stefan.xlsx"

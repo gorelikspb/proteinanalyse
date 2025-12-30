@@ -1,0 +1,83 @@
+[
+  {
+    "id": "01",
+    "file": "01-initial-concept.md",
+    "date": "2025-11-17",
+    "title": "Изначальная концепция (MVP)",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "02",
+    "file": "02-multipage-architecture.md",
+    "date": "2025-11-17",
+    "title": "Переход к мультистраничной архитектуре",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "03",
+    "file": "03-common-library.md",
+    "date": "2025-11-17",
+    "title": "Создание общей библиотеки функций",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "04",
+    "file": "04-unified-style.md",
+    "date": "2025-11-17",
+    "title": "Единый стиль и навигация",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "05",
+    "file": "05-seo-optimization.md",
+    "date": "2025-11-17",
+    "title": "SEO оптимизация каждой страницы",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "06",
+    "file": "06-examples.md",
+    "date": "2025-11-17",
+    "title": "Добавление примеров последовательностей",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "07",
+    "file": "07-new-tools-and-navigation.md",
+    "date": "2025-11-17",
+    "title": "Добавление новых инструментов и улучшение навигации",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "08",
+    "file": "08-google-search-console-verification.md",
+    "date": "2025-01-27",
+    "title": "Google Search Console Verification",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "09",
+    "file": "09-ai-feasibility-check.md",
+    "date": "2024-12-19",
+    "title": "AI Feasibility Check - Инструмент предсказания экспрессируемости белков",
+    "published": false,
+    "screenshots": {}
+  },
+  {
+    "id": "10",
+    "file": "10-google-search-console-first-results.md",
+    "date": "2025-01-27",
+    "title": "Первые результаты в Google Search Console",
+    "published": false,
+    "screenshots": {}
+  }
+]
+

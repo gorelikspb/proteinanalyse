@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analyze protein or DNA sequences and estimate expressibility, solubility, disorder, aggregation, TM domains and codon usage.">
+    <meta name="keywords" content="protein expressibility, protein solubility, aggregation prediction, transmembrane domains, signal peptide, codon usage, protein expression feasibility">
+    <meta name="google-site-verification" content="FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY" />
+    <title>AI Protein Expressibility Feasibility Check – Free Online Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u5y6bxpy0v");
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Feasibility Check</h1>
+            <p class="subtitle">Analyze your protein or DNA sequence and predict expressibility risks.</p>
+        </header>
+
+        <div id="navigation"></div>
+
+        <main>
+            <div class="input-section">
+                <label for="sequence-input">Enter DNA or protein sequence:</label>
+                <textarea 
+                    id="sequence-input" 
+                    placeholder="MQDRVKRPMNAFIVWSRDQRRKMALEN"
+                    rows="8"
+                ></textarea>
+                <div class="button-group">
+                    <button id="analyze-btn" class="btn-primary">Analyze</button>
+                    <button id="example-btn" class="btn-secondary">Use Example</button>
+                    <button id="bad-example-btn" class="btn-secondary">Use Bad Example</button>
+                    <button id="clear-btn" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container" style="display: none;">
+                <h2>Analysis Results</h2>
+                <div id="results-content"></div>
+            </div>
+
+            <div id="advanced-analysis-section" class="advanced-analysis-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 10px; border: 2px solid #e9ecef;">
+                <h2>Need More Accurate Analysis?</h2>
+                <p>
+                    This tool uses simplified algorithms for quick analysis. For more accurate predictions, we can perform 
+                    advanced analysis using methods such as:
+                </p>
+                <ul style="margin: 15px 0; padding-left: 25px;">
+                    <li>Machine learning models (DeepMind AlphaFold-inspired predictions)</li>
+                    <li>Structural homology modeling</li>
+                    <li>Multi-organism codon optimization (yeast, mammalian, insect cells)</li>
+                    <li>Advanced aggregation prediction (TANGO, AGGRESCAN)</li>
+                    <li>Disorder prediction (IUPred, PONDR)</li>
+                    <li>Transmembrane topology prediction (TMHMM, Phobius)</li>
+                </ul>
+                <p style="margin-top: 20px;">
+                    <strong>Request advanced analysis:</strong> Fill out the form below and we'll send you a detailed report.
+                </p>
+                
+                <form id="advanced-analysis-form" style="margin-top: 20px;" onsubmit="handleAdvancedAnalysisRequest(event);">
+                    <div style="margin-bottom: 15px;">
+                        <label for="request-sequence" style="display: block; margin-bottom: 5px; font-weight: bold;">Sequence:</label>
+                        <textarea 
+                            id="request-sequence" 
+                            name="sequence"
+                            rows="6"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace;"
+                            readonly
+                        ></textarea>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label for="request-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Your Email:</label>
+                        <input 
+                            type="email" 
+                            id="request-email" 
+                            name="email"
+                            required
+                            placeholder="your.email@example.com"
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+                        />
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Request Advanced Analysis</button>
+                    <div id="form-message" style="margin-top: 15px; display: none;"></div>
+                </form>
+            </div>
+        </main>
+
+        <footer class="seo-content">
+            <div style="margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Learn More</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="articles/ai-feasibility-interpretation.html" style="color: #667eea; text-decoration: none;">→ How to Interpret AI Feasibility Check Results</a></li>
+                    <li style="margin: 8px 0;"><a href="articles/solubility-vs-expressibility.html" style="color: #667eea; text-decoration: none;">→ Solubility vs Expressibility: Understanding the Difference</a></li>
+                </ul>
+            </div>
+            <h2>AI Protein Expressibility Feasibility Check</h2>
+            <p>
+                Our free <strong>AI feasibility check</strong> tool analyzes protein and DNA sequences to predict 
+                <strong>protein expressibility</strong>, <strong>solubility</strong>, and potential expression risks. 
+                The tool evaluates multiple parameters including <strong>hydrophobicity</strong>, <strong>charge distribution</strong>, 
+                <strong>disorder regions</strong>, <strong>low-complexity sequences</strong>, <strong>transmembrane domains</strong>, 
+                <strong>signal peptides</strong>, <strong>aggregation hotspots</strong>, and <strong>codon usage</strong> for E. coli expression.
+            </p>
+            <p>
+                The <strong>expressibility score</strong> (0-100) combines solubility, complexity, codon usage, and transmembrane 
+                domain penalties to provide a comprehensive assessment of protein expression feasibility. This <strong>protein expression 
+                prediction</strong> tool helps researchers identify potential issues before starting expression experiments, saving time 
+                and resources. Use our <a href="index.html">main sequence analyzer</a> for additional analysis, or explore our 
+                <a href="protein-mw-calculator.html">protein molecular weight calculator</a> and <a href="codon-usage-calculator.html">codon usage calculator</a> 
+                for detailed sequence characterization.
+            </p>
+            <p>
+                All analysis is performed instantly in your browser using advanced algorithms - no data is sent to any server, 
+                ensuring complete privacy for your sequences. The <strong>AI feasibility check</strong> is essential for molecular 
+                biologists, protein engineers, and bioinformatics researchers working on recombinant protein production and expression optimization.
+            </p>
+            <div class="update-info">
+                <strong>Last updated:</strong> <span id="last-update"></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+        
+        // Kyte-Doolittle hydrophobicity scale
+        const KD_HYDROPHOBICITY = {
+            'A': 1.8, 'C': 2.5, 'D': -3.5, 'E': -3.5,
+            'F': 2.8, 'G': -0.4, 'H': -3.2, 'I': 4.5,
+            'K': -3.9, 'L': 3.8, 'M': 1.9, 'N': -3.5,
+            'P': -1.6, 'Q': -3.5, 'R': -4.5, 'S': -0.8,
+            'T': -0.7, 'V': 4.2, 'W': -0.9, 'Y': -1.3
+        };
+
+        // E.coli codon usage (frequency per 1000 codons) - rare codons < 10
+        const E_COLI_CODON_USAGE = {
+            'TTT': 22.0, 'TTC': 15.5, 'TTA': 13.6, 'TTG': 13.0,
+            'TCT': 7.0, 'TCC': 7.0, 'TCA': 7.0, 'TCG': 7.0,
+            'TAT': 15.5, 'TAC': 15.5, 'TAA': 2.0, 'TAG': 0.3,
+            'TGT': 4.0, 'TGC': 4.0, 'TGA': 0.5, 'TGG': 10.0,
+            'CTT': 10.0, 'CTC': 10.0, 'CTA': 3.0, 'CTG': 50.0,
+            'CCT': 6.0, 'CCC': 6.0, 'CCA': 6.0, 'CCG': 6.0,
+            'CAT': 5.0, 'CAC': 5.0, 'CAA': 12.0, 'CAG': 30.0,
+            'CGT': 20.0, 'CGC': 20.0, 'CGA': 3.0, 'CGG': 3.0,
+            'ATT': 28.0, 'ATC': 28.0, 'ATA': 2.0, 'ATG': 25.0,
+            'ACT': 8.0, 'ACC': 20.0, 'ACA': 8.0, 'ACG': 8.0,
+            'AAT': 15.0, 'AAC': 20.0, 'AAA': 30.0, 'AAG': 10.0,
+            'AGT': 6.0, 'AGC': 10.0, 'AGA': 1.0, 'AGG': 1.0,
+            'GTT': 18.0, 'GTC': 18.0, 'GTA': 10.0, 'GTG': 25.0,
+            'GCT': 18.0, 'GCC': 25.0, 'GCA': 18.0, 'GCG': 18.0,
+            'GAT': 30.0, 'GAC': 20.0, 'GAA': 35.0, 'GAG': 15.0,
+            'GGT': 25.0, 'GGC': 30.0, 'GGA': 8.0, 'GGG': 8.0
+        };
+
+        const RARE_CODON_THRESHOLD = 10.0; // codons with usage < 10 are considered rare
+
+        document.getElementById('navigation').innerHTML = getNavigation();
+        updateLastUpdateTime();
+
+        // Cloudflare Worker URL for email sending
+        const WORKER_URL = 'https://proteinanalyse-email.gorelikgo.workers.dev';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('analyze-btn').addEventListener('click', handleAnalyze);
+            document.getElementById('example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'MQDRVKRPMNAFIVWSRDQRRKMALEN';
+                updateRequestSequence();
+            });
+            document.getElementById('bad-example-btn').addEventListener('click', () => {
+                document.getElementById('sequence-input').value = 'LLLLIVVVVFFFFWWWWYYYYLLLLIVVVVFFFFWWWWYYYYLLLLIVVVVFFFFWWWWYYYYLLLLIVVVVFFFFWWWWYYYYLLLLIVVVVFFFFWWWWYYYY';
+                updateRequestSequence();
+            });
+            document.getElementById('clear-btn').addEventListener('click', handleClear);
+        });
+
+        function detectSequenceType(seq) {
+            const cleaned = cleanSequence(seq);
+            if (/^[ACGTU]+$/i.test(cleaned)) {
+                return 'DNA';
+            }
+            return 'protein';
+        }
+
+        function calculateGC(seq) {
+            const gc = (seq.match(/[GC]/gi) || []).length;
+            return (gc / seq.length) * 100;
+        }
+
+        function calculateRareCodonFraction(dnaSeq) {
+            const cleaned = cleanSequence(dnaSeq);
+            let rareCount = 0;
+            let totalCodons = 0;
+            
+            for (let i = 0; i < cleaned.length - 2; i += 3) {
+                const codon = cleaned.substr(i, 3).toUpperCase();
+                if (codon.length === 3 && /^[ACGT]+$/.test(codon)) {
+                    totalCodons++;
+                    const usage = E_COLI_CODON_USAGE[codon] || 0;
+                    if (usage < RARE_CODON_THRESHOLD) {
+                        rareCount++;
+                    }
+                }
+            }
+            
+            return totalCodons > 0 ? rareCount / totalCodons : 0;
+        }
+
+        function calculateMeanHydrophobicity(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            let sum = 0;
+            let count = 0;
+            
+            for (const aa of cleaned) {
+                if (KD_HYDROPHOBICITY.hasOwnProperty(aa)) {
+                    sum += KD_HYDROPHOBICITY[aa];
+                    count++;
+                }
+            }
+            
+            return count > 0 ? sum / count : 0;
+        }
+
+        function calculateChargePerResidue(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            let positive = 0; // K, R, H
+            let negative = 0; // D, E
+            
+            for (const aa of cleaned) {
+                if (aa === 'K' || aa === 'R' || aa === 'H') positive++;
+                if (aa === 'D' || aa === 'E') negative++;
+            }
+            
+            return {
+                positive,
+                negative,
+                net: positive - negative,
+                perResidue: cleaned.length > 0 ? (positive - negative) / cleaned.length : 0
+            };
+        }
+
+        function calculateDisorderProxy(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            const disorderAAs = new Set(['P', 'E', 'D', 'K', 'Q', 'S']);
+            let count = 0;
+            
+            for (const aa of cleaned) {
+                if (disorderAAs.has(aa)) count++;
+            }
+            
+            return cleaned.length > 0 ? count / cleaned.length : 0;
+        }
+
+        function findLowComplexityRegions(proteinSeq, windowSize = 15) {
+            const cleaned = cleanSequence(proteinSeq);
+            const regions = [];
+            
+            for (let i = 0; i <= cleaned.length - windowSize; i++) {
+                const window = cleaned.substr(i, windowSize);
+                const counts = {};
+                
+                for (const aa of window) {
+                    counts[aa] = (counts[aa] || 0) + 1;
+                }
+                
+                const sorted = Object.values(counts).sort((a, b) => b - a);
+                const top2 = (sorted[0] || 0) + (sorted[1] || 0);
+                const fraction = top2 / windowSize;
+                
+                if (fraction > 0.7) {
+                    regions.push({ start: i + 1, end: i + windowSize });
+                }
+            }
+            
+            return regions;
+        }
+
+        function findTransmembraneSegments(proteinSeq, windowSize = 19) {
+            const cleaned = cleanSequence(proteinSeq);
+            const segments = [];
+            
+            for (let i = 0; i <= cleaned.length - windowSize; i++) {
+                const window = cleaned.substr(i, windowSize);
+                let sum = 0;
+                let count = 0;
+                
+                for (const aa of window) {
+                    if (KD_HYDROPHOBICITY.hasOwnProperty(aa)) {
+                        sum += KD_HYDROPHOBICITY[aa];
+                        count++;
+                    }
+                }
+                
+                const meanHydro = count > 0 ? sum / count : 0;
+                
+                if (meanHydro > 1.8) {
+                    segments.push({ start: i + 1, end: i + windowSize, hydrophobicity: meanHydro.toFixed(2) });
+                }
+            }
+            
+            return segments;
+        }
+
+        function detectSignalPeptide(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            if (cleaned.length < 25) return { detected: false };
+            
+            const nTerm = cleaned.substr(0, 25);
+            
+            // Check for stretch of ≥7 hydrophobic aa
+            let maxHydrophobicStretch = 0;
+            let currentStretch = 0;
+            
+            for (let i = 0; i < nTerm.length; i++) {
+                const aa = nTerm[i];
+                const isHydrophobic = KD_HYDROPHOBICITY[aa] > 0;
+                
+                if (isHydrophobic) {
+                    currentStretch++;
+                    maxHydrophobicStretch = Math.max(maxHydrophobicStretch, currentStretch);
+                } else {
+                    currentStretch = 0;
+                }
+            }
+            
+            const hasHydrophobicStretch = maxHydrophobicStretch >= 7;
+            
+            // Check for cleavage site (XA[A/G/S/T])
+            const hasCleavageSite = /[ACDEFGHIKLMNPQRSTVWY][AGST]/i.test(nTerm);
+            
+            return {
+                detected: hasHydrophobicStretch && hasCleavageSite,
+                hydrophobicStretch: maxHydrophobicStretch,
+                hasCleavageSite
+            };
+        }
+
+        function findAggregationClusters(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            const aggregationAAs = new Set(['I', 'L', 'V', 'F', 'W', 'Y']);
+            const clusters = [];
+            let currentCluster = null;
+            
+            for (let i = 0; i < cleaned.length; i++) {
+                const aa = cleaned[i];
+                if (aggregationAAs.has(aa)) {
+                    if (currentCluster === null) {
+                        currentCluster = { start: i + 1, end: i + 1, count: 1 };
+                    } else {
+                        currentCluster.end = i + 1;
+                        currentCluster.count++;
+                    }
+                } else {
+                    if (currentCluster && currentCluster.count >= 5) {
+                        clusters.push(currentCluster);
+                    }
+                    currentCluster = null;
+                }
+            }
+            
+            if (currentCluster && currentCluster.count >= 5) {
+                clusters.push(currentCluster);
+            }
+            
+            return clusters;
+        }
+
+        function countCysteine(proteinSeq) {
+            const cleaned = cleanSequence(proteinSeq);
+            return (cleaned.match(/C/gi) || []).length;
+        }
+
+        function calculateScores(analysis) {
+            // Solubility score
+            const meanHydroAbs = Math.abs(analysis.meanHydrophobicity);
+            const solubilityHydro = 0.4 * (1 - meanHydroAbs / 3);
+            const aggregationRisk = analysis.aggregationClusters.length > 0 ? 0.5 : 0;
+            const solubilityAgg = 0.3 * (1 - aggregationRisk);
+            const chargeScore = Math.min(1, Math.abs(analysis.charge.perResidue) * 10);
+            const solubilityCharge = 0.3 * chargeScore;
+            const solubilityScore = Math.max(0, Math.min(1, solubilityHydro + solubilityAgg + solubilityCharge));
+            
+            // Complexity score
+            const lowComplexityPercent = analysis.lowComplexityRegions.length > 0 ? 
+                analysis.lowComplexityRegions.reduce((sum, r) => sum + (r.end - r.start + 1), 0) / analysis.length : 0;
+            const complexityScore = Math.max(0, 1 - lowComplexityPercent);
+            
+            // Codon score
+            const codonScore = analysis.isDNA ? (1 - analysis.rareCodonFraction) : 1.0;
+            
+            // TM penalty
+            const tmPenalty = analysis.tmSegments.length > 0 ? 0.4 : 0;
+            
+            // Expressibility score
+            let expressibilityScore = (0.4 * solubilityScore + 0.3 * complexityScore + 0.3 * codonScore - tmPenalty) * 100;
+            expressibilityScore = Math.max(0, Math.min(100, expressibilityScore));
+            
+            return {
+                solubilityScore: solubilityScore.toFixed(3),
+                complexityScore: complexityScore.toFixed(3),
+                codonScore: codonScore.toFixed(3),
+                tmPenalty: tmPenalty.toFixed(3),
+                expressibilityScore: expressibilityScore.toFixed(1)
+            };
+        }
+
+        function generateWarnings(analysis) {
+            const warnings = [];
+            
+            if (analysis.tmSegments.length > 0) {
+                warnings.push('TM domain detected');
+            }
+            if (analysis.lowComplexityRegions.length > 0) {
+                warnings.push('High low-complexity');
+            }
+            if (analysis.disorderFraction > 0.4) {
+                warnings.push('High disorder');
+            }
+            if (analysis.aggregationClusters.length > 0) {
+                warnings.push('Aggregation hotspot');
+            }
+            if (analysis.isDNA && analysis.rareCodonFraction > 0.2) {
+                warnings.push('Poor codon usage');
+            }
+            
+            return warnings;
+        }
+
+        function generateRecommendations(analysis, scores) {
+            const recommendations = [];
+            
+            if (parseFloat(scores.expressibilityScore) < 50) {
+                recommendations.push('Try His-tag or MBP tag');
+            }
+            if (analysis.signalPeptide.detected) {
+                recommendations.push('Consider truncation of N-terminus');
+            }
+            if (parseFloat(scores.expressibilityScore) >= 50) {
+                recommendations.push('Recommended expression system: E.coli or cell-free');
+                recommendations.push('💼 Need professional protein expression service? <a href="#advanced-analysis-section" onclick="scrollToAdvancedAnalysis(event)" style="color: #007bff; text-decoration: underline; cursor: pointer;">Contact us for custom expression optimization and production</a>.');
+            }
+            if (analysis.isDNA && analysis.rareCodonFraction > 0.2) {
+                recommendations.push('Avoid rare codons for E. coli expression');
+            }
+            
+            return recommendations;
+        }
+
+        function handleAnalyze() {
+            const input = document.getElementById('sequence-input');
+            const seq = input.value.trim();
+            
+            if (!seq) {
+                alert('Please enter a sequence');
+                return;
+            }
+            
+            const seqType = detectSequenceType(seq);
+            let proteinSeq = seq;
+            let dnaSeq = null;
+            let gcPercent = null;
+            let rareCodonFraction = 0;
+            
+            if (seqType === 'DNA') {
+                dnaSeq = cleanSequence(seq);
+                gcPercent = calculateGC(dnaSeq);
+                rareCodonFraction = calculateRareCodonFraction(dnaSeq);
+                proteinSeq = translateDNA(dnaSeq);
+            } else {
+                proteinSeq = cleanSequence(seq);
+            }
+            
+            if (proteinSeq.length < 5) {
+                alert('Sequence too short for analysis');
+                return;
+            }
+            
+            const meanHydro = calculateMeanHydrophobicity(proteinSeq);
+            const charge = calculateChargePerResidue(proteinSeq);
+            const disorderFraction = calculateDisorderProxy(proteinSeq);
+            const lowComplexityRegions = findLowComplexityRegions(proteinSeq);
+            const tmSegments = findTransmembraneSegments(proteinSeq);
+            const signalPeptide = detectSignalPeptide(proteinSeq);
+            const aggregationClusters = findAggregationClusters(proteinSeq);
+            const cysteineCount = countCysteine(proteinSeq);
+            
+            const analysis = {
+                isDNA: seqType === 'DNA',
+                length: proteinSeq.length,
+                meanHydrophobicity: meanHydro,
+                charge,
+                disorderFraction,
+                lowComplexityRegions,
+                tmSegments,
+                signalPeptide,
+                aggregationClusters,
+                cysteineCount,
+                gcPercent,
+                rareCodonFraction
+            };
+            
+            const scores = calculateScores(analysis);
+            const warnings = generateWarnings(analysis);
+            const recommendations = generateRecommendations(analysis, scores);
+            
+            const expressibilityNum = parseFloat(scores.expressibilityScore);
+            let status = '';
+            let statusClass = '';
+            if (expressibilityNum >= 70) {
+                status = 'good';
+                statusClass = 'status-good';
+            } else if (expressibilityNum >= 40) {
+                status = 'moderate';
+                statusClass = 'status-moderate';
+            } else {
+                status = 'poor';
+                statusClass = 'status-poor';
+            }
+            
+            let results = `
+                <div class="result-card">
+                    <h3>Expressibility Score</h3>
+                    <div class="result-item">
+                        <span class="label">Score:</span>
+                        <span class="value large ${statusClass}">${scores.expressibilityScore} / 100</span>
+                        <span class="value ${statusClass}">(${status})</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Summary</h3>
+                    <div class="result-item">
+                        <span class="label">Length:</span>
+                        <span class="value">${analysis.length} aa</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Mean Hydrophobicity:</span>
+                        <span class="value">${meanHydro.toFixed(2)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Charge per Residue:</span>
+                        <span class="value">${charge.perResidue.toFixed(3)} (${charge.positive}+, ${charge.negative}-)</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Disorder Fraction:</span>
+                        <span class="value">${(disorderFraction * 100).toFixed(1)}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Low Complexity Regions:</span>
+                        <span class="value">${lowComplexityRegions.length > 0 ? 
+                            lowComplexityRegions.map(r => `${r.start}-${r.end}`).join(', ') : 'None'}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">TM Domains:</span>
+                        <span class="value">${tmSegments.length > 0 ? 
+                            tmSegments.map(s => `${s.start}-${s.end}`).join(', ') : 'None'}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Signal Peptide:</span>
+                        <span class="value">${signalPeptide.detected ? 'Yes' : 'No'}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Aggregation Clusters:</span>
+                        <span class="value">${aggregationClusters.length > 0 ? 
+                            aggregationClusters.map(c => `${c.start}-${c.end} (${c.count} aa)`).join(', ') : 'None'}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Cysteine Count:</span>
+                        <span class="value">${cysteineCount}</span>
+                    </div>
+                    ${analysis.isDNA ? `
+                    <div class="result-item">
+                        <span class="label">GC%:</span>
+                        <span class="value">${gcPercent.toFixed(1)}%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Codon Usage Score:</span>
+                        <span class="value">${(scores.codonScore * 100).toFixed(1)}% (rare codons: ${(rareCodonFraction * 100).toFixed(1)}%)</span>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            if (warnings.length > 0) {
+                results += `
+                    <div class="result-card warning-card">
+                        <h3>⚠️ Warnings</h3>
+                        <ul>
+                            ${warnings.map(w => `<li>${w}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            if (recommendations.length > 0) {
+                results += `
+                    <div class="result-card recommendation-card">
+                        <h3>💡 Recommendations</h3>
+                        <ul>
+                            ${recommendations.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('results-content').innerHTML = results;
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Add click handlers for recommendation links
+            setTimeout(() => {
+                const links = document.querySelectorAll('#results-content a[href="#advanced-analysis-section"]');
+                links.forEach(link => {
+                    link.addEventListener('click', scrollToAdvancedAnalysis);
+                });
+            }, 100);
+            
+            // Update request sequence field
+            updateRequestSequence();
+        }
+
+        function handleClear() {
+            document.getElementById('sequence-input').value = '';
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('request-sequence').value = '';
+        }
+
+        function scrollToAdvancedAnalysis(event) {
+            event.preventDefault();
+            const section = document.getElementById('advanced-analysis-section');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Focus on email input after scroll
+                setTimeout(() => {
+                    document.getElementById('request-email').focus();
+                }, 500);
+            }
+        }
+
+        function updateRequestSequence() {
+            const seq = document.getElementById('sequence-input').value.trim();
+            if (seq) {
+                document.getElementById('request-sequence').value = seq;
+            }
+        }
+
+        // Update request sequence when user types
+        document.getElementById('sequence-input').addEventListener('input', updateRequestSequence);
+
+        function handleAdvancedAnalysisRequest(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = document.getElementById('request-email').value;
+            const sequence = document.getElementById('request-sequence').value;
+            const messageDiv = document.getElementById('form-message');
+
+            if (!sequence || !email) {
+                messageDiv.textContent = 'Please fill in all fields';
+                messageDiv.style.display = 'block';
+                messageDiv.style.color = '#dc3545';
+                return;
+            }
+
+            // Send request via Cloudflare Worker
+            messageDiv.textContent = 'Sending request...';
+            messageDiv.style.display = 'block';
+            messageDiv.style.color = '#17a2b8';
+
+            fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'advanced_analysis',
+                    user_email: email,
+                    sequence: sequence,
+                    timestamp: new Date().toLocaleString()
+                })
+            })
+            .then(async response => {
+                const text = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`Invalid JSON response: ${text}`);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(result.error || `HTTP ${response.status}: ${text}`);
+                }
+                
+                return result;
+            })
+            .then(result => {
+                if (result.success) {
+                    messageDiv.textContent = 'Request sent successfully! We will contact you soon.';
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = '#28a745';
+                    form.reset();
+                    document.getElementById('request-sequence').value = '';
+                } else {
+                    const errorMsg = result.error || 'Unknown error';
+                    messageDiv.textContent = `Error: ${errorMsg}`;
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = '#dc3545';
+                    console.error('Worker error:', result);
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = `Error: ${error.message || 'Network error. Please check console for details.'}`;
+                messageDiv.style.display = 'block';
+                messageDiv.style.color = '#dc3545';
+                console.error('Fetch error:', error);
+                console.error('Worker URL:', WORKER_URL);
+            });
+        }
+    </script>
+    <style>
+        .status-good { color: #28a745; font-weight: bold; }
+        .status-moderate { color: #ffc107; font-weight: bold; }
+        .status-poor { color: #dc3545; font-weight: bold; }
+        .value.large { font-size: 1.5em; }
+        .warning-card { border-left: 4px solid #ffc107; }
+        .recommendation-card { border-left: 4px solid #17a2b8; }
+        .warning-card ul, .recommendation-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .warning-card li, .recommendation-card li {
+            margin: 5px 0;
+        }
+    </style>
+</body>
+</html>
+
+

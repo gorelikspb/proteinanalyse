@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://proteinanalysis.pages.dev/sitemap.xml
+

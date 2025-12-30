@@ -1,0 +1,35 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Python (if any)
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Screenshots - keep in repo but note they're not for website
+# screenshots/ directory is for project documentation only
+
+# Instructions - private files, should not be in public repo
+instructions/
+instructions.zip
+
+# Documentation - project documentation (not for website)
+docs/
+
+# Cloudflare API credentials - stored in instructions/ folder (already ignored)
+# No need to add here, instructions/ folder is already in .gitignore
+
+# Note: public/ folder should be in repository for Cloudflare Pages deployment
+
