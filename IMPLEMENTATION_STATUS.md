@@ -126,3 +126,10 @@
 - Database integration uses free UniProt REST API
 - Client-side code is ready to consume backend APIs
 - All code follows existing project patterns and styles
+
+
+
+
+
+
+

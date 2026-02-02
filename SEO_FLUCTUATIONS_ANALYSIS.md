@@ -58,7 +58,7 @@
 
 **В Google поиске:**
 ```
-site:proteinanalysis.pages.dev
+site:seqanalysis.org
 ```
 
 **Если видишь:**
@@ -119,7 +119,7 @@ site:proteinanalysis.pages.dev
 
 2. **Проверь индексацию:**
    ```
-   site:proteinanalysis.pages.dev
+   site:seqanalysis.org
    ```
    - Все страницы на месте?
 
@@ -260,3 +260,10 @@ site:proteinanalysis.pages.dev
 
 **Последнее обновление:** 2025-12-17
 **Следующая проверка:** Через неделю в Search Console
+
+
+
+
+
+
+

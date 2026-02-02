@@ -109,3 +109,10 @@ project-root/
 1. Проверь логи в Cloudflare Dashboard → Pages → Functions → Logs
 2. Попробуй создать отдельный Cloudflare Worker (см. `FUNCTIONS_SETUP_CHECK.md`)
 3. Проверь, что `_routes.json` правильно настроен в `public/`
+
+
+
+
+
+
+

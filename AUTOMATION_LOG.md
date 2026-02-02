@@ -52,7 +52,7 @@
 1. **Перемещение файлов**: Создана папка `/public` и все файлы из `/docs` перемещены туда
 2. **Автоматизация настройки**: Создан скрипт `instructions/scripts/setup-cloudflare-pages-auto.ps1` для автоматической настройки
 3. **Проверка доступности доменов**: Скрипт проверяет доступность нескольких вариантов доменных имён:
-   - `proteinanalysis.pages.dev`
+   - `seqanalysis.org`
    - `bioseq.pages.dev`
    - `sequence-lab.pages.dev`
    - `protein-tools.pages.dev`

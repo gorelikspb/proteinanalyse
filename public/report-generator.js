@@ -651,3 +651,10 @@ function getRiskColorPDF(risk) {
         default: return [108, 117, 125]; // gray
     }
 }
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+# Cloudflare Pages redirects
+# Format: /old-path /new-path [status code]
+
+# Redirect URLs without .html extension to .html version
+/reverse-complement /reverse-complement.html 301
+/dna-gc-calculator /dna-gc-calculator.html 301
+/orf-finder /orf-finder.html 301
+/protein-mw-calculator /protein-mw-calculator.html 301
+/sequence-translation /sequence-translation.html 301
+/codon-usage-calculator /codon-usage-calculator.html 301
+/fasta-validator /fasta-validator.html 301
+/rna-to-protein /rna-to-protein.html 301
+/peptide-length-calculator /peptide-length-calculator.html 301
+/amino-acid-composition /amino-acid-composition.html 301
+/ai-feasibility /ai-feasibility.html 301
+/comprehensive-analysis /comprehensive-analysis.html 301
+
+# Redirect index.html to root
+/index.html / 301
+
+# Redirect HTTP to HTTPS (handled by Cloudflare automatically, but explicit is better)
+# Note: Cloudflare automatically redirects HTTP to HTTPS, but this ensures it's explicit

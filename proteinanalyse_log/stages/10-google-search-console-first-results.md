@@ -69,7 +69,7 @@
 - ✅ Получены первые данные о запросах
 
 **Технические детали**:
-- Домен: `https://proteinanalysis.pages.dev`
+- Домен: `https://seqanalysis.org`
 - Verification code: `FjUZ6hoHjNAZ783fB-eBOua9Up64i7T4vHaloHMWYVY`
 - Все 12 страниц в sitemap.xml
 

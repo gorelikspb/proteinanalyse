@@ -57,7 +57,7 @@ functions/
    - Вместо `/api/database-lookup` используй `https://proteinanalyse-api.ТВОЙ_АККАУНТ.workers.dev`
 
 4. **Или используй custom domain:**
-   - Можно настроить `api.proteinanalysis.pages.dev` → Worker
+   - Можно настроить `api.seqanalysis.org` → Worker
 
 ## Проверка работоспособности
 
@@ -123,3 +123,10 @@ fetch('/api/database-lookup', {
 - ❌ URL отличается от `/api/...`
 
 **Инструкция:** См. Вариант 2 выше.
+
+
+
+
+
+
+

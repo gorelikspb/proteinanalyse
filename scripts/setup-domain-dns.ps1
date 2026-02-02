@@ -112,3 +112,10 @@ try {
     Write-Host "   2. Добавь CNAME: @ → $PagesSubdomain.pages.dev" -ForegroundColor White
     Write-Host "   3. Cloudflare Pages → Project → Custom Domains → Add domain" -ForegroundColor White
 }
+
+
+
+
+
+
+

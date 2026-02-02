@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$NewDomain,
     
-    [string]$OldDomain = "proteinanalysis.pages.dev"
+    [string]$OldDomain = "seqanalysis.org"  # Current production domain (see SITE_DOMAIN.md)
 )
 
 Write-Host "🔄 Обновление домена в файлах сайта..." -ForegroundColor Cyan
@@ -62,3 +62,10 @@ Write-Host "   1. Google Search Console - добавь новое свойств
 Write-Host "   2. Microsoft Clarity - обнови URL сайта (если нужно)" -ForegroundColor White
 Write-Host "   3. Все внешние ссылки (если есть)" -ForegroundColor White
 Write-Host ""
+
+
+
+
+
+
+

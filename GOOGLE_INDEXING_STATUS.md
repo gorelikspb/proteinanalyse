@@ -9,15 +9,15 @@
 - **Дата настройки**: 2024-12-19 (Stage 08)
 
 ### Домен
-- **URL сайта**: `https://proteinanalysis.pages.dev`
+- **URL сайта**: `https://seqanalysis.org`
 - **Платформа**: Cloudflare Pages
 - **Тип сайта**: Статический (HTML/CSS/JS)
 
 ### Sitemap
 - **Файл**: `sitemap.xml`
-- **URL**: `https://proteinanalysis.pages.dev/sitemap.xml`
-- **Количество страниц**: 12 страниц
-- **Статус отправки**: ⚠️ Требует проверки в Search Console
+- **URL**: `https://seqanalysis.org/sitemap.xml`
+- **Количество страниц**: 19 страниц (включая статьи)
+- **Статус отправки**: ✅ Отправлен в Search Console
 
 ### Robots.txt
 - **Файл**: `robots.txt`
@@ -26,12 +26,22 @@
   ```
   User-agent: *
   Allow: /
-  Sitemap: https://proteinanalysis.pages.dev/sitemap.xml
+  Sitemap: https://seqanalysis.org/sitemap.xml
   ```
 
 ---
 
-## 📄 Страницы сайта (12 страниц)
+## ✅ Статус индексации (обновлено: 31 Jan 2026)
+
+### Проиндексированные страницы: **2 из 19**
+- ✅ `https://seqanalysis.org/` (последний краул: 29 Jan 2026)
+- ✅ `https://seqanalysis.org/orf-finder` (последний краул: 25 Jan 2026)
+
+**Примечание:** Google индексирует страницы постепенно. Ожидается рост до 19 страниц в течение 1-2 недель.
+
+---
+
+## 📄 Страницы сайта (19 страниц)
 
 1. ✅ **index.html** - Main Sequence Analyzer (priority: 1.0)
 2. ✅ **ai-feasibility.html** - AI Feasibility Check (priority: 0.9, lastmod: 2025-01-27)
@@ -45,6 +55,14 @@
 10. ✅ **rna-to-protein.html** - RNA to Protein (priority: 0.8)
 11. ✅ **peptide-length-calculator.html** - Peptide Length Calculator (priority: 0.8)
 12. ✅ **amino-acid-composition.html** - Amino Acid Composition (priority: 0.8)
+13. ✅ **comprehensive-analysis.html** - Comprehensive Analysis (priority: 0.9)
+14. ✅ **articles/index.html** - Articles Index (priority: 0.9)
+15. ✅ **articles/what-is-gc-content.html** - What is GC Content (priority: 0.8)
+16. ✅ **articles/gc-content-guide.html** - GC Content Guide (priority: 0.8)
+17. ✅ **articles/orf-analysis-workflow.html** - ORF Analysis Workflow (priority: 0.8)
+18. ✅ **articles/ai-feasibility-interpretation.html** - AI Feasibility Interpretation (priority: 0.8)
+19. ✅ **articles/codon-optimization-guide.html** - Codon Optimization Guide (priority: 0.8)
+20. ✅ **articles/solubility-vs-expressibility.html** - Solubility vs Expressibility (priority: 0.8)
 
 Все страницы имеют:
 - ✅ Уникальные title и meta description
@@ -52,6 +70,8 @@
 - ✅ SEO текст в footer
 - ✅ Google Search Console verification tag
 - ✅ Microsoft Clarity tracking
+- ✅ Canonical теги (добавлены 31 Jan 2026)
+- ✅ Редиректы настроены (файл `_redirects`)
 
 ---
 
@@ -89,10 +109,10 @@
 ### 2. Проверка отправки Sitemap
 **Как проверить:**
 - В Search Console → **Sitemaps**
-- Добавь sitemap: `https://proteinanalysis.pages.dev/sitemap.xml`
+- Добавь sitemap: `https://seqanalysis.org/sitemap.xml`
 - Проверь статус обработки
 
-**Статус**: ⚠️ Требует проверки/отправки
+**Статус**: ✅ Отправлен в Search Console
 
 ### 3. Проверка поисковых запросов
 **Как проверить:**
@@ -106,7 +126,7 @@
 
 ### 4. Проверка в Google Search
 **Как проверить:**
-- Поиск: `site:proteinanalysis.pages.dev`
+- Поиск: `site:seqanalysis.org`
 - Должны отображаться все проиндексированные страницы
 
 ---
@@ -114,9 +134,11 @@
 ## 📈 Метрики для отслеживания
 
 ### Краткосрочные (1-2 недели)
-- ✅ Количество проиндексированных страниц
-- ✅ Статус sitemap (успешно обработан)
-- ✅ Отсутствие ошибок индексации
+- ✅ Количество проиндексированных страниц: **2 из 19** (растет)
+- ✅ Статус sitemap: отправлен и обрабатывается
+- ✅ Canonical теги добавлены (31 Jan 2026)
+- ✅ Редиректы настроены
+- ⏳ Ожидается рост до 19 проиндексированных страниц
 
 ### Среднесрочные (1-3 месяца)
 - 📊 Первые поисковые запросы
@@ -135,7 +157,7 @@
 
 1. **Отправить Sitemap в Search Console**
    - Зайди в Search Console → Sitemaps
-   - Добавь: `https://proteinanalysis.pages.dev/sitemap.xml`
+   - Добавь: `https://seqanalysis.org/sitemap.xml`
    - Дождись обработки (обычно несколько часов)
 
 2. **Проверить индексацию**
@@ -151,9 +173,9 @@
 ## 🔗 Полезные ссылки
 
 - **Google Search Console**: https://search.google.com/search-console
-- **Проверка индексации**: `site:proteinanalysis.pages.dev`
-- **Sitemap**: https://proteinanalysis.pages.dev/sitemap.xml
-- **Robots.txt**: https://proteinanalysis.pages.dev/robots.txt
+- **Проверка индексации**: `site:seqanalysis.org`
+- **Sitemap**: https://seqanalysis.org/sitemap.xml
+- **Robots.txt**: https://seqanalysis.org/robots.txt
 
 ---
 

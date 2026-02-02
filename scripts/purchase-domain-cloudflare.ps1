@@ -96,3 +96,10 @@ try {
         Write-Host "   Нужны права: Account → Domain Registration → Edit" -ForegroundColor Yellow
     }
 }
+
+
+
+
+
+
+

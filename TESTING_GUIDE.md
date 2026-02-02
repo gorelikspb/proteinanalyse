@@ -73,7 +73,7 @@
 ### Тест 1: Проверка базовых инструментов (client-side)
 
 **Шаги:**
-1. Открой `https://proteinanalysis.pages.dev/dna-gc-calculator.html`
+1. Открой `https://seqanalysis.org/dna-gc-calculator.html`
 2. Вставь пример последовательности: `ATGCGATCGATCGATCG`
 3. Нажми "Analyze"
 4. **Ожидаемый результат:** Должны показаться результаты (GC%, длина и т.д.)
@@ -90,7 +90,7 @@
 ### Тест 2: Проверка Backend API (GET запросы)
 
 **Шаги:**
-1. Открой `https://proteinanalysis.pages.dev/test-api.html`
+1. Открой `https://seqanalysis.org/test-api.html`
 2. Нажми кнопку **"Test GET /api/database-lookup"**
 3. **Ожидаемый результат:** Должен вернуться JSON:
    ```json
@@ -128,7 +128,7 @@ fetch('/api/benchmark?action=list')
 ### Тест 3: Проверка UniProt ID Lookup (POST запрос)
 
 **Шаги:**
-1. Открой `https://proteinanalysis.pages.dev/test-api.html`
+1. Открой `https://seqanalysis.org/test-api.html`
 2. Нажми кнопку **"Test POST /api/database-lookup"**
 3. **Ожидаемый результат:** Должен вернуться JSON с данными UniProt записи или ошибкой "not found"
 
@@ -356,3 +356,10 @@ testAllAPIs();
 ```
 
 Скопируй этот код в консоль браузера на сайте и выполни - увидишь, что работает, а что нет.
+
+
+
+
+
+
+

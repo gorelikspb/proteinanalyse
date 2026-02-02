@@ -121,3 +121,10 @@ Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "  1. Check domains manually at: https://dash.cloudflare.com/domains" -ForegroundColor White
 Write-Host "  2. Or use purchase script: .\scripts\purchase-domain-cloudflare.ps1" -ForegroundColor White
 Write-Host ""
+
+
+
+
+
+
+

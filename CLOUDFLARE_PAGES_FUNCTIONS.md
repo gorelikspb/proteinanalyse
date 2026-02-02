@@ -121,3 +121,10 @@ wrangler pages deploy public --project-name=proteinanalysis
 1. GET `/api/database-lookup` - должен вернуть информацию об API
 2. POST `/api/database-lookup` - должен обработать запрос
 3. OPTIONS `/api/database-lookup` - должен вернуть CORS заголовки
+
+
+
+
+
+
+

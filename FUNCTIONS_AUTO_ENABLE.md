@@ -59,3 +59,10 @@
      - "Missing export"
 
 3. **Попробуй создать отдельный Worker** (см. `FUNCTIONS_SETUP_CHECK.md`)
+
+
+
+
+
+
+
