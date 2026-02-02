@@ -148,7 +148,9 @@ See "Deployment Checklist" section below to verify everything works.
 
 ---
 
-**For detailed instructions, see:** `instructions/CLOUDFLARE_PAGES_SETUP.md`
+**For detailed instructions, see:** `docs/domain/CLOUDFLARE_DOMAIN_SETUP.md`
+
+**Документация:** См. `docs/README.md` для полного списка документации.
 
 ## Deployment Checklist
 
