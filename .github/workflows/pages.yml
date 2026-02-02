@@ -1,0 +1,41 @@
+# Disable GitHub Pages automatic build
+# This project uses Cloudflare Pages for deployment, not GitHub Pages
+
+name: pages-build-deployment
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip build (Cloudflare Pages handles deployment)
+        run: |
+          echo "This project uses Cloudflare Pages for deployment."
+          echo "GitHub Pages build is intentionally skipped."
+          exit 0
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Skip deployment (Cloudflare Pages handles deployment)
+        run: |
+          echo "Deployment is handled by Cloudflare Pages."
+          echo "See: https://seqanalysis.org"

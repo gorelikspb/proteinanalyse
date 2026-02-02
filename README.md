@@ -229,14 +229,17 @@ After deployment, verify the following:
 
 ### GitHub Pages
 
-1. Push files from `public/` folder to repository
-2. Go to repository Settings > Pages
-3. Select source: "Deploy from a branch"
-4. Choose branch: `master`
-5. Select folder: `/public`
-6. Save
+**⚠️ Этот проект использует Cloudflare Pages, а не GitHub Pages.**
 
-Your site will be available at: `https://[username].github.io/[repository-name]/`
+GitHub Pages автоматически отключен через `.github/workflows/pages.yml` и `.nojekyll` файл.
+
+**Если нужно использовать GitHub Pages:**
+1. Удали `.github/workflows/pages.yml`
+2. Удали `public/.nojekyll`
+3. Настрой GitHub Pages в Settings > Pages
+4. Выбери branch: `master`, folder: `/public`
+
+**Но рекомендуется использовать Cloudflare Pages** (уже настроено).
 
 ### Netlify / Vercel
 
