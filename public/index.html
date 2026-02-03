@@ -21,6 +21,7 @@
 </head>
 <body>
     <div class="container">
+        <div id="site-header"></div>
         <header>
             <h1>DNA & Protein Sequence Analysis Software Online</h1>
             <p class="subtitle">Free DNA sequence analyzer and protein analysis tools - instant results, no login required</p>
@@ -260,8 +261,7 @@
             }
         }
         
-        // Initialize navigation
-        document.getElementById('navigation').innerHTML = getNavigation();
+        // Site header and navigation are auto-initialized by common.js
         
         // Set update time on page load
         updateLastUpdateTime();

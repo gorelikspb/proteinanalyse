@@ -21,6 +21,7 @@
 </head>
 <body>
     <div class="container">
+        <div id="site-header"></div>
         <header>
             <h1>DNA GC Content Calculator</h1>
             <p class="subtitle">Calculate GC percentage, AT content, and sequence statistics</p>
@@ -88,7 +89,7 @@
 
     <script src="common.js"></script>
     <script>
-        document.getElementById('navigation').innerHTML = getNavigation();
+        // Site header and navigation are auto-initialized by common.js
         updateLastUpdateTime();
         
         document.addEventListener('DOMContentLoaded', () => {

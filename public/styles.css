@@ -23,6 +23,27 @@ body {
     padding: 30px;
 }
 
+.site-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+.site-logo {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+.site-logo:hover {
+    opacity: 0.8;
+}
+.site-logo h1 {
+    transition: color 0.2s;
+}
+.site-logo:hover h1 {
+    color: #764ba2;
+}
+
 header {
     text-align: center;
     margin-bottom: 30px;
@@ -68,6 +89,30 @@ h1 {
 .main-nav .dropdown-btn:hover {
     background: #3498db;
     color: white;
+}
+
+/* Active navigation link (current page) - grayed out, not clickable */
+.main-nav a.nav-active {
+    background: #bdc3c7;
+    color: #7f8c8d;
+    border-color: #bdc3c7;
+    cursor: default;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.main-nav a.nav-active:hover {
+    background: #bdc3c7;
+    color: #7f8c8d;
+    transform: none;
+}
+
+.dropdown-content a.nav-active {
+    background: #ecf0f1;
+    color: #7f8c8d;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 /* Dropdown menu */
@@ -130,6 +175,15 @@ h1 {
 
 .input-section {
     margin-bottom: 30px;
+    scroll-margin-top: 120px; /* Offset for better scrolling on mobile */
+}
+
+#sequence-input-section {
+    scroll-margin-top: 120px; /* Offset for sequence input section */
+}
+
+#sequence-input {
+    scroll-margin-top: 0; /* Use parent's scroll-margin */
 }
 
 label {
@@ -193,6 +247,127 @@ button {
 
 .btn-secondary:hover {
     background-color: #7f8c8d;
+}
+
+/* Tooltip styles for buttons and navigation links */
+.btn-primary[data-tooltip],
+.btn-secondary[data-tooltip],
+.main-nav a[data-tooltip],
+.dropdown-btn[data-tooltip],
+.dropdown-content a[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+/* Tooltip container */
+.btn-primary[data-tooltip]::after,
+.btn-secondary[data-tooltip]::after,
+.main-nav a[data-tooltip]::after,
+.dropdown-btn[data-tooltip]::after,
+.dropdown-content a[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c3e50;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    white-space: normal;
+    max-width: 280px;
+    min-width: 200px;
+    text-align: left;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    pointer-events: none;
+    line-height: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    word-wrap: break-word;
+}
+
+/* Tooltip arrow */
+.btn-primary[data-tooltip]::before,
+.btn-secondary[data-tooltip]::before,
+.main-nav a[data-tooltip]::before,
+.dropdown-btn[data-tooltip]::before,
+.dropdown-content a[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #2c3e50;
+    z-index: 10001;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Show tooltip on hover (desktop) - controlled by JavaScript with delay */
+.btn-primary[data-tooltip].tooltip-hover::after,
+.btn-secondary[data-tooltip].tooltip-hover::after,
+.main-nav a[data-tooltip].tooltip-hover::after,
+.dropdown-btn[data-tooltip].tooltip-hover::after,
+.dropdown-content a[data-tooltip].tooltip-hover::after,
+.btn-primary[data-tooltip].tooltip-hover::before,
+.btn-secondary[data-tooltip].tooltip-hover::before,
+.main-nav a[data-tooltip].tooltip-hover::before,
+.dropdown-btn[data-tooltip].tooltip-hover::before,
+.dropdown-content a[data-tooltip].tooltip-hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Don't show tooltip for active navigation links (hover) */
+.main-nav a.nav-active[data-tooltip].tooltip-hover::after,
+.main-nav a.nav-active[data-tooltip].tooltip-hover::before,
+.dropdown-content a.nav-active[data-tooltip].tooltip-hover::after,
+.dropdown-content a.nav-active[data-tooltip].tooltip-hover::before {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Show tooltip on touch (mobile) */
+.btn-primary[data-tooltip].tooltip-active::after,
+.btn-secondary[data-tooltip].tooltip-active::after,
+.main-nav a[data-tooltip].tooltip-active::after,
+.dropdown-btn[data-tooltip].tooltip-active::after,
+.dropdown-content a[data-tooltip].tooltip-active::after,
+.btn-primary[data-tooltip].tooltip-active::before,
+.btn-secondary[data-tooltip].tooltip-active::before,
+.main-nav a[data-tooltip].tooltip-active::before,
+.dropdown-btn[data-tooltip].tooltip-active::before,
+.dropdown-content a[data-tooltip].tooltip-active::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Don't show tooltip for active navigation links (hover) */
+.main-nav a.nav-active[data-tooltip].tooltip-hover::after,
+.main-nav a.nav-active[data-tooltip].tooltip-hover::before,
+.dropdown-content a.nav-active[data-tooltip].tooltip-hover::after,
+.dropdown-content a.nav-active[data-tooltip].tooltip-hover::before {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .btn-primary[data-tooltip]::after,
+    .btn-secondary[data-tooltip]::after,
+    .main-nav a[data-tooltip]::after,
+    .dropdown-btn[data-tooltip]::after,
+    .dropdown-content a[data-tooltip]::after {
+        max-width: calc(100vw - 40px);
+        font-size: 0.8em;
+        padding: 8px 12px;
+    }
 }
 
 .sequence-type-indicator {

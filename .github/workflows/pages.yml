@@ -1,5 +1,6 @@
 # Disable GitHub Pages automatic build
 # This project uses Cloudflare Pages for deployment, not GitHub Pages
+# This workflow always succeeds to prevent build errors
 
 name: pages-build-deployment
 
@@ -22,20 +23,37 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Skip build (Cloudflare Pages handles deployment)
+      - name: Checkout (not needed, but prevents errors)
+        uses: actions/checkout@v4
+      
+      - name: Skip build - Cloudflare Pages handles deployment
         run: |
-          echo "This project uses Cloudflare Pages for deployment."
-          echo "GitHub Pages build is intentionally skipped."
-          exit 0
+          echo "✅ This project uses Cloudflare Pages for deployment."
+          echo "✅ GitHub Pages build is intentionally skipped."
+          echo "✅ Production site: https://seqanalysis.org"
+          echo "✅ Build step completed successfully (no-op)"
+
+  report-build-status:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Report status
+        run: |
+          echo "✅ Build status reported (skipped, using Cloudflare Pages)"
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: always()
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Skip deployment (Cloudflare Pages handles deployment)
+      - name: Skip deployment - Cloudflare Pages handles deployment
+        id: deployment
         run: |
-          echo "Deployment is handled by Cloudflare Pages."
-          echo "See: https://seqanalysis.org"
+          echo "✅ Deployment skipped - handled by Cloudflare Pages"
+          echo "✅ Production site: https://seqanalysis.org"
+          echo "page_url=https://seqanalysis.org" >> $GITHUB_OUTPUT
+

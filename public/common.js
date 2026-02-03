@@ -32,36 +32,83 @@ const GENETIC_CODE = {
 // Hydrophobic amino acids
 const HYDROPHOBIC_AAS = new Set(['A', 'V', 'I', 'L', 'M', 'F', 'W', 'P']);
 
+// Site header HTML (logo/banner linking to homepage)
+// Automatically adjusts paths based on current directory
+function getSiteHeader() {
+    // Determine if we're in articles/ subdirectory
+    const path = window.location.pathname;
+    const isInArticles = path.includes('/articles/');
+    const homePath = isInArticles ? '../index.html' : 'index.html';
+    
+    return `
+        <div class="site-header">
+            <a href="${homePath}" class="site-logo">
+                <h1 style="margin: 0; font-size: 1.5em; color: #667eea;">Sequence Analysis</h1>
+                <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #7f8c8d;">Free DNA & Protein Analysis Tools</p>
+            </a>
+        </div>
+    `;
+}
+
 // Navigation menu HTML
 // Automatically adjusts paths based on current directory
 function getNavigation() {
     // Determine if we're in articles/ subdirectory
     const path = window.location.pathname;
-    const isInArticles = path.includes('/articles/');
+    const href = window.location.href;
+    const isInArticles = path.includes('/articles/') || href.includes('/articles/');
     const prefix = isInArticles ? '../' : '';
     const articlesPath = isInArticles ? 'index.html' : 'articles/index.html';
     
+    // Get current page filename - works for both file:// and http:// URLs
+    let currentPage = '';
+    if (path && path !== '/') {
+        currentPage = path.split('/').pop() || '';
+    } else if (href) {
+        // For file:// URLs or root path, extract filename from href
+        const match = href.match(/([^\/]+\.html)(?:\?|#|$)/);
+        if (match) {
+            currentPage = match[1];
+        } else if (href.endsWith('/') || href.match(/\/$/) || path === '/') {
+            // Root path means index.html
+            currentPage = 'index.html';
+        }
+    }
+    
+    // Normalize: empty, root path, or 'index.html' means we're on homepage
+    const currentPageClean = (currentPage === '' || currentPage === 'index.html' || !currentPage || path === '/') ? 'index.html' : currentPage;
+    
+    // Helper function to check if link is active
+    const isActive = (pageName) => {
+        const linkPage = pageName.replace(prefix, '').replace('../', '');
+        // Special case: if we're on homepage and link is index.html
+        if (currentPageClean === 'index.html' && linkPage === 'index.html') {
+            return true;
+        }
+        return linkPage === currentPageClean;
+    };
+    
     return `
         <nav class="main-nav">
-            <a href="${prefix}index.html">Sequence Analyzer</a>
-            <a href="${prefix}comprehensive-analysis.html">Comprehensive Analysis</a>
-            <a href="${prefix}ai-feasibility.html">AI Feasibility</a>
-            <a href="${prefix}dna-gc-calculator.html">GC Calculator</a>
-            <a href="${prefix}reverse-complement.html">Reverse Complement</a>
-            <a href="${prefix}orf-finder.html">ORF Finder</a>
-            <a href="${prefix}protein-mw-calculator.html">Protein MW</a>
-            <a href="${prefix}sequence-translation.html">DNA Translation</a>
+            <a href="${prefix}index.html" ${isActive('index.html') ? 'class="nav-active"' : ''} data-tooltip="Main sequence analysis tool. Enter DNA or protein sequences to analyze composition, molecular weight, and basic properties. Free online bioinformatics tool.">Sequence Analyzer</a>
+            <a href="${prefix}comprehensive-analysis.html" ${isActive('comprehensive-analysis.html') ? 'class="nav-active"' : ''} data-tooltip="Comprehensive protein analysis with automated report generation. Analyze sequences, predict properties, expression systems, and generate detailed PDF reports for research.">Comprehensive Analysis (+PDF)</a>
+            <a href="${prefix}ai-feasibility.html" ${isActive('ai-feasibility.html') ? 'class="nav-active"' : ''} data-tooltip="AI-powered protein expressibility prediction. Predict solubility, aggregation risks, transmembrane domains, and codon usage for E.coli expression systems.">AI Feasibility</a>
+            <a href="${prefix}dna-gc-calculator.html" ${isActive('dna-gc-calculator.html') ? 'class="nav-active"' : ''} data-tooltip="Calculate GC content percentage of DNA sequences. GC content affects DNA stability, melting temperature, and is important for PCR primer design and molecular biology applications.">GC Calculator</a>
+            <a href="${prefix}reverse-complement.html" ${isActive('reverse-complement.html') ? 'class="nav-active"' : ''} data-tooltip="Generate reverse complement of DNA sequences. Essential for primer design, finding complementary strands, and working with double-stranded DNA in molecular biology.">Reverse Complement</a>
+            <a href="${prefix}orf-finder.html" ${isActive('orf-finder.html') ? 'class="nav-active"' : ''} data-tooltip="Find Open Reading Frames (ORFs) in DNA sequences. Identify potential protein-coding regions, start and stop codons, and translate ORFs to amino acid sequences.">ORF Finder</a>
+            <a href="${prefix}protein-mw-calculator.html" ${isActive('protein-mw-calculator.html') ? 'class="nav-active"' : ''} data-tooltip="Calculate molecular weight of protein sequences. Uses monoisotopic masses for accurate protein mass determination, useful for mass spectrometry and protein analysis.">Protein MW</a>
+            <a href="${prefix}sequence-translation.html" ${isActive('sequence-translation.html') ? 'class="nav-active"' : ''} data-tooltip="Translate DNA sequences to protein sequences using the standard genetic code. Convert nucleotide triplets (codons) to amino acids for protein sequence analysis.">DNA Translation</a>
             <div class="dropdown" onmouseenter="this.classList.add('active')" onmouseleave="this.classList.remove('active')">
-                <a href="#" class="dropdown-btn" onclick="event.preventDefault(); return false;">More Tools ▼</a>
+                <a href="#" class="dropdown-btn" onclick="event.preventDefault(); return false;" data-tooltip="Additional bioinformatics tools including codon usage analysis, FASTA validation, RNA translation, and peptide calculations.">More Tools ▼</a>
                 <div class="dropdown-content">
-                    <a href="${prefix}codon-usage-calculator.html">Codon Usage</a>
-                    <a href="${prefix}fasta-validator.html">FASTA Validator</a>
-                    <a href="${prefix}rna-to-protein.html">RNA Translator</a>
-                    <a href="${prefix}peptide-length-calculator.html">Peptide Length</a>
-                    <a href="${prefix}amino-acid-composition.html">AA Composition</a>
+                    <a href="${prefix}codon-usage-calculator.html" ${isActive('codon-usage-calculator.html') ? 'class="nav-active"' : ''} data-tooltip="Analyze codon usage frequency in DNA sequences. Calculate Relative Synonymous Codon Usage (RSCU) values for optimizing gene expression in different organisms.">Codon Usage</a>
+                    <a href="${prefix}fasta-validator.html" ${isActive('fasta-validator.html') ? 'class="nav-active"' : ''} data-tooltip="Validate FASTA format sequences. Check sequence format, identify errors, and ensure sequences are properly formatted for bioinformatics tools and databases.">FASTA Validator</a>
+                    <a href="${prefix}rna-to-protein.html" ${isActive('rna-to-protein.html') ? 'class="nav-active"' : ''} data-tooltip="Translate RNA sequences to protein sequences. Convert mRNA codons to amino acids using the genetic code, essential for gene expression analysis.">RNA Translator</a>
+                    <a href="${prefix}peptide-length-calculator.html" ${isActive('peptide-length-calculator.html') ? 'class="nav-active"' : ''} data-tooltip="Calculate peptide length and properties. Determine number of amino acids, molecular weight, and basic characteristics of peptide sequences.">Peptide Length</a>
+                    <a href="${prefix}amino-acid-composition.html" ${isActive('amino-acid-composition.html') ? 'class="nav-active"' : ''} data-tooltip="Analyze amino acid composition of protein sequences. Calculate percentage and count of each amino acid type for protein characterization and analysis.">AA Composition</a>
                 </div>
             </div>
-            <a href="${articlesPath}">Guides</a>
+            <a href="${articlesPath}" ${isInArticles ? 'class="nav-active"' : ''} data-tooltip="Guides and tutorials for using sequence analysis tools. Learn about DNA and protein analysis, bioinformatics methods, and best practices for sequence analysis.">Guides</a>
         </nav>
     `;
 }
@@ -566,4 +613,97 @@ function calculateIsoelectricPoint(sequence) {
     
     return parseFloat(pI.toFixed(2));
 }
+
+// Auto-initialize site header and navigation on page load
+// This will automatically add the header to any page that has <div id="site-header"></div>
+// Tooltip functionality for mobile devices and desktop hover (works for navigation and buttons)
+function initTooltips() {
+    const tooltipElements = document.querySelectorAll('[data-tooltip]');
+    
+    tooltipElements.forEach(element => {
+        // Skip active navigation links
+        if (element.classList.contains('nav-active')) {
+            return;
+        }
+        
+        // For desktop hover with delay
+        let hoverTimeout;
+        let hideTimeout;
+        
+        element.addEventListener('mouseenter', function() {
+            // Clear any pending hide timeout
+            clearTimeout(hideTimeout);
+            
+            // Show tooltip after 400ms delay
+            hoverTimeout = setTimeout(() => {
+                // Remove hover class from other elements
+                tooltipElements.forEach(el => el.classList.remove('tooltip-hover'));
+                // Add hover class to current element
+                this.classList.add('tooltip-hover');
+            }, 400);
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            // Clear pending show timeout
+            clearTimeout(hoverTimeout);
+            
+            // Hide tooltip immediately
+            this.classList.remove('tooltip-hover');
+        });
+        
+        // For touch devices
+        let touchTimeout;
+        
+        element.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            // Remove active class from other elements
+            tooltipElements.forEach(el => {
+                el.classList.remove('tooltip-active');
+                el.classList.remove('tooltip-hover');
+            });
+            // Add active class to current element
+            this.classList.add('tooltip-active');
+            
+            // Hide tooltip after 3 seconds
+            clearTimeout(touchTimeout);
+            touchTimeout = setTimeout(() => {
+                this.classList.remove('tooltip-active');
+            }, 3000);
+        });
+        
+        // Hide tooltip when element is clicked (for navigation links)
+        element.addEventListener('click', function() {
+            // Small delay to allow navigation
+            setTimeout(() => {
+                this.classList.remove('tooltip-active');
+                this.classList.remove('tooltip-hover');
+            }, 100);
+        });
+        
+        // Hide tooltip when clicking outside
+        document.addEventListener('touchstart', function(e) {
+            if (!element.contains(e.target)) {
+                element.classList.remove('tooltip-active');
+                element.classList.remove('tooltip-hover');
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const siteHeader = document.getElementById('site-header');
+    if (siteHeader) {
+        siteHeader.innerHTML = getSiteHeader();
+    }
+    
+    const navigation = document.getElementById('navigation');
+    if (navigation && typeof getNavigation === 'function') {
+        navigation.innerHTML = getNavigation();
+        // Initialize tooltips after navigation is rendered
+        initTooltips();
+    } else {
+        // Initialize tooltips even if navigation wasn't found
+        initTooltips();
+    }
+});
 

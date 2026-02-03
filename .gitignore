@@ -25,8 +25,8 @@ env/
 instructions/
 instructions.zip
 
-# Documentation - project documentation (not for website)
-docs/
+# Documentation - project documentation (included in repo)
+# docs/ - включена в репозиторий для удобства
 
 # Cloudflare API credentials - stored in instructions/ folder (already ignored)
 # No need to add here, instructions/ folder is already in .gitignore
