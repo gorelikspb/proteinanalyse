@@ -705,5 +705,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize tooltips even if navigation wasn't found
         initTooltips();
     }
+    
+    // Notify Clarity that dynamic content is loaded
+    // This helps Clarity record the page correctly when content is loaded via JavaScript
+    if (window.clarity) {
+        setTimeout(function() {
+            window.clarity('set', 'content_loaded', 'true');
+        }, 200);
+    }
 });
 
