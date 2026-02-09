@@ -229,6 +229,9 @@ button {
     background-color: #3498db;
     color: white;
     flex: 1;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    touch-action: manipulation; /* Improve touch responsiveness */
+    user-select: none; /* Prevent text selection on tap */
 }
 
 .btn-primary:hover {
@@ -238,15 +241,37 @@ button {
 
 .btn-primary:active {
     transform: translateY(0);
+    background-color: #21618c;
 }
 
 .btn-secondary {
     background-color: #95a5a6;
     color: white;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    touch-action: manipulation; /* Improve touch responsiveness */
+    user-select: none; /* Prevent text selection on tap */
 }
 
 .btn-secondary:hover {
     background-color: #7f8c8d;
+}
+
+.btn-secondary:active {
+    background-color: #6c7a7b;
+    transform: scale(0.98);
+}
+
+/* Mobile touch feedback */
+@media (max-width: 768px) {
+    .btn-primary:active {
+        background-color: #21618c;
+        transform: scale(0.98);
+    }
+    
+    .btn-secondary:active {
+        background-color: #6c7a7b;
+        transform: scale(0.98);
+    }
 }
 
 /* Tooltip styles for buttons and navigation links */

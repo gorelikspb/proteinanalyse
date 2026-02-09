@@ -651,29 +651,66 @@ function initTooltips() {
             this.classList.remove('tooltip-hover');
         });
         
-        // For touch devices
+        // For touch devices - show tooltip on long press, don't block clicks
         let touchTimeout;
+        let touchStartTime = 0;
+        let touchMoved = false;
         
         element.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            // Remove active class from other elements
-            tooltipElements.forEach(el => {
-                el.classList.remove('tooltip-active');
-                el.classList.remove('tooltip-hover');
-            });
-            // Add active class to current element
-            this.classList.add('tooltip-active');
+            // Don't prevent default for buttons - let them work normally
+            const isButton = this.tagName === 'BUTTON' || this.classList.contains('btn-primary') || this.classList.contains('btn-secondary');
+            if (isButton) {
+                // For buttons, don't prevent default - allow normal click behavior
+                return;
+            }
             
-            // Hide tooltip after 3 seconds
-            clearTimeout(touchTimeout);
-            touchTimeout = setTimeout(() => {
-                this.classList.remove('tooltip-active');
-            }, 3000);
+            touchStartTime = Date.now();
+            touchMoved = false;
+            
+            // Only prevent default for links/navigation to show tooltip
+            if (this.tagName === 'A' && this.href && !this.href.includes('#')) {
+                // For navigation links, show tooltip but don't block click
+                // Remove active class from other elements
+                tooltipElements.forEach(el => {
+                    el.classList.remove('tooltip-active');
+                    el.classList.remove('tooltip-hover');
+                });
+                // Add active class to current element
+                this.classList.add('tooltip-active');
+                
+                // Hide tooltip after 3 seconds
+                clearTimeout(touchTimeout);
+                touchTimeout = setTimeout(() => {
+                    this.classList.remove('tooltip-active');
+                }, 3000);
+            }
         });
         
-        // Hide tooltip when element is clicked (for navigation links)
+        element.addEventListener('touchmove', function() {
+            touchMoved = true;
+            // If user moved finger, cancel tooltip
+            this.classList.remove('tooltip-active');
+        });
+        
+        element.addEventListener('touchend', function(e) {
+            const touchDuration = Date.now() - touchStartTime;
+            const isButton = this.tagName === 'BUTTON' || this.classList.contains('btn-primary') || this.classList.contains('btn-secondary');
+            
+            // For buttons, always allow click
+            if (isButton) {
+                return;
+            }
+            
+            // For links, if it was a quick tap (not long press), allow navigation
+            if (touchDuration < 300 && !touchMoved) {
+                // Quick tap - allow navigation, hide tooltip
+                this.classList.remove('tooltip-active');
+            }
+        });
+        
+        // Hide tooltip when element is clicked
         element.addEventListener('click', function() {
-            // Small delay to allow navigation
+            // Small delay to allow navigation/action
             setTimeout(() => {
                 this.classList.remove('tooltip-active');
                 this.classList.remove('tooltip-hover');
@@ -714,4 +751,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 200);
     }
 });
-

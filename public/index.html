@@ -361,7 +361,19 @@
                 content.innerHTML = renderProteinResults(results);
             }
             
-            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Improved scroll for mobile devices
+            setTimeout(() => {
+                const isMobile = window.innerWidth <= 768;
+                const containerRect = container.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const containerTop = containerRect.top + scrollTop;
+                const offset = isMobile ? 100 : 50;
+                
+                window.scrollTo({
+                    top: Math.max(0, containerTop - offset),
+                    behavior: 'smooth'
+                });
+            }, 100);
         }
 
         function renderDNAResults(results) {

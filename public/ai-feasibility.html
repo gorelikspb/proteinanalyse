@@ -215,19 +215,23 @@
             }, 500);
         }
 
-        // Tooltip functionality for mobile devices
+        // Tooltip functionality for mobile devices - don't block button clicks
         function initTooltips() {
             const buttons = document.querySelectorAll('[data-tooltip]');
             
             buttons.forEach(button => {
-                // For touch devices
+                // For touch devices - show tooltip on long press, don't block clicks
                 let touchTimeout;
+                let touchStartTime = 0;
+                let touchMoved = false;
                 
                 button.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    // Remove active class from other buttons
+                    // Don't prevent default - allow buttons to work normally
+                    touchStartTime = Date.now();
+                    touchMoved = false;
+                    
+                    // Show tooltip but don't block click
                     buttons.forEach(btn => btn.classList.remove('tooltip-active'));
-                    // Add active class to current button
                     this.classList.add('tooltip-active');
                     
                     // Hide tooltip after 3 seconds
@@ -235,6 +239,21 @@
                     touchTimeout = setTimeout(() => {
                         this.classList.remove('tooltip-active');
                     }, 3000);
+                });
+                
+                button.addEventListener('touchmove', function() {
+                    touchMoved = true;
+                    // If user moved finger, cancel tooltip
+                    this.classList.remove('tooltip-active');
+                });
+                
+                button.addEventListener('touchend', function() {
+                    // Quick tap - hide tooltip immediately, allow click
+                    if (Date.now() - touchStartTime < 300 && !touchMoved) {
+                        setTimeout(() => {
+                            this.classList.remove('tooltip-active');
+                        }, 100);
+                    }
                 });
                 
                 // Hide tooltip when button is clicked
