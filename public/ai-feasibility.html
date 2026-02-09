@@ -177,8 +177,8 @@
             const input = document.getElementById('sequence-input');
             if (!inputSection || !input) return;
             
-            // Check if mobile device
-            const isMobile = window.innerWidth <= 768;
+            // Check if mobile device using matchMedia (works correctly with DevTools device emulation)
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
             // Get element position
             const sectionRect = inputSection.getBoundingClientRect();
@@ -198,7 +198,9 @@
             setTimeout(() => {
                 input.focus();
                 // On mobile, ensure input is visible above virtual keyboard
-                if (isMobile) {
+                // Re-check mobile status in case viewport changed
+                const isMobileNow = window.matchMedia('(max-width: 768px)').matches;
+                if (isMobileNow) {
                     // Small additional scroll after focus to account for keyboard
                     setTimeout(() => {
                         const newRect = input.getBoundingClientRect();

@@ -30,12 +30,6 @@
         <div id="navigation"></div>
 
         <main>
-            <div class="feature-highlight" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; text-align: center;">
-                <h2 style="margin: 0 0 15px 0; font-size: 1.8em;">✨ New: AI Feasibility Check</h2>
-                <p style="margin: 0 0 20px 0; font-size: 1.1em;">Predict protein expressibility, solubility and risks.</p>
-                <a href="ai-feasibility.html" class="btn-primary" style="display: inline-block; text-decoration: none; background: white; color: #667eea; padding: 12px 30px; border-radius: 5px; font-weight: bold;">Try It</a>
-            </div>
-            
             <div class="input-section">
                 <label for="sequence-input">Paste your DNA or protein sequence:</label>
                 <textarea 
@@ -363,7 +357,8 @@
             
             // Improved scroll for mobile devices
             setTimeout(() => {
-                const isMobile = window.innerWidth <= 768;
+                // Use matchMedia to properly detect mobile viewport (works with DevTools device emulation)
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
                 const containerRect = container.getBoundingClientRect();
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const containerTop = containerRect.top + scrollTop;

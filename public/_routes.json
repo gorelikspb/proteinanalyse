@@ -4,6 +4,9 @@
   "exclude": []
 }
 
+// Note: Middleware (_middleware.js) runs on ALL requests regardless of _routes.json
+// _routes.json only controls which routes are handled by Functions, not middleware
+
 
 
 
