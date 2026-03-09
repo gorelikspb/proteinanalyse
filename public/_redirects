@@ -1,28 +1,7 @@
 # Cloudflare Pages redirects
 # Format: /old-path /new-path [status code]
+#
+# Minimal redirect: ensure /index.html canonicalizes to /
 
-# --- Same site: one canonical URL per page (.html) ---
-# Redirect "clean" URLs (no .html) to .html so Google indexes only one URL per page.
 /index.html / 301
 
-/dna-gc-calculator /dna-gc-calculator.html 301
-/reverse-complement /reverse-complement.html 301
-/orf-finder /orf-finder.html 301
-/sequence-translation /sequence-translation.html 301
-/codon-usage-calculator /codon-usage-calculator.html 301
-/rna-to-protein /rna-to-protein.html 301
-/protein-mw-calculator /protein-mw-calculator.html 301
-/amino-acid-composition /amino-acid-composition.html 301
-/peptide-length-calculator /peptide-length-calculator.html 301
-/ai-feasibility /ai-feasibility.html 301
-/comprehensive-analysis /comprehensive-analysis.html 301
-/fasta-validator /fasta-validator.html 301
-
-/articles /articles/index.html 301
-/articles/ /articles/index.html 301
-/articles/what-is-gc-content /articles/what-is-gc-content.html 301
-/articles/gc-content-guide /articles/gc-content-guide.html 301
-/articles/ai-feasibility-interpretation /articles/ai-feasibility-interpretation.html 301
-/articles/codon-optimization-guide /articles/codon-optimization-guide.html 301
-/articles/solubility-vs-expressibility /articles/solubility-vs-expressibility.html 301
-/articles/orf-analysis-workflow /articles/orf-analysis-workflow.html 301
