@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /test-api.html
 
 Sitemap: https://seqanalysis.org/sitemap.xml
-

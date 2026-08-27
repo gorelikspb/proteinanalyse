@@ -2,123 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://seqanalysis.org/</loc>
-    <lastmod>2025-11-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/ai-feasibility.html</loc>
-    <lastmod>2025-01-27</lastmod>
+    <loc>https://seqanalysis.org/dna-gc-calculator</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/comprehensive-analysis.html</loc>
-    <lastmod>2024-12-17</lastmod>
+    <loc>https://seqanalysis.org/reverse-complement</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/dna-gc-calculator.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/orf-finder</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://seqanalysis.org/protein-mw-calculator</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://seqanalysis.org/sequence-translation</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/reverse-complement.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/ai-feasibility</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/orf-finder.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/comprehensive-analysis</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/protein-mw-calculator.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/codon-usage-calculator</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/sequence-translation.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/fasta-validator</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/codon-usage-calculator.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/rna-to-protein</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/fasta-validator.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/peptide-length-calculator</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/rna-to-protein.html</loc>
-    <lastmod>2025-11-17</lastmod>
+    <loc>https://seqanalysis.org/amino-acid-composition</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/peptide-length-calculator.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://seqanalysis.org/amino-acid-composition.html</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://seqanalysis.org/articles/index.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://seqanalysis.org/articles/what-is-gc-content.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/articles/gc-content-guide.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/what-is-gc-content</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/articles/orf-analysis-workflow.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/gc-content-guide</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/articles/ai-feasibility-interpretation.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/orf-analysis-workflow</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/articles/codon-optimization-guide.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/ai-feasibility-interpretation</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://seqanalysis.org/articles/solubility-vs-expressibility.html</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://seqanalysis.org/articles/codon-optimization-guide</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://seqanalysis.org/articles/solubility-vs-expressibility</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
-

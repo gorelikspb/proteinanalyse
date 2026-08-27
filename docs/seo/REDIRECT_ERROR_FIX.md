@@ -134,7 +134,7 @@ cat public/_redirects
 cat public/_redirects
 
 # Проверь Worker
-cat functions/redirect-old-domain.js
+cat workers/redirect-old-domain.js
 ```
 
 ### Шаг 2: Проверь в браузере

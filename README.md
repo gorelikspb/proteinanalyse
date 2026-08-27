@@ -120,12 +120,13 @@ The assistant will:
    - Select the repository: `gorelikspb/proteinanalyse`
 
 3. **Configure build settings**:
-   - **Project name**: `seq-tools` ⚠️ (if name is taken, choose another)
+   - **Project name**: `proteinanalyse` (this becomes `https://proteinanalyse.pages.dev`)
    - **Production branch**: `master`
    - **Framework preset**: Select **"None"** (or leave empty)
    - **Build command**: Leave **empty** (no build step needed)
    - **Build output directory**: `public` ⚠️ **IMPORTANT!**
    - **Root directory**: Leave empty (or `/`)
+   - Do **not** deploy `wrangler.toml` as a Worker. The repo is a Pages app (`pages_build_output_dir = "public"`). A Worker named `proteinanalyse-api` with `main = functions/api/analyze.js` will 500 the homepage.
 
 4. **Deploy**:
    - Click **"Save and Deploy"**

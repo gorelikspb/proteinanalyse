@@ -64,7 +64,7 @@ Location: https://seqanalysis.org/
 
 1. Cloudflare Dashboard → **Workers & Pages** → **Create** → **Worker**
 2. Имя: `redirect-old-domain`
-3. Скопируй код из `functions/redirect-old-domain.js`
+3. Скопируй код из `workers/redirect-old-domain.js`
 4. Нажми **Deploy**
 
 ### Шаг 2: Настрой Route

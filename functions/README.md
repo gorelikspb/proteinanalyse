@@ -74,12 +74,15 @@ Database integration endpoint for protein databases.
 
 ## Setup
 
+These files are **Pages Functions** (`export async function onRequest`). Deploy them with the static site, not as a standalone Worker.
+
 1. Install Wrangler CLI: `npm install -g wrangler`
 2. Login: `wrangler login`
-3. Create D1 database: `wrangler d1 create protein-benchmarks`
-4. Update `wrangler.toml` with database ID
-5. Set secrets: `wrangler secret put RESEND_API_KEY`
-6. Deploy: `wrangler deploy`
+3. Deploy the Pages project (build output is `public/`):
+   ```bash
+   wrangler pages deploy public --project-name=proteinanalyse
+   ```
+   Do **not** run `wrangler deploy` from the repo root. Root `wrangler.toml` is a Pages config (`pages_build_output_dir`). A Worker `main` pointing at `functions/api/analyze.js` (old name `proteinanalyse-api`) handles every request and returns HTTP 500 because that module has no Worker `fetch` handler.
 
 ## D1 Database Schema (to be created)
 
